@@ -190,7 +190,7 @@
             });
         @endif
 
-        
+
         $('.cp_link').on('click', function () {
             var value = $(this).attr('data-link');
             var $temp = $("<input>");
@@ -217,7 +217,7 @@
             });
         })
 
-        
+
     </script>
 @endpush
 
@@ -227,7 +227,7 @@
     <span class="btn-inner--text text-white">{{__('Copy')}}</span>
 </a>
     @can('send invoice')
-  
+
         @if($invoice->status!=4)
             <div class="row">
                 <div class="col-12">
@@ -299,7 +299,7 @@
                         </div>
                     @endif
                     @if($invoice->status!=4)
-                        <div class="all-button-box mx-2">
+                        <div class="all-button-box mx-2 d-none">
                             <a href="{{ route('invoice.payment.reminder',$invoice->id)}}" class="btn btn-xs btn-white btn-icon-only width-auto">{{__('Receipt Reminder')}}</a>
                         </div>
                     @endif
