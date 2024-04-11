@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" dir="{{env('SITE_RTL') == 'on'?'rtl':''}}">
+<html lang="en" dir="{{ env('SITE_RTL') == 'on' ? 'rtl' : '' }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lato&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
 
-    <style type="text/css">.resize-observer[data-v-b329ee4c] {
+    <style type="text/css">
+        .resize-observer[data-v-b329ee4c] {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,8 +33,10 @@
             overflow: hidden;
             pointer-events: none;
             z-index: -1
-        }</style>
-    <style type="text/css">p[data-v-f2a183a6] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-f2a183a6] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -154,8 +158,10 @@
 
         .d-logo[data-v-f2a183a6] {
             max-width: 100%;
-        }</style>
-    <style type="text/css">p[data-v-37eeda86] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-37eeda86] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -180,8 +186,10 @@
         .d-table-summary[data-v-37eeda86] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-e95a8a8c] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-e95a8a8c] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -215,8 +223,10 @@
         .d-table-summary[data-v-e95a8a8c] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-363339a0] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-363339a0] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -265,8 +275,10 @@
         .d-table-summary[data-v-363339a0] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-e23d9750] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-e23d9750] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -317,8 +329,10 @@
         .d-table-summary[data-v-e23d9750] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-4b3dcb8a] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-4b3dcb8a] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -353,8 +367,10 @@
         .d-table-summary[data-v-4b3dcb8a] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-1ad6e3b9] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-1ad6e3b9] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -388,8 +404,10 @@
 
         .d-inner-2[data-v-1ad6e3b9] {
             padding: 50px;
-        }</style>
-    <style type="text/css">p[data-v-136bf9b5] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-136bf9b5] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -409,8 +427,10 @@
 
         .d-table-value[data-v-136bf9b5] {
             padding-right: 0px;
-        }</style>
-    <style type="text/css">p[data-v-7d9d14b5] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-7d9d14b5] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -457,8 +477,10 @@
         .d-table-summary[data-v-7d9d14b5] {
             -webkit-box-flex: 4;
             flex: 4;
-        }</style>
-    <style type="text/css">p[data-v-b8f60a0c] {
+        }
+    </style>
+    <style type="text/css">
+        p[data-v-b8f60a0c] {
             line-height: 1.2em;
             margin: 0 0 2px 0;
         }
@@ -493,251 +515,318 @@
         .overflow-x-hidden {
             overflow-x: hidden !important;
         }
-
     </style>
-    @if(env('SITE_RTL')=='on')
+    @if (env('SITE_RTL') == 'on')
         <link rel="stylesheet" href="{{ asset('css/bootstrap-rtl.css') }}">
     @endif
 </head>
+
 <body class="">
 
-<div class="container">
-    <div id="app" class="content">
-        <div class="editor">
-            <div class="invoice-preview-inner">
-                <div class="editor-content">
-                    <div class="preview-main client-preview">
-                        <div data-v-f2a183a6="" class="d" id="boxes" style="width:800px;margin-left: auto;margin-right: auto;">
-                            <div data-v-f2a183a6="" class="d-header" style="background: {{$color}};color:{{$font_color}}">
-                                <div data-v-f2a183a6="" class="d-header-inner">
-                                    <div data-v-f2a183a6="" class="d-header-50">
-                                        <div data-v-f2a183a6="" class="d-header-brand">
-                                            <img src="{{$img}}" style="max-width: 250px"/>
-                                        </div>
-                                        <div data-v-f2a183a6="" class="break-25"></div>
-                                        <p data-v-f2a183a6="">@if($settings['company_name']){{$settings['company_name']}}@endif</p>
-                                        <p data-v-f2a183a6="">
-                                            @if($settings['company_address']){{$settings['company_address']}}@endif
-                                            @if($settings['company_city']) <br> {{$settings['company_city']}}, @endif @if($settings['company_state']){{$settings['company_state']}}@endif @if($settings['company_zipcode']) - {{$settings['company_zipcode']}}@endif
-                                            @if($settings['company_country']) <br>{{$settings['company_country']}}@endif <br>
-                                                @if(!empty($settings['registration_number'])){{__('Registration Number')}} : {{$settings['registration_number']}} @endif<br>
-                                                @if(!empty($settings['tax_type']) && !empty($settings['vat_number'])){{$settings['tax_type'].' '. __('Number')}} : {{$settings['vat_number']}} <br>@endif
-
-                                        </p>
-                                    </div>
-
-                                    <div data-v-f2a183a6="" class="d-header-50 d-right">
-                                        <div data-v-f2a183a6="" class="d-title">{{__('INVOICE')}}</div>
-                                        <table data-v-f2a183a6="" class="summary-table">
-                                            <tbody data-v-f2a183a6="" style="position: relative">
-                                                <tr>
-                                                    <td>{{__('Number')}}:</td>
-                                                    <td>{{\App\Models\Utility::invoiceNumberFormat($settings,$invoice->invoice_id)}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{__('Issue Date')}}:</td>
-                                                    <td>{{\App\Models\Utility::dateFormat($settings,$invoice->issue_date)}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{__('Due Date')}}:</td>
-                                                    <td>{{\App\Models\Utility::dateFormat($settings,$invoice->due_date)}}</td>
-                                                </tr>
-                                                <tr class="ml-8" style="position: absolute; right: 0;">
-                                                    <td class="">
-                                                        <p> {!! DNS2D::getBarcodeHTML(route('pay.invoice',\Illuminate\Support\Facades\Crypt::encrypt($invoice->id)), "QRCODE",2,2) !!}</p>
-                                                    </td>
-                                                 </tr>
-                                                @if(!empty($customFields) && count($invoice->customField)>0)
-                                                    @foreach($customFields as $field)
-                                                        <tr>
-                                                            <td>{{$field->name}} :</td>
-                                                            <td> {{!empty($invoice->customField)?$invoice->customField[$field->id]:'-'}}</td>
-                                                        </tr>
-                                                    @endforeach
+    <div class="container">
+        <div id="app" class="content">
+            <div class="editor">
+                <div class="invoice-preview-inner">
+                    <div class="editor-content">
+                        <div class="preview-main client-preview">
+                            <div data-v-f2a183a6="" class="d" id="boxes"
+                                style="width:800px;margin-left: auto;margin-right: auto;">
+                                <div data-v-f2a183a6="" class="d-header"
+                                    style="background: {{ $color }};color:{{ $font_color }}">
+                                    <div data-v-f2a183a6="" class="d-header-inner">
+                                        <div data-v-f2a183a6="" class="d-header-50">
+                                            <div data-v-f2a183a6="" class="d-header-brand">
+                                                <img src="{{ $img }}" style="max-width: 250px" />
+                                            </div>
+                                            <div data-v-f2a183a6="" class="break-25"></div>
+                                            <p data-v-f2a183a6="">
+                                                @if ($settings['company_name'])
+                                                    {{ $settings['company_name'] }}
                                                 @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                                            </p>
+                                            <p data-v-f2a183a6="">
+                                                @if ($settings['company_address'])
+                                                    {{ $settings['company_address'] }}
+                                                @endif
+                                                @if ($settings['company_city'])
+                                                    <br> {{ $settings['company_city'] }},
+                                                    @endif @if ($settings['company_state'])
+                                                        {{ $settings['company_state'] }}
+                                                        @endif @if ($settings['company_zipcode'])
+                                                            - {{ $settings['company_zipcode'] }}
+                                                        @endif
+                                                        @if ($settings['company_country'])
+                                                            <br>{{ $settings['company_country'] }}
+                                                        @endif <br>
+                                                        @if (!empty($settings['registration_number']))
+                                                            {{ __('Registration Number') }} :
+                                                            {{ $settings['registration_number'] }}
+                                                        @endif
+                                                        <br>
+                                                        @if (!empty($settings['tax_type']) && !empty($settings['vat_number']))
+                                                            {{ 'BTW' }}: {{ $settings['vat_number'] }} <br>
+                                                        @endif
 
-                            <div data-v-f2a183a6="" class="d-body">
-                                <div data-v-f2a183a6="" class="d-bill-to">
-                                    <div class="row">
-                                        <div class="bill_to">
-                                            <strong data-v-f2a183a6="">{{__('Bill To')}}:</strong>
-                                            <p>
-                                                {{!empty($customer->billing_name)?$customer->billing_name:''}}<br>
-                                                {{!empty($customer->billing_phone)?$customer->billing_phone:''}}<br>
-                                                {{!empty($customer->billing_address)?$customer->billing_address:''}}<br>
-                                                {{!empty($customer->billing_zip)?$customer->billing_zip:''}}<br>
-                                                {{!empty($customer->billing_city)?$customer->billing_city:'' .', '}} {{!empty($customer->billing_state)?$customer->billing_state:'',', '}} {{!empty($customer->billing_country)?$customer->billing_country:''}}
                                             </p>
                                         </div>
-                                        @if($settings['shipping_display']=='on')
-                                            <div class="ship_to">
-                                                <strong data-v-f2a183a6="">{{__('Ship To')}}:</strong>
-                                                <p>
-                                                    {{!empty($customer->shipping_name)?$customer->shipping_name:''}}<br>
-                                                    {{!empty($customer->shipping_phone)?$customer->shipping_phone:''}}<br>
-                                                    {{!empty($customer->shipping_address)?$customer->shipping_address:''}}<br>
-                                                    {{!empty($customer->shipping_zip)?$customer->shipping_zip:''}}<br>
-                                                    {{!empty($customer->shipping_city)?$customer->shipping_city:'' . ', '}} {{!empty($customer->shipping_state)?$customer->shipping_state:'' .', '}},{{!empty($customer->shipping_country)?$customer->shipping_country:''}}
-                                                </p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div data-v-f2a183a6="" class="d-table">
-                                        <div data-v-f2a183a6="" class="d-table">
 
-                                            <div data-v-f2a183a6="" class="d-table-tr" style="background: {{$color}};color:{{$font_color}}">
-                                                <div class="d-table-th w-5">{{__('Item')}}</div>
-                                                <div class="d-table-th w-2">{{__('Quantity')}}</div>
-                                                <div class="d-table-th w-3">{{__('Rate')}}</div>
-                                                <div class="d-table-th w-5">{{__('Tax')}} (%)</div>
-                                                @if($invoice->discount_apply==1)
-                                                    <div class="d-table-th w-2">{{__('Discount')}}</div>
-                                                @else
-                                                    <div class="d-table-th w-2"></div>
-                                                @endif
-                                                <div class="d-table-th w-3">{{__('Description')}}</div>
-                                                <div class="d-table-th w-4 text-right">{{__('Price')}}<br><small class="text-danger">{{__('before tax & discount')}}</small>
-                                                </div>
-                                            </div>
-
-                                            <div class="d-table-body">
-                                                @if(isset($invoice->itemData) && count($invoice->itemData) > 0)
-                                                    @foreach($invoice->itemData as $key => $item)
-
-                                                        <div class="d-table-tr" style="border-bottom:1px solid {{$color}};">
-                                                            <div class="d-table-td w-5">
-                                                                <pre data-v-f2a183a6="">{{$item->name}}</pre>
-                                                            </div>
-                                                            <div class="d-table-td w-2">
-                                                                <pre data-v-f2a183a6="">{{$item->quantity}}</pre>
-                                                            </div>
-                                                            <div class="d-table-td w-3">
-                                                                <pre data-v-f2a183a6="">{{\App\Models\Utility::priceFormat($settings,$item->price)}}</pre>
-                                                            </div>
-                                                            <div class="d-table-td w-5">
-                                                                <pre data-v-f2a183a6="">
-                                                                   @if(!empty($item->itemTax))
-                                                                        @foreach($item->itemTax as $taxes)
-                                                                            <span>{{$taxes['name']}}</span>  <span>({{$taxes['rate']}})</span> <span>{{$taxes['price']}}</span>
-                                                                        @endforeach
-                                                                    @else
-                                                                        -
-                                                                    @endif
-                                                                </pre>
-                                                            </div>
-                                                            @if($invoice->discount_apply==1)
-                                                                <div class="d-table-td w-2">
-                                                                    <pre data-v-f2a183a6="">{{($item->discount!=0)?\App\Models\Utility::priceFormat($settings,$item->discount):'-'}}</pre>
-                                                                </div>
-                                                            @else
-                                                                <div class="d-table-td w-2">
-                                                                    <pre data-v-f2a183a6=""></pre>
-                                                                </div>
-                                                            @endif
-                                                            <div class="d-table-td w-3">
-                                                                <pre data-v-f2a183a6="">{{!empty($item->description)?$item->description:'-'}}</pre>
-                                                            </div>
-                                                            <div class="d-table-td w-4 text-right"><span>{{\App\Models\Utility::priceFormat($settings,$item->price * $item->quantity)}}</span></div>
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    <div class="d-table-tr" style="border-bottom:1px solid {{$color}};">
-                                                        <div class="d-table-td w-2"><span>-</span></div>
-                                                        <div class="d-table-td w-7">
-                                                            <pre data-v-f2a183a6="">-</pre>
-                                                        </div>
-                                                        <div class="d-table-td w-5">
-                                                            <pre data-v-f2a183a6="">-</pre>
-                                                        </div>
-                                                        <div class="d-table-td w-5">
-                                                            <pre data-v-f2a183a6="">-</pre>
-                                                        </div>
-                                                        <div class="d-table-td w-4 text-right"><span>-</span></div>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-                                            <div class="d-table-tr" style="border-bottom:1px solid {{$color}};">
-                                                <div class="d-table-td w-5">
-                                                    <pre data-v-f2a183a6="">{{__('Total')}}</pre>
-                                                </div>
-                                                <div class="d-table-td w-2">
-                                                    <pre data-v-f2a183a6="">{{$invoice->totalQuantity}}</pre>
-                                                </div>
-                                                <div class="d-table-td w-3">
-                                                    <pre data-v-f2a183a6="">{{\App\Models\Utility::priceFormat($settings,$invoice->totalRate)}}</pre>
-                                                </div>
-                                                <div class="d-table-td w-5">
-                                                    <pre data-v-f2a183a6="">{{\App\Models\Utility::priceFormat($settings,$invoice->totalTaxPrice) }}</pre>
-                                                </div>
-                                                @if($invoice->discount_apply==1)
-                                                    <div class="d-table-td w-2">
-                                                        <pre data-v-f2a183a6="">{{\App\Models\Utility::priceFormat($settings,$invoice->totalDiscount)}}</pre>
-                                                    </div>
-                                                @else
-                                                    <div class="d-table-td w-2">
-                                                        <pre data-v-f2a183a6="">-</pre>
-                                                    </div>
-                                                @endif
-                                                <div class="d-table-td w-3">
-                                                    <pre data-v-f2a183a6="">-</pre>
-                                                </div>
-                                                <div class="d-table-td w-4 text-right">
-                                                    <span>{{\App\Models\Utility::priceFormat($settings,$invoice->getSubTotal())}}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div data-v-f2a183a6="" class="d-table-footer">
-                                                <div data-v-f2a183a6="" class="d-table-controls"></div>
-                                                <div data-v-f2a183a6="" class="d-table-summary">
-                                                    <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                        <div data-v-f2a183a6="" class="d-table-label">{{__('Subtotal')}}:</div>
-                                                        <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,$invoice->getSubTotal())}}</div>
-                                                    </div>
-                                                    @if($invoice->getTotalDiscount())
-                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                            <div data-v-f2a183a6="" class="d-table-label">{{__('Discount')}}:</div>
-                                                            <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,$invoice->getTotalDiscount())}}</div>
-                                                        </div>
-                                                    @endif
-                                                    @if(!empty($invoice->taxesData))
-                                                        @foreach($invoice->taxesData as $taxName => $taxPrice)
-                                                            <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                                <div data-v-f2a183a6="" class="d-table-label">{{$taxName}} :</div>
-                                                                <div data-v-f2a183a6="" class="d-table-value">{{ \App\Models\Utility::priceFormat($settings,$taxPrice)  }}</div>
-                                                            </div>
+                                        <div data-v-f2a183a6="" class="d-header-50 d-right">
+                                            <div data-v-f2a183a6="" class="d-title">{{ __('INVOICE') }}</div>
+                                            <table data-v-f2a183a6="" class="summary-table">
+                                                <tbody data-v-f2a183a6="" style="position: relative">
+                                                    <tr>
+                                                        <td>{{ __('Number') }}:</td>
+                                                        <td>{{ \App\Models\Utility::invoiceNumberFormat($settings, $invoice->invoice_id) }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ __('Issue Date') }}:</td>
+                                                        <td>{{ \App\Models\Utility::dateFormat($settings, $invoice->issue_date) }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ __('Due Date') }}:</td>
+                                                        <td>{{ \App\Models\Utility::dateFormat($settings, $invoice->due_date) }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="ml-8" style="position: absolute; right: 0;">
+                                                        <td class="">
+                                                            <p> {!! DNS2D::getBarcodeHTML(
+                                                                route('pay.invoice', \Illuminate\Support\Facades\Crypt::encrypt($invoice->id)),
+                                                                'QRCODE',
+                                                                2,
+                                                                2,
+                                                            ) !!}</p>
+                                                        </td>
+                                                    </tr>
+                                                    @if (!empty($customFields) && count($invoice->customField) > 0)
+                                                        @foreach ($customFields as $field)
+                                                            <tr>
+                                                                <td>{{ $field->name }} :</td>
+                                                                <td> {{ !empty($invoice->customField) ? $invoice->customField[$field->id] : '-' }}
+                                                                </td>
+                                                            </tr>
                                                         @endforeach
                                                     @endif
-                                                    <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                        <div data-v-f2a183a6="" class="d-table-label">{{__('Total')}}:</div>
-                                                        <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,$invoice->getSubTotal()-$invoice->getTotalDiscount()+$invoice->getTotalTax())}}</div>
-                                                    </div>
-                                                    <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                        <div data-v-f2a183a6="" class="d-table-label">{{__('Paid')}}:</div>
-                                                        <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,($invoice->getTotal()-$invoice->getDue())-($invoice->invoiceTotalCreditNote()))}}</div>
-                                                    </div>
-                                                    <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                        <div data-v-f2a183a6="" class="d-table-label">{{__('Credit Note')}}:</div>
-                                                        <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,($invoice->invoiceTotalCreditNote()))}}</div>
-                                                    </div>
-                                                    <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                        <div data-v-f2a183a6="" class="d-table-label">{{__('Due Amount')}}:</div>
-                                                        <div data-v-f2a183a6="" class="d-table-value">{{\App\Models\Utility::priceFormat($settings,$invoice->getDue())}}</div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div data-v-f2a183a6="" class="d-body">
+                                    <div data-v-f2a183a6="" class="d-bill-to">
+                                        <div class="row">
+                                            <div class="bill_to">
+                                                <strong data-v-f2a183a6="">{{ __('Bill To') }}:</strong>
+                                                <p>
+                                                    {{ !empty($customer->billing_name) ? $customer->billing_name : '' }}<br>
+                                                    {{ !empty($customer->billing_phone) ? $customer->billing_phone : '' }}<br>
+                                                    {{ !empty($customer->billing_address) ? $customer->billing_address : '' }}<br>
+                                                    {{ !empty($customer->billing_zip) ? $customer->billing_zip : '' }}<br>
+                                                    {{ !empty($customer->billing_city) ? $customer->billing_city : '' . ', ' }}
+                                                    {{ !empty($customer->billing_state) ? $customer->billing_state : '', ', ' }}
+                                                    {{ !empty($customer->billing_country) ? $customer->billing_country : '' }}
+                                                    @if (!empty($customer->btw) && $invoice->hasFreeTax())
+                                                        <br>
+                                                        BTW: {{ $customer->btw }}
+                                                    @endif
+                                                </p>
+                                            </div>
+                                            {{-- @if ($settings['shipping_display'] == 'on')
+                                                <div class="ship_to">
+                                                    <strong data-v-f2a183a6="">{{ __('Ship To') }}:</strong>
+                                                    <p>
+                                                        {{ !empty($customer->shipping_name) ? $customer->shipping_name : '' }}<br>
+                                                        {{ !empty($customer->shipping_phone) ? $customer->shipping_phone : '' }}<br>
+                                                        {{ !empty($customer->shipping_address) ? $customer->shipping_address : '' }}<br>
+                                                        {{ !empty($customer->shipping_zip) ? $customer->shipping_zip : '' }}<br>
+                                                        {{ !empty($customer->shipping_city) ? $customer->shipping_city : '' . ', ' }}
+                                                        {{ !empty($customer->shipping_state) ? $customer->shipping_state : '' . ', ' }},{{ !empty($customer->shipping_country) ? $customer->shipping_country : '' }}
+                                                    </p>
+                                                </div>
+                                            @endif --}}
+                                        </div>
+                                        <div data-v-f2a183a6="" class="d-table">
+                                            <div data-v-f2a183a6="" class="d-table">
+
+                                                <div data-v-f2a183a6="" class="d-table-tr"
+                                                    style="background: {{ $color }};color:{{ $font_color }}">
+                                                    <div class="d-table-th w-5">{{ __('Item') }}</div>
+                                                    <div class="d-table-th w-2">{{ __('Quantity') }}</div>
+                                                    <div class="d-table-th w-3">{{ __('Rate') }}</div>
+                                                    <div class="d-table-th w-5">{{ __('Tax') }} (%)</div>
+                                                    @if ($invoice->discount_apply == 1)
+                                                        <div class="d-table-th w-2">{{ __('Discount') }}</div>
+                                                    @else
+                                                        <div class="d-table-th w-2"></div>
+                                                    @endif
+                                                    <div class="d-table-th w-3">{{ __('Description') }}</div>
+                                                    <div class="d-table-th w-4 text-right">
+                                                        {{ __('Price') }}<br><small
+                                                            class="text-danger">{{ __('before tax & discount') }}</small>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div data-v-f2a183a6="" class="d-header-50">
-                                                <p data-v-f2a183a6="">
-                                                    {{$settings['footer_title']}} <br>
-                                                    {{$settings['footer_notes']}}
-                                                </p>
+                                                <div class="d-table-body">
+                                                    @if (isset($invoice->itemData) && count($invoice->itemData) > 0)
+                                                        @foreach ($invoice->itemData as $key => $item)
+                                                            <div class="d-table-tr"
+                                                                style="border-bottom:1px solid {{ $color }};">
+                                                                <div class="d-table-td w-5">
+                                                                    <pre data-v-f2a183a6="">{{ $item->name }}</pre>
+                                                                </div>
+                                                                <div class="d-table-td w-2">
+                                                                    <pre data-v-f2a183a6="">{{ $item->quantity }}</pre>
+                                                                </div>
+                                                                <div class="d-table-td w-3">
+                                                                    <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $item->price) }}</pre>
+                                                                </div>
+                                                                <div class="d-table-td w-5">
+                                                                    <pre data-v-f2a183a6="">
+                                                                   @if (!empty($item->itemTax))
+@foreach ($item->itemTax as $taxes)
+<span>{{ $taxes['name'] }}</span>  <span>({{ $taxes['rate'] }})</span> <span>{{ $taxes['price'] }}</span>
+@endforeach
+@else
+-
+@endif
+                                                                </pre>
+                                                                </div>
+                                                                @if ($invoice->discount_apply == 1)
+                                                                    <div class="d-table-td w-2">
+                                                                        <pre data-v-f2a183a6="">{{ $item->discount != 0 ? \App\Models\Utility::priceFormat($settings, $item->discount) : '-' }}</pre>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="d-table-td w-2">
+                                                                        <pre data-v-f2a183a6=""></pre>
+                                                                    </div>
+                                                                @endif
+                                                                <div class="d-table-td w-3">
+                                                                    <pre data-v-f2a183a6="">{{ !empty($item->description) ? $item->description : '-' }}</pre>
+                                                                </div>
+                                                                <div class="d-table-td w-4 text-right">
+                                                                    <span>{{ \App\Models\Utility::priceFormat($settings, $item->price * $item->quantity) }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <div class="d-table-tr"
+                                                            style="border-bottom:1px solid {{ $color }};">
+                                                            <div class="d-table-td w-2"><span>-</span></div>
+                                                            <div class="d-table-td w-7">
+                                                                <pre data-v-f2a183a6="">-</pre>
+                                                            </div>
+                                                            <div class="d-table-td w-5">
+                                                                <pre data-v-f2a183a6="">-</pre>
+                                                            </div>
+                                                            <div class="d-table-td w-5">
+                                                                <pre data-v-f2a183a6="">-</pre>
+                                                            </div>
+                                                            <div class="d-table-td w-4 text-right"><span>-</span></div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <div class="d-table-tr"
+                                                    style="border-bottom:1px solid {{ $color }};">
+                                                    <div class="d-table-td w-5">
+                                                        <pre data-v-f2a183a6="">{{ __('Total') }}</pre>
+                                                    </div>
+                                                    <div class="d-table-td w-2">
+                                                        <pre data-v-f2a183a6="">{{ $invoice->totalQuantity }}</pre>
+                                                    </div>
+                                                    <div class="d-table-td w-3">
+                                                        <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $invoice->totalRate) }}</pre>
+                                                    </div>
+                                                    <div class="d-table-td w-5">
+                                                        <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $invoice->totalTaxPrice) }}</pre>
+                                                    </div>
+                                                    @if ($invoice->discount_apply == 1)
+                                                        <div class="d-table-td w-2">
+                                                            <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $invoice->totalDiscount) }}</pre>
+                                                        </div>
+                                                    @else
+                                                        <div class="d-table-td w-2">
+                                                            <pre data-v-f2a183a6="">-</pre>
+                                                        </div>
+                                                    @endif
+                                                    <div class="d-table-td w-3">
+                                                        <pre data-v-f2a183a6="">-</pre>
+                                                    </div>
+                                                    <div class="d-table-td w-4 text-right">
+                                                        <span>{{ \App\Models\Utility::priceFormat($settings, $invoice->getSubTotal()) }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div data-v-f2a183a6="" class="d-table-footer">
+                                                    <div data-v-f2a183a6="" class="d-table-controls"></div>
+                                                    <div data-v-f2a183a6="" class="d-table-summary">
+                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                            <div data-v-f2a183a6="" class="d-table-label">
+                                                                {{ __('Subtotal') }}:</div>
+                                                            <div data-v-f2a183a6="" class="d-table-value">
+                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getSubTotal()) }}
+                                                            </div>
+                                                        </div>
+                                                        @if ($invoice->getTotalDiscount())
+                                                            <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                                <div data-v-f2a183a6="" class="d-table-label">
+                                                                    {{ __('Discount') }}:</div>
+                                                                <div data-v-f2a183a6="" class="d-table-value">
+                                                                    {{ \App\Models\Utility::priceFormat($settings, $invoice->getTotalDiscount()) }}
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                        @if (!empty($invoice->taxesData))
+                                                            @foreach ($invoice->taxesData as $taxName => $taxPrice)
+                                                                <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                                    <div data-v-f2a183a6="" class="d-table-label">
+                                                                        {{ $taxName }} :</div>
+                                                                    <div data-v-f2a183a6="" class="d-table-value">
+                                                                        {{ \App\Models\Utility::priceFormat($settings, $taxPrice) }}
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                            <div data-v-f2a183a6="" class="d-table-label">
+                                                                {{ __('Total') }}:</div>
+                                                            <div data-v-f2a183a6="" class="d-table-value">
+                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getSubTotal() - $invoice->getTotalDiscount() + $invoice->getTotalTax()) }}
+                                                            </div>
+                                                        </div>
+                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                            <div data-v-f2a183a6="" class="d-table-label">
+                                                                {{ __('Paid') }}:</div>
+                                                            <div data-v-f2a183a6="" class="d-table-value">
+                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getTotal() - $invoice->getDue() - $invoice->invoiceTotalCreditNote()) }}
+                                                            </div>
+                                                        </div>
+                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                            <div data-v-f2a183a6="" class="d-table-label">
+                                                                {{ __('Credit Note') }}:</div>
+                                                            <div data-v-f2a183a6="" class="d-table-value">
+                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->invoiceTotalCreditNote()) }}
+                                                            </div>
+                                                        </div>
+                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                            <div data-v-f2a183a6="" class="d-table-label">
+                                                                {{ __('Due Amount') }}:</div>
+                                                            <div data-v-f2a183a6="" class="d-table-value">
+                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getDue()) }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div data-v-f2a183a6="" class="d-header-50">
+                                                    <p data-v-f2a183a6="">
+                                                        {{ $settings['footer_title'] }} <br>
+                                                        {{ $settings['footer_notes'] }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -749,9 +838,9 @@
             </div>
         </div>
     </div>
-</div>
-@if(!isset($preview))
-    @include('invoice.script');
-@endif
+    @if (!isset($preview))
+        @include('invoice.script');
+    @endif
 </body>
+
 </html>

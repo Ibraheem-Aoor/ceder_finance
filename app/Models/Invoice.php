@@ -96,7 +96,7 @@ class Invoice extends Model
     public static function change_status($invoice_id, $status)
     {
 
-        $invoice         = Invoice::find($invoice_id);
+        $invoice = Invoice::find($invoice_id);
         $invoice->status = $status;
         $invoice->update();
     }
@@ -129,14 +129,14 @@ class Invoice extends Model
     public static function customers($customer)
     {
 
-        $categoryArr  = explode(',', $customer);
+        $categoryArr = explode(',', $customer);
         $unitRate = 0;
         foreach ($categoryArr as $customer) {
             if ($customer == 0) {
                 $unitRate = '';
             } else {
-                $customer        = Customer::find($customer);
-                $unitRate        = $customer->name;
+                $customer = Customer::find($customer);
+                $unitRate = $customer->name;
             }
         }
 
@@ -144,13 +144,25 @@ class Invoice extends Model
     }
     public static function Invoicecategory($category)
     {
-        $categoryArr  = explode(',', $category);
+        $categoryArr = explode(',', $category);
         $categoryRate = 0;
         foreach ($categoryArr as $category) {
-            $category    = ProductServiceCategory::find($category);
-            $categoryRate        = $category->name;
+            $category = ProductServiceCategory::find($category);
+            $categoryRate = $category->name;
         }
 
         return $categoryRate;
+    }
+
+
+    /**
+     * Check if all items without tax.
+     * this always used to display customer BTW on the invoice.
+     *
+     * @return bool
+     */
+    public function hasFreeTax(): bool
+    {
+        return $this->items()->whereIn('tax' , [null , '' , ""])->count() == $this->items()->count();
     }
 }
