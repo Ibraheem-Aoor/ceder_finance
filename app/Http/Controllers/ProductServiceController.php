@@ -58,9 +58,9 @@ class ProductServiceController extends Controller
 
             $rules = [
                 'name' => 'required',
-                'sku' => 'required',
+                // 'sku' => 'required',
                 'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
                 'unit_id' => 'required',
                 'type' => 'required',
@@ -128,9 +128,9 @@ class ProductServiceController extends Controller
 
                 $rules = [
                     'name' => 'required',
-                    'sku' => 'required',
+                    // 'sku' => 'required',
                     'sale_price' => 'required|numeric',
-                    'purchase_price' => 'required|numeric',
+                    // 'purchase_price' => 'required|numeric',
                     'tax_id' => 'required',
                     'category_id' => 'required',
                     'unit_id' => 'required',

@@ -15,7 +15,7 @@
                 {{ Form::label('sku', __('SKU'),['class'=>'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-key"></i></span>
-                    {{ Form::text('sku', null, array('class' => 'form-control','required'=>'required')) }}
+                    {{ Form::text('sku', null, array('class' => 'form-control')) }}
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 {{ Form::label('purchase_price', __('Purchase Price'),['class'=>'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-money-bill-alt"></i></span>
-                    {{ Form::number('purchase_price', null, array('class' => 'form-control','required'=>'required','step'=>'0.01')) }}
+                    {{ Form::number('purchase_price', null, array('class' => 'form-control','step'=>'0.01')) }}
                 </div>
             </div>
         </div>
