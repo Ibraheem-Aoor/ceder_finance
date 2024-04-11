@@ -97,16 +97,17 @@
                     @endphp
                     <div class="col-md-3 col-sm-6">
                         <div class="p-4">
-                            <h5 class="report-text gray-text mb-0">{{__('Customer Id')}}</h5>
-                            <h5 class="report-text mb-3">{{AUth::user()->customerNumberFormat($customer['customer_id'])}}</h5>
+                                <h5 class="report-text gray-text mb-0">{{__('Customer Id')}}</h5>
+                                <h5 class="report-text mb-3">{{AUth::user()->customerNumberFormat($customer['customer_id'])}}</h5>
                             <h5 class="report-text gray-text mb-0">{{__('Total Sum of Invoices')}}</h5>
                             <h5 class="report-text mb-0">{{\Auth::user()->priceFormat($totalInvoiceSum)}}</h5>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <div class="p-4">
-                            <h5 class="report-text gray-text mb-0">{{__('Date of Creation')}}</h5>
-                            <h5 class="report-text mb-3">{{\Auth::user()->dateFormat($customer['created_at'])}}</h5>
+                            <h5 class="report-text gray-text mb-0">{{__('BTW')}}</h5>
+                            <h5 class="report-text mb-3">{{($customer['btw'])}}</h5>
+
                             <h5 class="report-text gray-text mb-0">{{__('Quantity of Invoice')}}</h5>
                             <h5 class="report-text mb-0">{{$totalInvoice}}</h5>
                         </div>
@@ -123,6 +124,8 @@
                         <div class="p-4">
                             <h5 class="report-text gray-text mb-0">{{__('Overdue')}}</h5>
                             <h5 class="report-text mb-3">{{\Auth::user()->priceFormat($customer->customerOverdue($customer['id']))}}</h5>
+                            <h5 class="report-text gray-text mb-0">{{__('Date of Creation')}}</h5>
+                            <h5 class="report-text mb-3">{{\Auth::user()->dateFormat($customer['created_at'])}}</h5>
                         </div>
                     </div>
                 </div>
