@@ -59,7 +59,7 @@
                                 <th> {{__('Name')}}</th>
                                 <th> {{__('Contact')}}</th>
                                 <th> {{__('Email')}}</th>
-                                <th> {{__('Balance')}}</th>
+                                <th> {{__('BTW')}}</th>
                                 <th> {{__('Last Login')}}</th>
                                 <th>{{__('Action')}}</th>
                             </tr>
@@ -81,7 +81,7 @@
                                     <td class="font-style">{{$customer['name']}}</td>
                                     <td>{{$customer['contact']}}</td>
                                     <td>{{$customer['email']}}</td>
-                                    <td>{{\Auth::user()->priceFormat($customer['balance'])}}</td>
+                                    <td>{{$customer['btw']}}</td>
                                     <td>
                                         {{ (!empty($customer->last_login_at)) ? $customer->last_login_at : '-' }}
                                     </td>
