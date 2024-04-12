@@ -44,7 +44,7 @@
 
         <div class="form-group col-md-6">
             {{ Form::label('tax_id', __('Tax'),['class'=>'form-control-label']) }}
-            {{ Form::select('tax_id[]', $tax,null, array('class' => 'form-control select2','multiple')) }}
+            {{ Form::select('tax_id[]', $tax,null, array('class' => 'form-control select2')) }}
         </div>
         <div class="form-group col-md-6">
             {{ Form::label('category_id', __('Category'),['class'=>'form-control-label']) }}

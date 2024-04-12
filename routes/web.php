@@ -805,6 +805,8 @@ Route::group(
         Route::get('report/balance-sheet', 'ReportController@balanceSheet')->name('report.balance.sheet');
         Route::get('report/ledger', 'ReportController@ledgerSummary')->name('report.ledger');
         Route::get('report/trial-balance', 'ReportController@trialBalanceSummary')->name('trial.balance');
+
+        Route::get('download-full-tax-report', 'ReportController@downloadFullTaxReport')->name('report.download_full_tax_report');
     }
 );
 

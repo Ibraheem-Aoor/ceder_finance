@@ -438,7 +438,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         {{Form::label('sku',__('SKU')) }}
-                                        {!!Form::text('sku', null,array('class' => 'form-control's,'required'=>'required')) !!}
+                                        {!!Form::text('sku', null,array('class' => 'form-control')) !!}
                                     </div>
                                 </div>
                                 @if(!$customFields->isEmpty())

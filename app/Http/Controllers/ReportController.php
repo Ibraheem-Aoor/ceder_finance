@@ -16,6 +16,7 @@ use App\Models\Payment;
 use App\Models\ProductServiceCategory;
 use App\Models\Revenue;
 use App\Models\Tax;
+use App\Models\Utility;
 use App\Models\Vender;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,7 @@ class ReportController extends Controller
 {
     public function incomeSummary(Request $request)
     {
-        if(\Auth::user()->can('income report'))
-        {
+        if (\Auth::user()->can('income report')) {
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
             $account->prepend('All', '');
             $customer = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -32,18 +32,15 @@ class ReportController extends Controller
             $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
             $category->prepend('All', '');
 
-            $data['monthList']  = $month = $this->yearMonth();
-            $data['yearList']   = $this->yearList();
+            $data['monthList'] = $month = $this->yearMonth();
+            $data['yearList'] = $this->yearList();
             $filter['category'] = __('All');
             $filter['customer'] = __('All');
 
 
-            if(isset($request->year))
-            {
+            if (isset($request->year)) {
                 $year = $request->year;
-            }
-            else
-            {
+            } else {
                 $year = date('Y');
             }
             $data['currentYear'] = $year;
@@ -53,35 +50,30 @@ class ReportController extends Controller
             $incomes->where('revenues.created_by', '=', \Auth::user()->creatorId());
             $incomes->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $incomes->where('category_id', '=', $request->category);
-                $cat                = ProductServiceCategory::find($request->category);
+                $cat = ProductServiceCategory::find($request->category);
                 $filter['category'] = !empty($cat) ? $cat->name : '';
             }
 
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $incomes->where('customer_id', '=', $request->customer);
-                $cust               = Customer::find($request->customer);
+                $cust = Customer::find($request->customer);
                 $filter['customer'] = !empty($cust) ? $cust->name : '';
             }
             $incomes->groupBy('month', 'year', 'category_id');
             $incomes = $incomes->get();
 
             $tmpArray = [];
-            foreach($incomes as $income)
-            {
+            foreach ($incomes as $income) {
                 $tmpArray[$income->category_id][$income->month] = $income->amount;
             }
             $array = [];
-            foreach($tmpArray as $cat_id => $record)
-            {
-                $tmp             = [];
+            foreach ($tmpArray as $cat_id => $record) {
+                $tmp = [];
                 $tmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $tmp['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $tmp['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $tmp['data'][$i] = array_key_exists($i, $record) ? $record[$i] : 0;
                 }
                 $array[] = $tmp;
@@ -92,58 +84,49 @@ class ReportController extends Controller
             $incomesData->where('revenues.created_by', '=', \Auth::user()->creatorId());
             $incomesData->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $incomesData->where('category_id', '=', $request->category);
             }
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $incomesData->where('customer_id', '=', $request->customer);
             }
             $incomesData->groupBy('month', 'year');
             $incomesData = $incomesData->get();
-            $incomeArr   = [];
-            foreach($incomesData as $k => $incomeData)
-            {
+            $incomeArr = [];
+            foreach ($incomesData as $k => $incomeData) {
                 $incomeArr[$incomeData->month] = $incomeData->amount;
             }
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $incomeTotal[] = array_key_exists($i, $incomeArr) ? $incomeArr[$i] : 0;
             }
 
             //---------------------------INVOICE INCOME-----------------------------------------------
 
-            $invoices = Invoice:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $invoices = Invoice::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
 
             $invoices->whereRAW('YEAR(send_date) =?', [$year]);
 
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $invoices->where('customer_id', '=', $request->customer);
             }
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $invoices->where('category_id', '=', $request->category);
             }
 
-            $invoices        = $invoices->get();
+            $invoices = $invoices->get();
             $invoiceTmpArray = [];
-            foreach($invoices as $invoice)
-            {
+            foreach ($invoices as $invoice) {
                 $invoiceTmpArray[$invoice->category_id][$invoice->month][] = $invoice->getTotal();
             }
 
             $invoiceArray = [];
-            foreach($invoiceTmpArray as $cat_id => $record)
-            {
+            foreach ($invoiceTmpArray as $cat_id => $record) {
 
-                $invoice             = [];
+                $invoice = [];
                 $invoice['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $invoice['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $invoice['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
 
                     $invoice['data'][$i] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
                 }
@@ -151,36 +134,34 @@ class ReportController extends Controller
             }
 
             $invoiceTotalArray = [];
-            foreach($invoices as $invoice)
-            {
+            foreach ($invoices as $invoice) {
                 $invoiceTotalArray[$invoice->month][] = $invoice->getTotal();
             }
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $invoiceTotal[] = array_key_exists($i, $invoiceTotalArray) ? array_sum($invoiceTotalArray[$i]) : 0;
             }
 
             $chartIncomeArr = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $incomeTotal, $invoiceTotal
+                },
+                $incomeTotal,
+                $invoiceTotal
             );
 
             $data['chartIncomeArr'] = $chartIncomeArr;
-            $data['incomeArr']      = $array;
-            $data['invoiceArray']   = $invoiceArray;
-            $data['account']        = $account;
-            $data['customer']       = $customer;
-            $data['category']       = $category;
+            $data['incomeArr'] = $array;
+            $data['invoiceArray'] = $invoiceArray;
+            $data['account'] = $account;
+            $data['customer'] = $customer;
+            $data['category'] = $category;
 
             $filter['startDateRange'] = 'Jan-' . $year;
-            $filter['endDateRange']   = 'Dec-' . $year;
+            $filter['endDateRange'] = 'Dec-' . $year;
 
 
             return view('report.income_summary', compact('filter'), $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
 
@@ -189,8 +170,7 @@ class ReportController extends Controller
 
     public function expenseSummary(Request $request)
     {
-        if(\Auth::user()->can('expense report'))
-        {
+        if (\Auth::user()->can('expense report')) {
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
             $account->prepend('All', '');
             $vender = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -198,17 +178,14 @@ class ReportController extends Controller
             $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 2)->get()->pluck('name', 'id');
             $category->prepend('All', '');
 
-            $data['monthList']  = $month = $this->yearMonth();
-            $data['yearList']   = $this->yearList();
+            $data['monthList'] = $month = $this->yearMonth();
+            $data['yearList'] = $this->yearList();
             $filter['category'] = __('All');
-            $filter['vender']   = __('All');
+            $filter['vender'] = __('All');
 
-            if(isset($request->year))
-            {
+            if (isset($request->year)) {
                 $year = $request->year;
-            }
-            else
-            {
+            } else {
                 $year = date('Y');
             }
             $data['currentYear'] = $year;
@@ -218,35 +195,30 @@ class ReportController extends Controller
             $expenses->where('payments.created_by', '=', \Auth::user()->creatorId());
             $expenses->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $expenses->where('category_id', '=', $request->category);
-                $cat                = ProductServiceCategory::find($request->category);
+                $cat = ProductServiceCategory::find($request->category);
                 $filter['category'] = !empty($cat) ? $cat->name : '';
             }
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $expenses->where('vender_id', '=', $request->vender);
 
-                $vend             = Vender::find($request->vender);
+                $vend = Vender::find($request->vender);
                 $filter['vender'] = !empty($vend) ? $vend->name : '';
             }
 
             $expenses->groupBy('month', 'year', 'category_id');
             $expenses = $expenses->get();
             $tmpArray = [];
-            foreach($expenses as $expense)
-            {
+            foreach ($expenses as $expense) {
                 $tmpArray[$expense->category_id][$expense->month] = $expense->amount;
             }
             $array = [];
-            foreach($tmpArray as $cat_id => $record)
-            {
-                $tmp             = [];
+            foreach ($tmpArray as $cat_id => $record) {
+                $tmp = [];
                 $tmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $tmp['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $tmp['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $tmp['data'][$i] = array_key_exists($i, $record) ? $record[$i] : 0;
                 }
                 $array[] = $tmp;
@@ -255,57 +227,48 @@ class ReportController extends Controller
             $expensesData->where('payments.created_by', '=', \Auth::user()->creatorId());
             $expensesData->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $expensesData->where('category_id', '=', $request->category);
             }
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $expensesData->where('vender_id', '=', $request->vender);
             }
             $expensesData->groupBy('month', 'year');
             $expensesData = $expensesData->get();
 
             $expenseArr = [];
-            foreach($expensesData as $k => $expenseData)
-            {
+            foreach ($expensesData as $k => $expenseData) {
                 $expenseArr[$expenseData->month] = $expenseData->amount;
             }
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $expenseTotal[] = array_key_exists($i, $expenseArr) ? $expenseArr[$i] : 0;
             }
 
             //     ------------------------------------BILL EXPENSE----------------------------------------------------
 
-            $bills = Bill:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $bills = Bill::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
             $bills->whereRAW('YEAR(send_date) =?', [$year]);
 
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $bills->where('vender_id', '=', $request->vender);
             }
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $bills->where('category_id', '=', $request->category);
             }
-            $bills        = $bills->get();
+            $bills = $bills->get();
             $billTmpArray = [];
-            foreach($bills as $bill)
-            {
+            foreach ($bills as $bill) {
                 $billTmpArray[$bill->category_id][$bill->month][] = $bill->getTotal();
             }
 
             $billArray = [];
-            foreach($billTmpArray as $cat_id => $record)
-            {
+            foreach ($billTmpArray as $cat_id => $record) {
 
-                $bill             = [];
+                $bill = [];
                 $bill['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $bill['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $bill['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
 
                     $bill['data'][$i] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
                 }
@@ -313,36 +276,34 @@ class ReportController extends Controller
             }
 
             $billTotalArray = [];
-            foreach($bills as $bill)
-            {
+            foreach ($bills as $bill) {
                 $billTotalArray[$bill->month][] = $bill->getTotal();
             }
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $billTotal[] = array_key_exists($i, $billTotalArray) ? array_sum($billTotalArray[$i]) : 0;
             }
 
             $chartExpenseArr = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $expenseTotal, $billTotal
+                },
+                $expenseTotal,
+                $billTotal
             );
 
 
             $data['chartExpenseArr'] = $chartExpenseArr;
-            $data['expenseArr']      = $array;
-            $data['billArray']       = $billArray;
-            $data['account']         = $account;
-            $data['vender']          = $vender;
-            $data['category']        = $category;
+            $data['expenseArr'] = $array;
+            $data['billArray'] = $billArray;
+            $data['account'] = $account;
+            $data['vender'] = $vender;
+            $data['category'] = $category;
 
             $filter['startDateRange'] = 'Jan-' . $year;
-            $filter['endDateRange']   = 'Dec-' . $year;
+            $filter['endDateRange'] = 'Dec-' . $year;
 
             return view('report.expense_summary', compact('filter'), $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
 
@@ -351,8 +312,7 @@ class ReportController extends Controller
 
     public function incomeVsExpenseSummary(Request $request)
     {
-        if(\Auth::user()->can('income vs expense report'))
-        {
+        if (\Auth::user()->can('income vs expense report')) {
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
             $account->prepend('All', '');
             $vender = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -361,26 +321,24 @@ class ReportController extends Controller
             $customer->prepend('All', '');
 
             $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->whereIn(
-                'type', [
-                          1,
-                          2,
-                      ]
+                'type',
+                [
+                    1,
+                    2,
+                ]
             )->get()->pluck('name', 'id');
             $category->prepend('All', '');
 
             $data['monthList'] = $month = $this->yearMonth();
-            $data['yearList']  = $this->yearList();
+            $data['yearList'] = $this->yearList();
 
             $filter['category'] = __('All');
             $filter['customer'] = __('All');
-            $filter['vender']   = __('All');
+            $filter['vender'] = __('All');
 
-            if(isset($request->year))
-            {
+            if (isset($request->year)) {
                 $year = $request->year;
-            }
-            else
-            {
+            } else {
                 $year = date('Y');
             }
             $data['currentYear'] = $year;
@@ -390,59 +348,51 @@ class ReportController extends Controller
             $expensesData->where('payments.created_by', '=', \Auth::user()->creatorId());
             $expensesData->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $expensesData->where('category_id', '=', $request->category);
-                $cat                = ProductServiceCategory::find($request->category);
+                $cat = ProductServiceCategory::find($request->category);
                 $filter['category'] = !empty($cat) ? $cat->name : '';
 
             }
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $expensesData->where('vender_id', '=', $request->vender);
 
-                $vend             = Vender::find($request->vender);
+                $vend = Vender::find($request->vender);
                 $filter['vender'] = !empty($vend) ? $vend->name : '';
             }
             $expensesData->groupBy('month', 'year');
             $expensesData = $expensesData->get();
 
             $expenseArr = [];
-            foreach($expensesData as $k => $expenseData)
-            {
+            foreach ($expensesData as $k => $expenseData) {
                 $expenseArr[$expenseData->month] = $expenseData->amount;
             }
 
             // ------------------------------TOTAL BILL EXPENSE-----------------------------------------------------------
 
-            $bills = Bill:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $bills = Bill::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
             $bills->whereRAW('YEAR(send_date) =?', [$year]);
 
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $bills->where('vender_id', '=', $request->vender);
 
             }
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $bills->where('category_id', '=', $request->category);
             }
 
-            $bills        = $bills->get();
+            $bills = $bills->get();
             $billTmpArray = [];
-            foreach($bills as $bill)
-            {
+            foreach ($bills as $bill) {
                 $billTmpArray[$bill->category_id][$bill->month][] = $bill->getTotal();
             }
             $billArray = [];
-            foreach($billTmpArray as $cat_id => $record)
-            {
-                $bill             = [];
+            foreach ($billTmpArray as $cat_id => $record) {
+                $bill = [];
                 $bill['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $bill['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $bill['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
 
                     $bill['data'][$i] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
                 }
@@ -450,8 +400,7 @@ class ReportController extends Controller
             }
 
             $billTotalArray = [];
-            foreach($bills as $bill)
-            {
+            foreach ($bills as $bill) {
                 $billTotalArray[$bill->month][] = $bill->getTotal();
             }
 
@@ -462,51 +411,43 @@ class ReportController extends Controller
             $incomesData->where('revenues.created_by', '=', \Auth::user()->creatorId());
             $incomesData->whereRAW('YEAR(date) =?', [$year]);
 
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $incomesData->where('category_id', '=', $request->category);
             }
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $incomesData->where('customer_id', '=', $request->customer);
-                $cust               = Customer::find($request->customer);
+                $cust = Customer::find($request->customer);
                 $filter['customer'] = !empty($cust) ? $cust->name : '';
             }
             $incomesData->groupBy('month', 'year');
             $incomesData = $incomesData->get();
-            $incomeArr   = [];
-            foreach($incomesData as $k => $incomeData)
-            {
+            $incomeArr = [];
+            foreach ($incomesData as $k => $incomeData) {
                 $incomeArr[$incomeData->month] = $incomeData->amount;
             }
 
             // ------------------------------TOTAL INVOICE INCOME-----------------------------------------------------------
-            $invoices = Invoice:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $invoices = Invoice::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
             $invoices->whereRAW('YEAR(send_date) =?', [$year]);
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $invoices->where('customer_id', '=', $request->customer);
             }
-            if(!empty($request->category))
-            {
+            if (!empty($request->category)) {
                 $invoices->where('category_id', '=', $request->category);
             }
-            $invoices        = $invoices->get();
+            $invoices = $invoices->get();
             $invoiceTmpArray = [];
-            foreach($invoices as $invoice)
-            {
+            foreach ($invoices as $invoice) {
                 $invoiceTmpArray[$invoice->category_id][$invoice->month][] = $invoice->getTotal();
             }
 
             $invoiceArray = [];
-            foreach($invoiceTmpArray as $cat_id => $record)
-            {
+            foreach ($invoiceTmpArray as $cat_id => $record) {
 
-                $invoice             = [];
+                $invoice = [];
                 $invoice['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $invoice['data']     = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $invoice['data'] = [];
+                for ($i = 1; $i <= 12; $i++) {
 
                     $invoice['data'][$i] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
                 }
@@ -514,16 +455,14 @@ class ReportController extends Controller
             }
 
             $invoiceTotalArray = [];
-            foreach($invoices as $invoice)
-            {
+            foreach ($invoices as $invoice) {
                 $invoiceTotalArray[$invoice->month][] = $invoice->getTotal();
             }
             //        ----------------------------------------------------------------------------------------------------
 
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $paymentExpenseTotal[] = array_key_exists($i, $expenseArr) ? $expenseArr[$i] : 0;
-                $billExpenseTotal[]    = array_key_exists($i, $billTotalArray) ? array_sum($billTotalArray[$i]) : 0;
+                $billExpenseTotal[] = array_key_exists($i, $billTotalArray) ? array_sum($billTotalArray[$i]) : 0;
 
                 $RevenueIncomeTotal[] = array_key_exists($i, $incomeArr) ? $incomeArr[$i] : 0;
                 $invoiceIncomeTotal[] = array_key_exists($i, $invoiceTotalArray) ? array_sum($invoiceTotalArray[$i]) : 0;
@@ -531,42 +470,43 @@ class ReportController extends Controller
             }
 
             $totalIncome = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $RevenueIncomeTotal, $invoiceIncomeTotal
+                },
+                $RevenueIncomeTotal,
+                $invoiceIncomeTotal
             );
 
             $totalExpense = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $paymentExpenseTotal, $billExpenseTotal
+                },
+                $paymentExpenseTotal,
+                $billExpenseTotal
             );
 
             $profit = [];
-            $keys   = array_keys($totalIncome + $totalExpense);
-            foreach($keys as $v)
-            {
+            $keys = array_keys($totalIncome + $totalExpense);
+            foreach ($keys as $v) {
                 $profit[$v] = (empty($totalIncome[$v]) ? 0 : $totalIncome[$v]) - (empty($totalExpense[$v]) ? 0 : $totalExpense[$v]);
             }
 
 
             $data['paymentExpenseTotal'] = $paymentExpenseTotal;
-            $data['billExpenseTotal']    = $billExpenseTotal;
-            $data['revenueIncomeTotal']  = $RevenueIncomeTotal;
-            $data['invoiceIncomeTotal']  = $invoiceIncomeTotal;
-            $data['profit']              = $profit;
-            $data['account']             = $account;
-            $data['vender']              = $vender;
-            $data['customer']            = $customer;
-            $data['category']            = $category;
+            $data['billExpenseTotal'] = $billExpenseTotal;
+            $data['revenueIncomeTotal'] = $RevenueIncomeTotal;
+            $data['invoiceIncomeTotal'] = $invoiceIncomeTotal;
+            $data['profit'] = $profit;
+            $data['account'] = $account;
+            $data['vender'] = $vender;
+            $data['customer'] = $customer;
+            $data['category'] = $category;
 
             $filter['startDateRange'] = 'Jan-' . $year;
-            $filter['endDateRange']   = 'Dec-' . $year;
+            $filter['endDateRange'] = 'Dec-' . $year;
 
             return view('report.income_vs_expense_summary', compact('filter'), $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -574,52 +514,54 @@ class ReportController extends Controller
     public function taxSummary(Request $request)
     {
 
-        if(\Auth::user()->can('tax report'))
-        {
+        if (\Auth::user()->can('tax report')) {
             $data['monthList'] = $month = $this->yearMonth();
-            $data['yearList']  = $this->yearList();
-            $data['taxList']   = $taxList = Tax::where('created_by', \Auth::user()->creatorId())->get();
+            $data['yearList'] = $this->yearList();
+            $data['taxList'] = $taxList = Tax::where('created_by', \Auth::user()->creatorId())->get();
 
-            if(isset($request->year))
-            {
+            if (isset($request->year)) {
                 $year = $request->year;
-            }
-            else
-            {
+            } else {
                 $year = date('Y');
             }
 
+            if (isset($request->quarter)) {
+                $quarter = $request->quarter;
+            } else {
+                $quarter = 1;
+            }
+            // calculating the given quarter start month - end month
+            $startMonth = ($quarter - 1) * 3 + 1;
+            $endMonth = $startMonth + 2;
+
             $data['currentYear'] = $year;
 
-            $invoiceProducts = InvoiceProduct::selectRaw('invoice_products.* ,MONTH(invoice_products.created_at) as month,YEAR(invoice_products.created_at) as year')->leftjoin('product_services', 'invoice_products.product_id', '=', 'product_services.id')->whereRaw('YEAR(invoice_products.created_at) =?', [$year])->where('product_services.created_by', '=', \Auth::user()->creatorId())->get();
+            $invoiceProducts = InvoiceProduct::selectRaw('invoice_products.* ,MONTH(invoice_products.created_at) as month,YEAR(invoice_products.created_at) as year')
+                ->leftjoin('product_services', 'invoice_products.product_id', '=', 'product_services.id')
+                ->whereRaw('YEAR(invoice_products.created_at) =?', [$year])
+                ->whereBetween(\DB::raw('MONTH(invoice_products.created_at)'), [$startMonth, $endMonth])
+                ->where('product_services.created_by', '=', \Auth::user()->creatorId())
+                ->get();
 
             $incomeTaxesData = [];
-            foreach($invoiceProducts as $invoiceProduct)
-            {
-                $incomeTax   = [];
+            foreach ($invoiceProducts as $invoiceProduct) {
+                $incomeTax = [];
                 $incomeTaxes = \Utility::tax($invoiceProduct->tax);
-                foreach($incomeTaxes as $taxe)
-                {
-                    $taxDataPrice           = \Utility::taxRate($taxe->rate, $invoiceProduct->price, $invoiceProduct->quantity);
-                    $incomeTax[$taxe->name] = $taxDataPrice;
+                foreach ($incomeTaxes as $taxe) {
+                    $taxDataPrice = \Utility::taxRate($taxe?->rate, $invoiceProduct->price, $invoiceProduct->quantity);
+                    $incomeTax[$taxe?->name] = $taxDataPrice;
                 }
                 $incomeTaxesData[$invoiceProduct->month][] = $incomeTax;
             }
 
             $income = [];
-            foreach($incomeTaxesData as $month => $incomeTaxx)
-            {
+            foreach ($incomeTaxesData as $month => $incomeTaxx) {
                 $incomeTaxRecord = [];
-                foreach($incomeTaxx as $k => $record)
-                {
-                    foreach($record as $incomeTaxName => $incomeTaxAmount)
-                    {
-                        if(array_key_exists($incomeTaxName, $incomeTaxRecord))
-                        {
+                foreach ($incomeTaxx as $k => $record) {
+                    foreach ($record as $incomeTaxName => $incomeTaxAmount) {
+                        if (array_key_exists($incomeTaxName, $incomeTaxRecord)) {
                             $incomeTaxRecord[$incomeTaxName] += $incomeTaxAmount;
-                        }
-                        else
-                        {
+                        } else {
                             $incomeTaxRecord[$incomeTaxName] = $incomeTaxAmount;
                         }
                     }
@@ -628,36 +570,25 @@ class ReportController extends Controller
 
             }
 
-            foreach($income as $incomeMonth => $incomeTaxData)
-            {
+            foreach ($income as $incomeMonth => $incomeTaxData) {
                 $incomeData = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                for ($i = 1; $i <= 12; $i++) {
                     $incomeData[$i] = array_key_exists($i, $incomeTaxData) ? $incomeTaxData[$i] : 0;
                 }
 
             }
 
             $incomes = [];
-            if(isset($incomeData) && !empty($incomeData))
-            {
-                foreach($taxList as $taxArr)
-                {
-                    foreach($incomeData as $month => $tax)
-                    {
-                        if($tax != 0)
-                        {
-                            if(isset($tax[$taxArr->name]))
-                            {
+            if (isset($incomeData) && !empty($incomeData)) {
+                foreach ($taxList as $taxArr) {
+                    foreach ($incomeData as $month => $tax) {
+                        if ($tax != 0) {
+                            if (isset($tax[$taxArr->name])) {
                                 $incomes[$taxArr->name][$month] = $tax[$taxArr->name];
-                            }
-                            else
-                            {
+                            } else {
                                 $incomes[$taxArr->name][$month] = 0;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $incomes[$taxArr->name][$month] = 0;
                         }
                     }
@@ -665,35 +596,27 @@ class ReportController extends Controller
             }
 
 
-            $billProducts = BillProduct::selectRaw('bill_products.* ,MONTH(bill_products.created_at) as month,YEAR(bill_products.created_at) as year')->leftjoin('product_services', 'bill_products.product_id', '=', 'product_services.id')->whereRaw('YEAR(bill_products.created_at) =?', [$year])->where('product_services.created_by', '=', \Auth::user()->creatorId())->get();
+            $billProducts = BillProduct::getReportQuery($year, $quarter)->get();
 
             $expenseTaxesData = [];
-            foreach($billProducts as $billProduct)
-            {
-                $billTax   = [];
+            foreach ($billProducts as $billProduct) {
+                $billTax = [];
                 $billTaxes = \Utility::tax($billProduct->tax);
-                foreach($billTaxes as $taxe)
-                {
-                    $taxDataPrice         = \Utility::taxRate($taxe->rate, $billProduct->price, $billProduct->quantity);
+                foreach ($billTaxes as $taxe) {
+                    $taxDataPrice = \Utility::taxRate($taxe?->rate, $billProduct->price, $billProduct->quantity);
                     $billTax[$taxe->name] = $taxDataPrice;
                 }
                 $expenseTaxesData[$billProduct->month][] = $billTax;
             }
 
             $bill = [];
-            foreach($expenseTaxesData as $month => $billTaxx)
-            {
+            foreach ($expenseTaxesData as $month => $billTaxx) {
                 $billTaxRecord = [];
-                foreach($billTaxx as $k => $record)
-                {
-                    foreach($record as $billTaxName => $billTaxAmount)
-                    {
-                        if(array_key_exists($billTaxName, $billTaxRecord))
-                        {
+                foreach ($billTaxx as $k => $record) {
+                    foreach ($record as $billTaxName => $billTaxAmount) {
+                        if (array_key_exists($billTaxName, $billTaxRecord)) {
                             $billTaxRecord[$billTaxName] += $billTaxAmount;
-                        }
-                        else
-                        {
+                        } else {
                             $billTaxRecord[$billTaxName] = $billTaxAmount;
                         }
                     }
@@ -702,36 +625,25 @@ class ReportController extends Controller
 
             }
 
-            foreach($bill as $billMonth => $billTaxData)
-            {
+            foreach ($bill as $billMonth => $billTaxData) {
                 $billData = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                for ($i = 1; $i <= 12; $i++) {
                     $billData[$i] = array_key_exists($i, $billTaxData) ? $billTaxData[$i] : 0;
                 }
 
             }
             $expenses = [];
-            if(isset($billData) && !empty($billData))
-            {
+            if (isset($billData) && !empty($billData)) {
 
-                foreach($taxList as $taxArr)
-                {
-                    foreach($billData as $month => $tax)
-                    {
-                        if($tax != 0)
-                        {
-                            if(isset($tax[$taxArr->name]))
-                            {
+                foreach ($taxList as $taxArr) {
+                    foreach ($billData as $month => $tax) {
+                        if ($tax != 0) {
+                            if (isset($tax[$taxArr->name])) {
                                 $expenses[$taxArr->name][$month] = $tax[$taxArr->name];
-                            }
-                            else
-                            {
+                            } else {
                                 $expenses[$taxArr->name][$month] = 0;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $expenses[$taxArr->name][$month] = 0;
                         }
                     }
@@ -740,15 +652,14 @@ class ReportController extends Controller
             }
 
             $data['expenses'] = $expenses;
-            $data['incomes']  = $incomes;
+            $data['incomes'] = $incomes;
 
             $filter['startDateRange'] = 'Jan-' . $year;
-            $filter['endDateRange']   = 'Dec-' . $year;
+            $filter['endDateRange'] = 'Dec-' . $year;
+
 
             return view('report.tax_summary', compact('filter'), $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
 
@@ -757,9 +668,8 @@ class ReportController extends Controller
     public function profitLossSummary(Request $request)
     {
 
-        if(\Auth::user()->can('loss & profit report'))
-        {
-            $data['month']     = [
+        if (\Auth::user()->can('loss & profit report')) {
+            $data['month'] = [
                 'Jan-Mar',
                 'Apr-Jun',
                 'Jul-Sep',
@@ -767,14 +677,11 @@ class ReportController extends Controller
                 'Total',
             ];
             $data['monthList'] = $month = $this->yearMonth();
-            $data['yearList']  = $this->yearList();
+            $data['yearList'] = $this->yearList();
 
-            if(isset($request->year))
-            {
+            if (isset($request->year)) {
                 $year = $request->year;
-            }
-            else
-            {
+            } else {
                 $year = date('Y');
             }
             $data['currentYear'] = $year;
@@ -785,23 +692,20 @@ class ReportController extends Controller
             $incomes->where('created_by', '=', \Auth::user()->creatorId());
             $incomes->whereRAW('YEAR(date) =?', [$year]);
             $incomes->groupBy('month', 'year', 'category_id');
-            $incomes        = $incomes->get();
+            $incomes = $incomes->get();
             $tmpIncomeArray = [];
-            foreach($incomes as $income)
-            {
+            foreach ($incomes as $income) {
                 $tmpIncomeArray[$income->category_id][$income->month] = $income->amount;
             }
 
-            $incomeCatAmount_1  = $incomeCatAmount_2 = $incomeCatAmount_3 = $incomeCatAmount_4 = 0;
+            $incomeCatAmount_1 = $incomeCatAmount_2 = $incomeCatAmount_3 = $incomeCatAmount_4 = 0;
             $revenueIncomeArray = array();
-            foreach($tmpIncomeArray as $cat_id => $record)
-            {
+            foreach ($tmpIncomeArray as $cat_id => $record) {
 
-                $tmp             = [];
+                $tmp = [];
                 $tmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $sumData         = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $sumData = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $sumData[] = array_key_exists($i, $record) ? $record[$i] : 0;
                 }
 
@@ -815,7 +719,7 @@ class ReportController extends Controller
                 $incomeData[__('Apr-Jun')] = $sum_2 = array_sum($month_2);
                 $incomeData[__('Jul-Sep')] = $sum_3 = array_sum($month_3);
                 $incomeData[__('Oct-Dec')] = $sum_4 = array_sum($month_4);
-                $incomeData[__('Total')]   = array_sum(
+                $incomeData[__('Total')] = array_sum(
                     array(
                         $sum_1,
                         $sum_2,
@@ -855,42 +759,38 @@ class ReportController extends Controller
 
             //-----------------------INVOICE INCOME---------------------------------------------
 
-            $invoices = Invoice:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $invoices = Invoice::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,invoice_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
             $invoices->whereRAW('YEAR(send_date) =?', [$year]);
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $invoices->where('customer_id', '=', $request->customer);
             }
-            $invoices        = $invoices->get();
+            $invoices = $invoices->get();
             $invoiceTmpArray = [];
-            foreach($invoices as $invoice)
-            {
+            foreach ($invoices as $invoice) {
                 $invoiceTmpArray[$invoice->category_id][$invoice->month][] = $invoice->getTotal();
             }
 
             $invoiceCatAmount_1 = $invoiceCatAmount_2 = $invoiceCatAmount_3 = $invoiceCatAmount_4 = 0;
             $invoiceIncomeArray = array();
-            foreach($invoiceTmpArray as $cat_id => $record)
-            {
+            foreach ($invoiceTmpArray as $cat_id => $record) {
 
-                $invoiceTmp             = [];
+                $invoiceTmp = [];
                 $invoiceTmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $invoiceSumData         = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $invoiceSumData = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $invoiceSumData[] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
 
                 }
 
-                $month_1                          = array_slice($invoiceSumData, 0, 3);
-                $month_2                          = array_slice($invoiceSumData, 3, 3);
-                $month_3                          = array_slice($invoiceSumData, 6, 3);
-                $month_4                          = array_slice($invoiceSumData, 9, 3);
+                $month_1 = array_slice($invoiceSumData, 0, 3);
+                $month_2 = array_slice($invoiceSumData, 3, 3);
+                $month_3 = array_slice($invoiceSumData, 6, 3);
+                $month_4 = array_slice($invoiceSumData, 9, 3);
                 $invoiceIncomeData[__('Jan-Mar')] = $sum_1 = array_sum($month_1);
                 $invoiceIncomeData[__('Apr-Jun')] = $sum_2 = array_sum($month_2);
                 $invoiceIncomeData[__('Jul-Sep')] = $sum_3 = array_sum($month_3);
                 $invoiceIncomeData[__('Oct-Dec')] = $sum_4 = array_sum($month_4);
-                $invoiceIncomeData[__('Total')]   = array_sum(
+                $invoiceIncomeData[__('Total')] = array_sum(
                     array(
                         $sum_1,
                         $sum_2,
@@ -898,10 +798,10 @@ class ReportController extends Controller
                         $sum_4,
                     )
                 );
-                $invoiceCatAmount_1               += $sum_1;
-                $invoiceCatAmount_2               += $sum_2;
-                $invoiceCatAmount_3               += $sum_3;
-                $invoiceCatAmount_4               += $sum_4;
+                $invoiceCatAmount_1 += $sum_1;
+                $invoiceCatAmount_2 += $sum_2;
+                $invoiceCatAmount_3 += $sum_3;
+                $invoiceCatAmount_4 += $sum_4;
 
                 $invoiceTmp['amount'] = array_values($invoiceIncomeData);
 
@@ -928,9 +828,11 @@ class ReportController extends Controller
             $data['invoiceIncomeArray'] = $invoiceIncomeArray;
 
             $data['totalIncome'] = $totalIncome = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $invoiceIncomeCatAmount, $incomeCatAmount
+                },
+                $invoiceIncomeCatAmount,
+                $incomeCatAmount
             );
 
             //---------------------------------PAYMENT EXPENSE-----------------------------------
@@ -942,20 +844,17 @@ class ReportController extends Controller
             $expenses = $expenses->get();
 
             $tmpExpenseArray = [];
-            foreach($expenses as $expense)
-            {
+            foreach ($expenses as $expense) {
                 $tmpExpenseArray[$expense->category_id][$expense->month] = $expense->amount;
             }
 
-            $expenseArray       = [];
+            $expenseArray = [];
             $expenseCatAmount_1 = $expenseCatAmount_2 = $expenseCatAmount_3 = $expenseCatAmount_4 = 0;
-            foreach($tmpExpenseArray as $cat_id => $record)
-            {
-                $tmp             = [];
+            foreach ($tmpExpenseArray as $cat_id => $record) {
+                $tmp = [];
                 $tmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $expenseSumData  = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $expenseSumData = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $expenseSumData[] = array_key_exists($i, $record) ? $record[$i] : 0;
 
                 }
@@ -969,7 +868,7 @@ class ReportController extends Controller
                 $expenseData[__('Apr-Jun')] = $sum_2 = array_sum($month_2);
                 $expenseData[__('Jul-Sep')] = $sum_3 = array_sum($month_3);
                 $expenseData[__('Oct-Dec')] = $sum_4 = array_sum($month_4);
-                $expenseData[__('Total')]   = array_sum(
+                $expenseData[__('Total')] = array_sum(
                     array(
                         $sum_1,
                         $sum_2,
@@ -1004,32 +903,28 @@ class ReportController extends Controller
                     )
                 ),
             ];
-            $data['expenseArray']     = $expenseArray;
+            $data['expenseArray'] = $expenseArray;
 
             //    ----------------------------EXPENSE BILL-----------------------------------------------------------------------
 
-            $bills = Bill:: selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
+            $bills = Bill::selectRaw('MONTH(send_date) as month,YEAR(send_date) as year,category_id,bill_id,id')->where('created_by', \Auth::user()->creatorId())->where('status', '!=', 0);
             $bills->whereRAW('YEAR(send_date) =?', [$year]);
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $bills->where('vender_id', '=', $request->vender);
             }
-            $bills        = $bills->get();
+            $bills = $bills->get();
             $billTmpArray = [];
-            foreach($bills as $bill)
-            {
+            foreach ($bills as $bill) {
                 $billTmpArray[$bill->category_id][$bill->month][] = $bill->getTotal();
             }
 
-            $billExpenseArray       = [];
+            $billExpenseArray = [];
             $billExpenseCatAmount_1 = $billExpenseCatAmount_2 = $billExpenseCatAmount_3 = $billExpenseCatAmount_4 = 0;
-            foreach($billTmpArray as $cat_id => $record)
-            {
-                $billTmp             = [];
+            foreach ($billTmpArray as $cat_id => $record) {
+                $billTmp = [];
                 $billTmp['category'] = !empty(ProductServiceCategory::where('id', '=', $cat_id)->first()) ? ProductServiceCategory::where('id', '=', $cat_id)->first()->name : '';
-                $billExpensSumData   = [];
-                for($i = 1; $i <= 12; $i++)
-                {
+                $billExpensSumData = [];
+                for ($i = 1; $i <= 12; $i++) {
                     $billExpensSumData[] = array_key_exists($i, $record) ? array_sum($record[$i]) : 0;
                 }
 
@@ -1042,7 +937,7 @@ class ReportController extends Controller
                 $billExpenseData[__('Apr-Jun')] = $sum_2 = array_sum($month_2);
                 $billExpenseData[__('Jul-Sep')] = $sum_3 = array_sum($month_3);
                 $billExpenseData[__('Oct-Dec')] = $sum_4 = array_sum($month_4);
-                $billExpenseData[__('Total')]   = array_sum(
+                $billExpenseData[__('Total')] = array_sum(
                     array(
                         $sum_1,
                         $sum_2,
@@ -1056,7 +951,7 @@ class ReportController extends Controller
                 $billExpenseCatAmount_3 += $sum_3;
                 $billExpenseCatAmount_4 += $sum_4;
 
-                $data['month']     = array_keys($billExpenseData);
+                $data['month'] = array_keys($billExpenseData);
                 $billTmp['amount'] = array_values($billExpenseData);
 
                 $billExpenseArray[] = $billTmp;
@@ -1082,25 +977,24 @@ class ReportController extends Controller
 
 
             $data['totalExpense'] = $totalExpense = array_map(
-                function (){
+                function () {
                     return array_sum(func_get_args());
-                }, $billExpenseCatAmount, $expenseCatAmount
+                },
+                $billExpenseCatAmount,
+                $expenseCatAmount
             );
 
 
-            foreach($totalIncome as $k => $income)
-            {
+            foreach ($totalIncome as $k => $income) {
                 $netProfit[] = $income - $totalExpense[$k];
             }
             $data['netProfitArray'] = $netProfit;
 
             $filter['startDateRange'] = 'Jan-' . $year;
-            $filter['endDateRange']   = 'Dec-' . $year;
+            $filter['endDateRange'] = 'Dec-' . $year;
 
             return view('report.profit_loss_summary', compact('filter'), $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
 
@@ -1129,23 +1023,20 @@ class ReportController extends Controller
     public function yearList()
     {
         $starting_year = date('Y', strtotime('-5 year'));
-        $ending_year   = date('Y');
+        $ending_year = date('Y');
 
-        foreach(range($ending_year, $starting_year) as $year)
-        {
+        foreach (range($ending_year, $starting_year) as $year) {
             $years[$year] = $year;
         }
-
         return $years;
     }
 
     public function invoiceSummary(Request $request)
     {
 
-        if(\Auth::user()->can('invoice report'))
-        {
+        if (\Auth::user()->can('invoice report')) {
             $filter['customer'] = __('All');
-            $filter['status']   = __('All');
+            $filter['status'] = __('All');
 
 
             $customer = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'customer_id');
@@ -1154,39 +1045,32 @@ class ReportController extends Controller
 
             $invoices = Invoice::selectRaw('invoices.*,MONTH(send_date) as month,YEAR(send_date) as year');
 
-            if($request->status != '')
-            {
+            if ($request->status != '') {
                 $invoices->where('status', $request->status);
 
                 $filter['status'] = Invoice::$statues[$request->status];
-            }
-            else
-            {
+            } else {
                 $invoices->where('status', '!=', 0);
             }
 
             $invoices->where('created_by', '=', \Auth::user()->creatorId());
 
-            if(!empty($request->start_month) && !empty($request->end_month))
-            {
+            if (!empty($request->start_month) && !empty($request->end_month)) {
                 $start = strtotime($request->start_month);
-                $end   = strtotime($request->end_month);
-            }
-            else
-            {
+                $end = strtotime($request->end_month);
+            } else {
                 $start = strtotime(date('Y-01'));
-                $end   = strtotime(date('Y-12'));
+                $end = strtotime(date('Y-12'));
             }
 
             $invoices->where('send_date', '>=', date('Y-m-01', $start))->where('send_date', '<=', date('Y-m-t', $end));
 
 
             $filter['startDateRange'] = date('M-Y', $start);
-            $filter['endDateRange']   = date('M-Y', $end);
+            $filter['endDateRange'] = date('M-Y', $end);
 
 
-            if(!empty($request->customer))
-            {
+            if (!empty($request->customer)) {
                 $invoices->where('customer_id', $request->customer);
                 $cust = Customer::find($request->customer);
 
@@ -1197,29 +1081,25 @@ class ReportController extends Controller
             $invoices = $invoices->get();
 
 
-            $totalInvoice      = 0;
-            $totalDueInvoice   = 0;
+            $totalInvoice = 0;
+            $totalDueInvoice = 0;
             $invoiceTotalArray = [];
-            foreach($invoices as $invoice)
-            {
-                $totalInvoice    += $invoice->getTotal();
+            foreach ($invoices as $invoice) {
+                $totalInvoice += $invoice->getTotal();
                 $totalDueInvoice += $invoice->getDue();
 
                 $invoiceTotalArray[$invoice->month][] = $invoice->getTotal();
             }
             $totalPaidInvoice = $totalInvoice - $totalDueInvoice;
 
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $invoiceTotal[] = array_key_exists($i, $invoiceTotalArray) ? array_sum($invoiceTotalArray[$i]) : 0;
             }
 
             $monthList = $month = $this->yearMonth();
 
             return view('report.invoice_report', compact('invoices', 'customer', 'status', 'totalInvoice', 'totalDueInvoice', 'totalPaidInvoice', 'invoiceTotal', 'monthList', 'filter'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -1227,8 +1107,7 @@ class ReportController extends Controller
 
     public function billSummary(Request $request)
     {
-        if(\Auth::user()->can('bill report'))
-        {
+        if (\Auth::user()->can('bill report')) {
 
             $filter['vender'] = __('All');
             $filter['status'] = __('All');
@@ -1240,39 +1119,32 @@ class ReportController extends Controller
 
             $bills = Bill::selectRaw('bills.*,MONTH(send_date) as month,YEAR(send_date) as year');
 
-            if(!empty($request->start_month) && !empty($request->end_month))
-            {
+            if (!empty($request->start_month) && !empty($request->end_month)) {
                 $start = strtotime($request->start_month);
-                $end   = strtotime($request->end_month);
-            }
-            else
-            {
+                $end = strtotime($request->end_month);
+            } else {
                 $start = strtotime(date('Y-01'));
-                $end   = strtotime(date('Y-12'));
+                $end = strtotime(date('Y-12'));
             }
 
             $bills->where('send_date', '>=', date('Y-m-01', $start))->where('send_date', '<=', date('Y-m-t', $end));
 
             $filter['startDateRange'] = date('M-Y', $start);
-            $filter['endDateRange']   = date('M-Y', $end);
+            $filter['endDateRange'] = date('M-Y', $end);
 
 
-            if(!empty($request->vender))
-            {
+            if (!empty($request->vender)) {
                 $bills->where('vender_id', $request->vender);
                 $vend = Vender::find($request->vender);
 
                 $filter['vender'] = !empty($vend) ? $vend->name : '';
             }
 
-            if($request->status != '')
-            {
+            if ($request->status != '') {
                 $bills->where('status', '=', $request->status);
 
                 $filter['status'] = Bill::$statues[$request->status];
-            }
-            else
-            {
+            } else {
                 $bills->where('status', '!=', 0);
             }
 
@@ -1280,29 +1152,25 @@ class ReportController extends Controller
             $bills = $bills->get();
 
 
-            $totalBill      = 0;
-            $totalDueBill   = 0;
+            $totalBill = 0;
+            $totalDueBill = 0;
             $billTotalArray = [];
-            foreach($bills as $bill)
-            {
-                $totalBill    += $bill->getTotal();
+            foreach ($bills as $bill) {
+                $totalBill += $bill->getTotal();
                 $totalDueBill += $bill->getDue();
 
                 $billTotalArray[$bill->month][] = $bill->getTotal();
             }
             $totalPaidBill = $totalBill - $totalDueBill;
 
-            for($i = 1; $i <= 12; $i++)
-            {
+            for ($i = 1; $i <= 12; $i++) {
                 $billTotal[] = array_key_exists($i, $billTotalArray) ? array_sum($billTotalArray[$i]) : 0;
             }
 
             $monthList = $month = $this->yearMonth();
 
             return view('report.bill_report', compact('bills', 'vender', 'status', 'totalBill', 'totalDueBill', 'totalPaidBill', 'billTotal', 'monthList', 'filter'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -1310,13 +1178,12 @@ class ReportController extends Controller
 
     public function accountStatement(Request $request)
     {
-        if(\Auth::user()->can('statement report'))
-        {
+        if (\Auth::user()->can('statement report')) {
 
-            $filter['account']             = __('All');
-            $filter['type']                = __('Revenue');
-            $reportData['revenues']        = '';
-            $reportData['payments']        = '';
+            $filter['account'] = __('All');
+            $filter['type'] = __('Revenue');
+            $reportData['revenues'] = '';
+            $reportData['payments'] = '';
             $reportData['revenueAccounts'] = '';
             $reportData['paymentAccounts'] = '';
 
@@ -1328,59 +1195,51 @@ class ReportController extends Controller
                 'payment' => __('Payment'),
             ];
 
-            if($request->type == 'revenue' || !isset($request->type))
-            {
+            if ($request->type == 'revenue' || !isset($request->type)) {
 
                 $revenueAccounts = Revenue::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'revenues.account_id', '=', 'bank_accounts.id')->groupBy('revenues.account_id')->selectRaw('sum(amount) as total');
 
                 $revenues = Revenue::orderBy('id', 'desc');
             }
 
-            if($request->type == 'payment')
-            {
+            if ($request->type == 'payment') {
                 $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')->groupBy('payments.account_id')->selectRaw('sum(amount) as total');
 
                 $payments = Payment::orderBy('id', 'desc');
             }
 
 
-            if(!empty($request->start_month) && !empty($request->end_month))
-            {
+            if (!empty($request->start_month) && !empty($request->end_month)) {
                 $start = strtotime($request->start_month);
-                $end   = strtotime($request->end_month);
-            }
-            else
-            {
+                $end = strtotime($request->end_month);
+            } else {
                 $start = strtotime(date('Y-m'));
-                $end   = strtotime(date('Y-m', strtotime("-5 month")));
+                $end = strtotime(date('Y-m', strtotime("-5 month")));
             }
 
 
             $currentdate = $start;
-            while($currentdate <= $end)
-            {
+            while ($currentdate <= $end) {
                 $data['month'] = date('m', $currentdate);
-                $data['year']  = date('Y', $currentdate);
+                $data['year'] = date('Y', $currentdate);
 
-                if($request->type == 'revenue' || !isset($request->type))
-                {
+                if ($request->type == 'revenue' || !isset($request->type)) {
                     $revenues->Orwhere(
-                        function ($query) use ($data){
+                        function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
                         }
                     );
 
                     $revenueAccounts->Orwhere(
-                        function ($query) use ($data){
+                        function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
                         }
                     );
                 }
 
-                if($request->type == 'payment')
-                {
+                if ($request->type == 'payment') {
                     $paymentAccounts->Orwhere(
-                        function ($query) use ($data){
+                        function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
                         }
                     );
@@ -1390,17 +1249,14 @@ class ReportController extends Controller
                 $currentdate = strtotime('+1 month', $currentdate);
             }
 
-            if(!empty($request->account))
-            {
-                if($request->type == 'revenue' || !isset($request->type))
-                {
+            if (!empty($request->account)) {
+                if ($request->type == 'revenue' || !isset($request->type)) {
                     $revenues->where('account_id', $request->account);
                     $revenues->where('created_by', '=', \Auth::user()->creatorId());
                     $revenueAccounts->where('account_id', $request->account);
                 }
 
-                if($request->type == 'payment')
-                {
+                if ($request->type == 'payment') {
                     $payments->where('account_id', $request->account);
                     $payments->where('created_by', '=', \Auth::user()->creatorId());
 
@@ -1408,17 +1264,15 @@ class ReportController extends Controller
                 }
 
 
-                $bankAccount       = BankAccount::find($request->account);
+                $bankAccount = BankAccount::find($request->account);
                 $filter['account'] = !empty($bankAccount) ? $bankAccount->holder_name . ' - ' . $bankAccount->bank_name : '';
-                if($bankAccount->holder_name == 'Cash')
-                {
+                if ($bankAccount->holder_name == 'Cash') {
                     $filter['account'] = 'Cash';
                 }
 
             }
 
-            if($request->type == 'revenue' || !isset($request->type))
-            {
+            if ($request->type == 'revenue' || !isset($request->type)) {
                 $reportData['revenues'] = $revenues->get();
 
                 $revenueAccounts->where('revenues.created_by', '=', \Auth::user()->creatorId());
@@ -1426,113 +1280,94 @@ class ReportController extends Controller
 
             }
 
-            if($request->type == 'payment')
-            {
+            if ($request->type == 'payment') {
                 $reportData['payments'] = $payments->get();
 
                 $paymentAccounts->where('payments.created_by', '=', \Auth::user()->creatorId());
                 $reportData['paymentAccounts'] = $paymentAccounts->get();
-                $filter['type']                = __('Payment');
+                $filter['type'] = __('Payment');
             }
 
 
             $filter['startDateRange'] = date('M-Y', $start);
-            $filter['endDateRange']   = date('M-Y', $end);
+            $filter['endDateRange'] = date('M-Y', $end);
 
 
             return view('report.statement_report', compact('reportData', 'account', 'types', 'filter'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function balanceSheet(Request $request)
     {
-        if(\Auth::user()->can('bill report'))
-        {
+        if (\Auth::user()->can('bill report')) {
 
-            if(!empty($request->start_date) && !empty($request->end_date))
-            {
+            if (!empty($request->start_date) && !empty($request->end_date)) {
                 $start = $request->start_date;
-                $end   = $request->end_date;
-            }
-            else
-            {
+                $end = $request->end_date;
+            } else {
                 $start = date('Y-m-01');
-                $end   = date('Y-m-t');
+                $end = date('Y-m-t');
             }
 
             $types = ChartOfAccountType::get();
 
             $chartAccounts = [];
-            foreach($types as $type)
-            {
+            foreach ($types as $type) {
                 $subTypes = ChartOfAccountSubType::where('type', $type->id)->get();
 
                 $subTypeArray = [];
-                foreach($subTypes as $subType)
-                {
+                foreach ($subTypes as $subType) {
                     $accounts = ChartOfAccount::where('created_by', \Auth::user()->creatorId())->where('type', $type->id)->where('sub_type', $subType->id)->get();
 
                     $accountArray = [];
-                    foreach($accounts as $account)
-                    {
+                    foreach ($accounts as $account) {
 
                         $journalItem = JournalItem::select(\DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'))->where('account', $account->id);
                         $journalItem->where('created_at', '>=', $start);
                         $journalItem->where('created_at', '<=', $end);
-                        $journalItem          = $journalItem->first();
+                        $journalItem = $journalItem->first();
                         $data['account_name'] = $account->name;
-                        $data['totalCredit']  = $journalItem->totalCredit;
-                        $data['totalDebit']   = $journalItem->totalDebit;
-                        $data['netAmount']    = $journalItem->netAmount;
-                        $accountArray[]       = $data;
+                        $data['totalCredit'] = $journalItem->totalCredit;
+                        $data['totalDebit'] = $journalItem->totalDebit;
+                        $data['netAmount'] = $journalItem->netAmount;
+                        $accountArray[] = $data;
                     }
                     $subTypeData['subType'] = $subType->name;
                     $subTypeData['account'] = $accountArray;
-                    $subTypeArray[]         = $subTypeData;
+                    $subTypeArray[] = $subTypeData;
                 }
 
                 $chartAccounts[$type->name] = $subTypeArray;
             }
 
             $filter['startDateRange'] = $start;
-            $filter['endDateRange']   = $end;
+            $filter['endDateRange'] = $end;
 
 
             return view('report.balance_sheet', compact('filter', 'chartAccounts'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function ledgerSummary(Request $request)
     {
-        if(\Auth::user()->can('ledger report'))
-        {
+        if (\Auth::user()->can('ledger report')) {
             $accounts = ChartOfAccount::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            if(!empty($request->start_date) && !empty($request->end_date))
-            {
+            if (!empty($request->start_date) && !empty($request->end_date)) {
                 $start = $request->start_date;
-                $end   = $request->end_date;
-            }
-            else
-            {
+                $end = $request->end_date;
+            } else {
                 $start = date('Y-m-01');
-                $end   = date('Y-m-t');
+                $end = date('Y-m-t');
             }
 
-            if(!empty($request->account))
-            {
+            if (!empty($request->account)) {
                 $account = ChartOfAccount::find($request->account);
-            }
-            else
-            {
+            } else {
                 $account = ChartOfAccount::where('created_by', \Auth::user()->creatorId())->first();
             }
 
@@ -1543,53 +1378,42 @@ class ReportController extends Controller
             $journalItems = $journalItems->get();
 
             $balance = 0;
-            $debit   = 0;
-            $credit  = 0;
-            foreach($journalItems as $item)
-            {
-                if($item->debit > 0)
-                {
+            $debit = 0;
+            $credit = 0;
+            foreach ($journalItems as $item) {
+                if ($item->debit > 0) {
                     $debit += $item->debit;
-                }
-
-                else
-                {
+                } else {
                     $credit += $item->credit;
                 }
 
                 $balance = $credit - $debit;
             }
 
-            $filter['balance']        = $balance;
-            $filter['credit']         = $credit;
-            $filter['debit']          = $debit;
+            $filter['balance'] = $balance;
+            $filter['credit'] = $credit;
+            $filter['debit'] = $debit;
             $filter['startDateRange'] = $start;
-            $filter['endDateRange']   = $end;
+            $filter['endDateRange'] = $end;
 
 
             return view('report.ledger_summary', compact('filter', 'journalItems', 'account', 'accounts'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function trialBalanceSummary(Request $request)
     {
-        if(\Auth::user()->can('trial balance report'))
-        {
+        if (\Auth::user()->can('trial balance report')) {
 
 
-            if(!empty($request->start_date) && !empty($request->end_date))
-            {
+            if (!empty($request->start_date) && !empty($request->end_date)) {
                 $start = $request->start_date;
-                $end   = $request->end_date;
-            }
-            else
-            {
+                $end = $request->end_date;
+            } else {
                 $start = date('Y-m-01');
-                $end   = date('Y-m-t');
+                $end = date('Y-m-t');
             }
 
             $journalItem = JournalItem::select('chart_of_accounts.name', \DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'));
@@ -1601,14 +1425,38 @@ class ReportController extends Controller
             $journalItem = $journalItem->get()->toArray();
 
             $filter['startDateRange'] = $start;
-            $filter['endDateRange']   = $end;
+            $filter['endDateRange'] = $end;
 
             return view('report.trial_balance', compact('filter', 'journalItem'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
+    }
+
+
+    /**
+     * Download Full Tax Report
+     */
+    public function downloadFullTaxReport(Request $request)
+    {
+        $year = $request->get('year', date('Y'));
+        $quarter = $request->get('quarter', 1);
+        $total_nl_21 = InvoiceProduct::getTotalIncome($year, $quarter, '21');
+        $total_nl_9 = InvoiceProduct::getTotalIncome($year, $quarter, '9');
+        $total_income_taxes = $total_nl_21['total_tax'] + $total_nl_9['total_tax'];
+        $total_expense_tax = BillProduct::getTotalExpenseTax($year, $quarter);
+        $settings = Utility::settings();
+        $data = [
+            'total_income_nl_21' => Utility::priceFormat($settings, $total_nl_21['total_income_without_tax']),
+            'total_tax_nl_21' => Utility::priceFormat($settings, $total_nl_21['total_tax']),
+            'total_income_nl_9' => Utility::priceFormat($settings, $total_nl_9['total_income_without_tax']),
+            'total_tax_nl_9' => Utility::priceFormat($settings, $total_nl_9['total_tax']),
+            'total_income_taxes' => Utility::priceFormat($settings, $total_income_taxes),
+            'total_expense_tax' => Utility::priceFormat($settings, $total_expense_tax),
+            'total_taxes'   =>  Utility::priceFormat($settings, $total_income_taxes - $total_expense_tax),
+            'settings' => $settings,
+        ];
+        return view('invoice.full_tax_report', $data);
     }
 
 
