@@ -1455,6 +1455,7 @@ class ReportController extends Controller
             'total_expense_tax' => Utility::priceFormat($settings, $total_expense_tax),
             'total_taxes'   =>  Utility::priceFormat($settings, $total_income_taxes - $total_expense_tax),
             'settings' => $settings,
+            'quarter'   =>  $quarter,
         ];
         return view('invoice.full_tax_report', $data);
     }

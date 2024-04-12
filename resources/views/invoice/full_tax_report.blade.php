@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>
-        Btw-aangifte 1e kwartaal 2024 (ingediend)
+        Btw-aangifte {{ $quarter }}e kwartaal 2024 (ingediend)
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -19,7 +19,7 @@
 <body>
     <div class="max-w-4xl mx-auto bg-white p-6 shadow rounded bg-gray-100 p-8" id="boxes">
         <h1 class="text-xl font-bold mb-4">
-            Btw-aangifte 1e kwartaal 2024 (ingediend)
+            Btw-aangifte {{ $quarter }}e kwartaal 2024 (ingediend)
         </h1>
         <div class="mb-4">
             <p>
