@@ -41,7 +41,7 @@ class SystemController extends Controller
                 );
 
                 $logoName = 'logo.png';
-                $path     = $request->file('logo')->storeAs('app/public/uploads/logo/', $logoName);
+                $path     = $request->file('logo')->storeAs('uploads/logo/', $logoName);
             }
             if($request->landing_logo)
             {
@@ -51,7 +51,7 @@ class SystemController extends Controller
                     ]
                 );
                 $landingLogoName = 'landing_logo.png';
-                $path            = $request->file('landing_logo')->storeAs('app/public/uploads/logo/', $landingLogoName);
+                $path            = $request->file('landing_logo')->storeAs('uploads/logo/', $landingLogoName);
             }
             if($request->favicon)
             {
@@ -61,7 +61,7 @@ class SystemController extends Controller
                     ]
                 );
                 $favicon = 'favicon.png';
-                $path    = $request->file('favicon')->storeAs('app/public/uploads/logo/', $favicon);
+                $path    = $request->file('favicon')->storeAs('uploads/logo/', $favicon);
             }
 
 
@@ -280,7 +280,7 @@ class SystemController extends Controller
                 );
 
                 $logoName     = $user->id . '_logo.png';
-                $path         = $request->file('company_logo')->storeAs('app/public/uploads/logo/', $logoName);
+                $path         = $request->file('company_logo')->storeAs('uploads/logo/', $logoName);
                 $company_logo = !empty($request->company_logo) ? $logoName : 'logo.png';
 
                 \DB::insert(
@@ -301,7 +301,7 @@ class SystemController extends Controller
                     ]
                 );
                 $smallLogoName = $user->id . '_small_logo.png';
-                $path          = $request->file('company_small_logo')->storeAs('app/public/uploads/logo/', $smallLogoName);
+                $path          = $request->file('company_small_logo')->storeAs('uploads/logo/', $smallLogoName);
 
                 $company_small_logo = !empty($request->company_small_logo) ? $smallLogoName : 'small_logo.png';
 
@@ -322,7 +322,7 @@ class SystemController extends Controller
                     ]
                 );
                 $favicon = $user->id . '_favicon.png';
-                $path    = $request->file('company_favicon')->storeAs('app/public/uploads/logo/', $favicon);
+                $path    = $request->file('company_favicon')->storeAs('uploads/logo/', $favicon);
 
                 $company_favicon = !empty($request->favicon) ? $favicon : 'favicon.png';
 
