@@ -280,7 +280,7 @@ class SystemController extends Controller
                 );
 
                 $logoName     = $user->id . '_logo.png';
-                $path         = $request->file('company_logo')->storeAs('uploads/logo/', $logoName);
+                $path         = $request->file('company_logo')->storeAs('app/public/uploads/logo/', $logoName);
                 $company_logo = !empty($request->company_logo) ? $logoName : 'logo.png';
 
                 \DB::insert(
