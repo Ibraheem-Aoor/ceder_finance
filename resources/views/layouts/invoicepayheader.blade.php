@@ -20,7 +20,7 @@
 
     @stack('css-page')
 
-    <link rel="stylesheet" href="{{ asset('assets/css/site.css')}}" >
+    <link rel="stylesheet" href="{{ asset('assets/css/site.css')}}?v=0.01" >
     <link rel="stylesheet" href="{{ asset('assets/css/ac.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/stylesheet.css') }}">
