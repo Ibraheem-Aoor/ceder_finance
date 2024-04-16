@@ -20,8 +20,8 @@
 
 
     <link rel="stylesheet" href="{{ asset('assets/css/site.css') }}?v=0.01">
-    <link rel="stylesheet" href="{{ asset('assets/css/ac.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/stylesheet.css') }}?v=0.01">
+    <link rel="stylesheet" href="{{ asset('assets/css/ac.css') }}?v=0.01">
+    <link rel="stylesheet" href="{{ asset('assets/css/stylesheet.css') }}?v=0.02">
 
     @if(env('SITE_RTL')=='on')
         <link rel="stylesheet" href="{{ asset('css/bootstrap-rtl.css') }}">

@@ -49,7 +49,7 @@ h6 {
 
 a.btn-icon-only {
     border-radius: 10px;
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
     padding: 10px 15px;
     width: auto !important;
@@ -111,7 +111,7 @@ table tbody {
 }
 
 .daterangepicker td.active {
-    background: #0f5ef7;
+    background: #037850;
 }
 
 .daterangepicker.dropdown-menu {
@@ -131,9 +131,9 @@ table tbody tr td {
 }
 
 .Id a {
-    color: #0f5ef7;
+    color: #037850;
     font-weight: 600;
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     border-radius: 5px;
     padding: 4px 15px;
     font-size: 14px;
@@ -141,7 +141,7 @@ table tbody tr td {
 }
 
 .Id a:hover {
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
 }
 
@@ -166,7 +166,7 @@ table tbody tr td {
 
 .edit-icon, .send-icon {
     margin-right: 6px;
-    background: #0f5ef7;
+    background: #037850;
 }
 
 .send-icon {
@@ -206,11 +206,11 @@ table tbody tr td {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: #0f5ef7 !important;
+    background: #037850 !important;
     font-size: 10px !important;
     font-weight: 600;
     border-radius: 6px !important;
-    border-color: #0f5ef7 !important;
+    border-color: #037850 !important;
     color: #fff !important;
     padding: 5px 10px !important;
 }
@@ -231,7 +231,7 @@ table {
 }
 
 .dataTables_wrapper .dataTables_filter {
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     border-radius: 8px;
     height: 40px;
     padding: 0 15px;
@@ -241,10 +241,10 @@ table {
 
 .dataTables_wrapper .dataTables_length {
     margin: 30px 0 30px 30px;
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     border-radius: 8px;
     height: 40px;
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
     font-size: 12px;
     font-weight: 600;
@@ -262,14 +262,14 @@ table {
     background: none;
     font-weight: 500;
     line-height: 28px;
-    color: #0f5ef7;
+    color: #037850;
     font-size: 12px;
 }
 
 .dataTables_wrapper .dataTables_filter label {
     font-weight: 600;
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     float: left;
 }
 
@@ -286,7 +286,7 @@ table {
 .dataTables_wrapper .dataTables_length select {
     border: none;
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     margin: 0 5px;
     line-height: 40px;
     font-weight: 600;
@@ -302,7 +302,7 @@ table {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: none;
-    color: #0f5ef7 !important;
+    color: #037850 !important;
     border: 1px solid transparent;
 }
 
@@ -316,7 +316,7 @@ table {
 
 .media-pill {
     background: none;
-    color: #0f5ef7;
+    color: #037850;
     font-weight: bold;
 }
 
@@ -478,7 +478,7 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 
 .more-text {
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     font-weight: 600;
     position: relative;
 }
@@ -519,7 +519,7 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 
 .widget-text:before {
     content: "+";
-    background: #0f5ef7;
+    background: #037850;
     width: 25px;
     height: 25px;
     border-radius: 25px;
@@ -560,7 +560,7 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 .fc-header-toolbar .fc-center h2 {
     font-size: 14px !important;
     font-weight: 600;
-    color: #0f5ef7 !important;
+    color: #037850 !important;
 }
 
 .widget-calendar table {
@@ -603,7 +603,7 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 
 .fullcalendar-title {
     font-size: 14px !important;
-    color: #0f5ef7;
+    color: #037850;
     padding-top: 9px;
     float: left;
     text-align: center;
@@ -618,7 +618,7 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 .btn-group .btn-neutral {
     font-size: 12px;
     padding: 7px 12px;
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -631,14 +631,14 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 }
 
 .fullcalendar-btn-prev {
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 15px 0 0 15px;
     border: none;
     margin-right: 2px !important;
 }
 
 .fullcalendar-btn-next {
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 0 15px 15px 0;
     border: none;
 }
@@ -695,9 +695,9 @@ ul.navbar-nav .dropdown-animate a i.fa-bell {
 }
 
 .select-box {
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     line-height: 40px;
     font-weight: 600;
     padding: 0 10px;
@@ -765,7 +765,7 @@ input:focus {
 }
 
 .blue-bg {
-    background: #0f5ef7;
+    background: #037850;
 }
 
 .blue-bg:hover {
@@ -789,7 +789,7 @@ input:focus {
 .icon-user {
     width: 90px;
     height: 90px;
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 100px;
     text-align: center;
     line-height: 100px;
@@ -826,7 +826,7 @@ input:focus {
 }
 
 .badge-blue {
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
 }
 
@@ -855,7 +855,7 @@ input:focus {
 
 .export-text {
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     font-family: 'Montserrat-SemiBold';
 }
 
@@ -870,13 +870,13 @@ input:focus {
 }
 
 .con-file:hover {
-    color: #0f5ef7;
-    border-color: #0f5ef7;
+    color: #037850;
+    border-color: #037850;
 }
 
 .active-file {
-    color: #0f5ef7;
-    border-color: #0f5ef7;
+    color: #037850;
+    border-color: #037850;
 }
 
 .manage-table .dataTables_length,
@@ -899,7 +899,7 @@ input:focus {
 }
 
 .m-blue-bg {
-    background: #0f5ef7;
+    background: #037850;
 }
 
 .close-icon:before {
@@ -948,7 +948,7 @@ input:focus {
 }
 
 .btn-box .select2-container .select2-selection--single {
-    border-color: #0f5ef7;
+    border-color: #037850;
     background: none;
 }
 
@@ -989,9 +989,9 @@ li.select2-results__options {
 
 .card form input:focus,
 .card form textarea:focus {
-    border-color: #0f5ef7;
+    border-color: #037850;
     box-shadow: none;
-    color: #0f5ef7;
+    color: #037850;
 }
 
 .card form .form-control-label {
@@ -1042,9 +1042,9 @@ a.bg-red {
 }
 
 .month-btn {
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     line-height: 40px;
     font-weight: 600;
     border-radius: 10px;
@@ -1060,7 +1060,7 @@ a.bg-red {
     border: none;
     background: transparent;
     font-size: 12px;
-    color: #0f5ef7;
+    color: #037850;
     padding: 0 10px !important;
     font-family: 'Montserrat-SemiBold';
 }
@@ -1070,7 +1070,7 @@ a.bg-red {
 }
 
 .monthly-btn {
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     border-radius: 10px;
     overflow: hidden;
     clear: both;
@@ -1081,7 +1081,7 @@ a.bg-red {
 
 .monthly-text {
     padding: 10px 5px;
-    background: #0f5ef7;
+    background: #037850;
     display: inline-block;
     color: #fff;
     font-size: 12px;
@@ -1094,7 +1094,7 @@ a.bg-red {
 .daily-text {
     padding: 10px 4px;
     display: inline-block;
-    color: #0f5ef7;
+    color: #037850;
     font-size: 12px;
     font-weight: 600;
     float: left;
@@ -1103,7 +1103,7 @@ a.bg-red {
 }
 
 .text-type {
-    color: #0f5ef7;
+    color: #037850;
     font-size: 12px;
     font-family: 'Montserrat-SemiBold';
     float: left;
@@ -1300,7 +1300,7 @@ body {
 }
 
 .blue-login a {
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 0 10px 10px 0;
     width: 155px;
 }
@@ -1383,8 +1383,8 @@ body {
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-    border-color: #0f5ef7;
-    background-color: #0f5ef7;
+    border-color: #037850;
+    background-color: #037850;
 }
 
 .login-form .custom-control-label::before {
@@ -1399,7 +1399,7 @@ body {
     font-size: 12px;
     color: #fff;
     font-family: 'Montserrat-SemiBold';
-    background: #0f5ef7;
+    background: #037850;
     margin-top: 20px;
     padding: 10px 30px;
     width: 100%;
@@ -1555,7 +1555,7 @@ body {
 
 #ex1SliderVal {
     font-size: 28px;
-    color: #0f5ef7;
+    color: #037850;
     font-family: 'Montserrat-SemiBold' !important;
     padding-left: 10px;
 }
@@ -1570,7 +1570,7 @@ body {
 }
 
 .slider-selection {
-    background: #0f5ef7;
+    background: #037850;
 }
 
 .text-block h5 {
@@ -1617,7 +1617,7 @@ body {
 .btn-submit {
     padding: 10px 23px;
     border-radius: 10px;
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
     line-height: 1.5 !important;
     transition: all 0.2s ease;
@@ -1768,7 +1768,7 @@ body {
 }
 
 .plan-2 {
-    background-color: #0f5ef7;
+    background-color: #037850;
     padding: 50px 20px;
     border-radius: 20px;
     height: 100%;
@@ -1873,7 +1873,7 @@ p.price sub {
     border-color: white;
     border-style: solid;
     border-radius: 5px;
-    color: #0f5ef7;
+    color: #037850;
     padding: 10px 20px;
     display: inline-block;
     text-decoration: none;
@@ -1909,24 +1909,24 @@ p.price sub {
 .plan-2 a.button {
     background-color: white;
     border-color: white;
-    color: #0f5ef7;
+    color: #037850;
 }
 
 .server-plan {
     color: #637da9;
-    background-color: #0f5ef74d;
+    background-color: #0378504d;
     border-radius: 6px;
     padding: 10px 16px;
     font-size: 10px;
 }
 
 .server-plan a {
-    color: #0f5ef7;
+    color: #037850;
 }
 
 .nav.nav-tabs li a {
     font-weight: bold;
-    color: #0f5ef7;
+    color: #037850;
     text-decoration: none;
     padding: 10px 15px;
     display: inline-block;
@@ -1935,17 +1935,17 @@ p.price sub {
 }
 
 .nav.nav-tabs {
-    border: 1px solid #0f5ef7;
+    border: 1px solid #037850;
     border-radius: 10px;
 }
 
 .nav.nav-tabs li a.active {
-    background: #0f5ef7;
+    background: #037850;
     color: white;
 }
 
 .annual-billing span {
-    background: #0f5ef7;
+    background: #037850;
     color: white;
     border-radius: 5px;
     padding: 2px 15px;
@@ -1953,7 +1953,7 @@ p.price sub {
 
 .annual-billing .active span {
     background: white;
-    color: #0f5ef7;
+    color: #037850;
 }
 
 .text-block a {
@@ -2018,8 +2018,8 @@ p.price sub {
 
 .custom-control-input:checked ~ .custom-control-label::before {
     color: #fff;
-    border-color: #0f5ef7;
-    background-color: #0f5ef7;
+    border-color: #037850;
+    background-color: #037850;
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
@@ -2051,7 +2051,7 @@ p.price sub {
 }
 
 ul.nav-tabs {
-    border: 1px solid #0f5ef7 !important;
+    border: 1px solid #037850 !important;
     border-radius: 10px;
 }
 
@@ -2190,9 +2190,9 @@ ul.nav-tabs {
 }
 
 .setting-card .form-control:focus {
-    border-color: #0f5ef7 !important;
+    border-color: #037850 !important;
     box-shadow: none !important;
-    color: #0f5ef7 !important;
+    color: #037850 !important;
 }
 
 .company-setting .form-control {
@@ -2206,9 +2206,9 @@ ul.nav-tabs {
 }
 
 .company-setting .form-control:focus {
-    border-color: #0f5ef7 !important;
+    border-color: #037850 !important;
     box-shadow: none !important;
-    color: #0f5ef7 !important;
+    color: #037850 !important;
 }
 
 .company-setting {
@@ -2253,11 +2253,11 @@ ul.nav-tabs {
 }
 
 input:checked + .slider1 {
-    background-color: #0f5ef7;
+    background-color: #037850;
 }
 
 input:focus + .slider1 {
-    box-shadow: 0 0 1px #0f5ef7;
+    box-shadow: 0 0 1px #037850;
 }
 
 input:checked + .slider1:before {
@@ -2290,7 +2290,7 @@ input:checked + .slider1:before {
 .btn-file {
     position: relative;
     overflow: hidden;
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 10px;
     color: #fff;
     font-size: 10px;
@@ -2370,7 +2370,7 @@ input:checked + .slider1:before {
     position: absolute;
     right: 0px;
     top: 0;
-    background: #0f5ef7;
+    background: #037850;
     padding: 8px 12px;
     border-radius: 10px;
     z-index: -99;
@@ -2434,7 +2434,7 @@ input[type="file"] {
 
 .choose-file div {
     color: #fff;
-    background: #0f5ef7;
+    background: #037850;
     border: none;
     border-radius: 10px;
     padding: 8px 15px;
@@ -2462,7 +2462,7 @@ input[type="file"] {
 .full-calender .next-cal {
     font-size: 12px;
     padding: 7px 12px;
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -2558,7 +2558,7 @@ input[type="file"] {
 }
 
 .blue-back {
-    background: #0f5ef7;
+    background: #037850;
     color: #fff;
 }
 
@@ -2568,7 +2568,7 @@ input[type="file"] {
 }
 
 .border-blue:before {
-    background: #0f5ef7;
+    background: #037850;
     height: 6px;
     width: 430px;
     content: "";
@@ -2629,7 +2629,7 @@ input[type="file"] {
 }
 
 .notification-icon.show button {
-    background: #0f5ef7;
+    background: #037850;
     text-align: center;
 }
 
@@ -2641,7 +2641,7 @@ input[type="file"] {
     min-width: auto;
     margin: 0 !important;
     padding: 10px 0;
-    background: #0f5ef7;
+    background: #037850;
     border-radius: 0 0 10px 10px;
 }
 
@@ -2672,7 +2672,7 @@ input[type="file"] {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background: #0f5ef7;
+    background: #037850;
     text-align: center;
     float: left;
     position: absolute;
@@ -2687,7 +2687,7 @@ input[type="file"] {
 
 .form-icon-user input {
     padding-left: 60px;
-    border-color: #0f5ef7 !important;
+    border-color: #037850 !important;
 }
 
 .form-group input.btn-create:last-child {
@@ -2792,7 +2792,7 @@ input[type="file"] {
 }
 
 .blue-text {
-    color: #0f5ef7;
+    color: #037850;
 }
 
 .title-text {
@@ -3315,7 +3315,7 @@ form .row .select-box {
     }
 
     .blue-login a {
-        background: #0f5ef7;
+        background: #037850;
         border-radius: 10px 10px 0 0;
     }
 
@@ -3807,7 +3807,7 @@ form .row .select-box {
 .apply-btn {
     font-size: 0.875rem;
     line-height: 2.5;
-    background-color: #0f5ef7;
+    background-color: #037850;
     border-radius: 50% !important;
     color: white;
     margin-right: 5px;

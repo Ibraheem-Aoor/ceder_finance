@@ -4,7 +4,7 @@
     margin: 0;
     top: 0;
     height: 100vh;
-    background: #011c4b;
+    background: #037850;
     z-index: 1050;
     margin: 0 !important;
     left: 0;
@@ -149,7 +149,7 @@
 .application .sidenav.show {
     z-index: 1130;
     height: 100%;
-    background: #011c4b;
+    background: #037850;
     border-radius: 0 25px 25px 0;
 }
 
@@ -172,7 +172,7 @@
 
 .div-mega > ul.navbar-nav > li.nav-item > a:hover,
 .div-mega > ul.navbar-nav > li.nav-item > a.active {
-    background: #0f59ee;
+    background: #3a9475;
     color: #fff;
 }
 
@@ -183,7 +183,7 @@
     bottom: 0;
     left: 0;
     width: 5px;
-    background: #0189ff;
+    background: #d0f4eb;
     border-radius: 4px;
 }
 
@@ -215,11 +215,11 @@
 }
 
 .div-mega > ul.navbar-nav div ul.nav li.active a {
-    color: #0f59ee;
+    color: #3a9475;
 }
 
 .div-mega > ul.navbar-nav div ul.nav li a:hover {
-    color: #0f59ee;
+    color: #3a9475;
 }
 
 .div-mega > ul.navbar-nav > li.nav-item > a:hover {
@@ -266,11 +266,11 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #0f59ee;
+    background-color: #3a9475;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #051c4b;
+    background-color: #037850;
     border-radius: 8px;
     transition: 1s;
 }
