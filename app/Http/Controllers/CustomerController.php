@@ -19,6 +19,7 @@ use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CustomerExport;
 use App\Imports\CustomerImport;
+use App\Models\Country;
 
 class CustomerController extends Controller
 {
@@ -36,7 +37,6 @@ class CustomerController extends Controller
         //        Utility::send_twilio_msg('+916351717430','hello');
         if (\Auth::user()->can('manage customer')) {
             $customers = Customer::where('created_by', \Auth::user()->creatorId())->latest()->get();
-
             return view('customer.index', compact('customers'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -47,8 +47,12 @@ class CustomerController extends Controller
     {
         if (\Auth::user()->can('create customer')) {
             $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'customer')->get();
-
-            return view('customer.create', compact('customFields'));
+            $countries = cacheAndGet('countries', now()->addMonth(), Country::query()->pluck('name', 'name')->toArray());
+            $data = [
+                'customFields' => $customFields,
+                'countries' => $countries,
+            ];
+            return view('customer.create', $data);
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -61,15 +65,14 @@ class CustomerController extends Controller
 
             $rules = [
                 'name' => 'required',
-                'contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+                'contact' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
                 'email' => 'required|email|unique:customers',
                 'password' => 'required',
-                'btw' => 'required|string',
-
+                'btw' => 'nullable|string|regex:/^NL[0-9]{9}B[0-9]{2}$/',
+                'kvk' => 'nullable|string',
             ];
 
-
-            $validator = \Validator::make($request->all(), $rules);
+            $validator = \Validator::make($request->all(), $rules, ['btw.regex' => __('Invalid BTW format')]);
 
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
@@ -89,6 +92,7 @@ class CustomerController extends Controller
                 $customer->name = $request->name;
                 $customer->contact = $request->contact;
                 $customer->btw = $request->btw;
+                $customer->kvk = $request->kvk;
                 $customer->email = $request->email;
                 $customer->password = Hash::make($request->password);
                 $customer->created_by = \Auth::user()->creatorId();
@@ -157,10 +161,14 @@ class CustomerController extends Controller
         if (\Auth::user()->can('edit customer')) {
             $customer = Customer::find($id);
             $customer->customField = CustomField::getData($customer, 'customer');
-
+            $countries = cacheAndGet('countries', now()->addMonth(), Country::query()->pluck('name', 'name')->toArray());
             $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'customer')->get();
-
-            return view('customer.edit', compact('customer', 'customFields'));
+            $data = [
+                'customer' => $customer,
+                'customFields' => $customFields,
+                'countries' => $countries,
+            ];
+            return view('customer.edit', $data);
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -174,7 +182,9 @@ class CustomerController extends Controller
 
             $rules = [
                 'name' => 'required',
-                'contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+                'contact' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
+                'btw' => 'nullable|string|regex:/^NL[0-9]{9}B[0-9]{2}$/',
+                'kvk' => 'nullable|string',
             ];
 
 
@@ -188,6 +198,7 @@ class CustomerController extends Controller
             $customer->name = $request->name;
             $customer->contact = $request->contact;
             $customer->btw = $request->btw;
+            $customer->kvk = $request->kvk;
             $customer->created_by = \Auth::user()->creatorId();
             $customer->billing_name = $request->billing_name;
             $customer->billing_country = $request->billing_country;

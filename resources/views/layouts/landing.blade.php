@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{(App\Models\Utility::getValByName('title_text')) ? App\Models\Utility::getValByName('title_text') : config('app.name', 'HRMGo')}}</title>
-    <link rel="icon" href="{{$logo.'/'.(isset($company_favicon) && !empty($company_favicon)?$company_favicon:'favicon.png')}}" type="image" sizes="16x16">
+    <link rel="icon" href="{{ getImageUrl(App\Models\Utility::getValByName('company_favicon'))}}" type="image" sizes="16x16">
     <!-- Landing External CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('landing/css/font-awesome.min.css') }}">
     <link href="{{ asset('landing/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all">

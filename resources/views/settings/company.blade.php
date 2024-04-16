@@ -80,7 +80,7 @@
                                 <h4 class="small-title">{{ __('Logo') }}</h4>
                                 <div class="card setting-card setting-logo-box">
                                     <div class="logo-content">
-                                        <img src="{{ $logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png') }}"
+                                        <img src="{{ getImageUrl(App\Models\Utility::getValByName('company_logo')) }}"
                                             class="big-logo" alt="" />
                                     </div>
                                     <div class="choose-file mt-4">
@@ -99,7 +99,7 @@
                                 <h4 class="small-title">{{ __('Favicon') }}</h4>
                                 <div class="card setting-card setting-logo-box">
                                     <div class="logo-content">
-                                        <img src="{{ $logo . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'favicon.png') }}"
+                                        <img src="{{ getImageUrl(App\Models\Utility::getValByName('company_favicon'))}}"
                                             class="small-logo" alt="" />
                                     </div>
                                     <div class="choose-file mt-5">

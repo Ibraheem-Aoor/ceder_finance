@@ -11,7 +11,7 @@
     <div class="login-contain">
         <div class="login-inner-contain">
             <a class="navbar-brand" href="#">
-                <img src="{{$logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')}}" class="navbar-brand-img big-logo" alt="logo">
+                <img src="{{ getImageUrl('uploads/logo/logo.png') }}" class="navbar-brand-img big-logo" alt="logo">
             </a>
             <div class="login-form">
                 <ul class="login-menu">

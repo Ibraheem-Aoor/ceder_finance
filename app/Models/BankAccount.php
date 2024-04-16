@@ -13,8 +13,16 @@ class BankAccount extends Model
         'opening_balance',
         'contact_number',
         'bank_address',
+        'use_on_invoice',
         'created_by',
     ];
+
+
+
+    public function scopeIsForInvoice($query , bool $use_on_invoice)
+    {
+        return $query->whereUseOnInvoice($use_on_invoice);
+    }
 
 
 }

@@ -31,6 +31,8 @@ class SystemController extends Controller
     {
         if(\Auth::user()->can('manage system settings'))
         {
+            $post = $request->all();
+
 
             if($request->logo)
             {
@@ -40,8 +42,9 @@ class SystemController extends Controller
                     ]
                 );
 
-                $logoName = 'logo.png';
-                $path     = $request->file('logo')->storeAs('uploads/logo/', $logoName);
+                $logoName     = saveImage('uploads/logo/' , $request->file('logo'));
+                $post['logo']   = $logoName;
+
             }
             if($request->landing_logo)
             {
@@ -50,8 +53,9 @@ class SystemController extends Controller
                         'landing_logo' => 'image|mimes:png|max:20480',
                     ]
                 );
-                $landingLogoName = 'landing_logo.png';
-                $path            = $request->file('landing_logo')->storeAs('uploads/logo/', $landingLogoName);
+                $landingLogoName            = saveImage('uploads/logo' , $request->file('landing_logo'));
+                $post['landing_logo']   = $landingLogoName;
+
             }
             if($request->favicon)
             {
@@ -60,8 +64,9 @@ class SystemController extends Controller
                         'favicon' => 'image|mimes:png|max:20480',
                     ]
                 );
-                $favicon = 'favicon.png';
-                $path    = $request->file('favicon')->storeAs('uploads/logo/', $favicon);
+                $favicon    = saveImage('uploads/logo' , $request->file('favicon'));
+                $post['favicon']   = $favicon;
+
             }
 
 
@@ -73,7 +78,6 @@ class SystemController extends Controller
             $settings = Utility::settings();
             if(!empty($request->title_text) || !empty($request->footer_text) || !empty($request->default_language) || isset($request->display_landing_page) || isset($request->gdpr_cookie))
             {
-                $post = $request->all();
                 if(!isset($request->display_landing_page))
                 {
                     $post['display_landing_page'] = 'off';
@@ -88,6 +92,7 @@ class SystemController extends Controller
                 {
                     if(in_array($key, array_keys($settings)))
                     {
+
                         \DB::insert(
                             'insert into settings (`value`, `name`,`created_by`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ', [
                                                                                                                                                          $data,
@@ -163,6 +168,7 @@ class SystemController extends Controller
             $settings = Utility::settings();
             foreach($post as $key => $data)
             {
+                
                 if(in_array($key, array_keys($settings)))
                 {
                     \DB::insert(
@@ -279,9 +285,7 @@ class SystemController extends Controller
                     ]
                 );
 
-                $logoName     = $user->id . '_logo.png';
-                $path         = $request->file('company_logo')->storeAs('uploads/logo/', $logoName);
-                $company_logo = !empty($request->company_logo) ? $logoName : 'logo.png';
+                $logoName         = saveImage('uploads/logo' , $request->file('company_logo'));
 
                 \DB::insert(
                     'insert into settings (`value`, `name`,`created_by`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ', [
@@ -300,8 +304,7 @@ class SystemController extends Controller
                         'company_small_logo' => 'image|mimes:png|max:20480',
                     ]
                 );
-                $smallLogoName = $user->id . '_small_logo.png';
-                $path          = $request->file('company_small_logo')->storeAs('uploads/logo/', $smallLogoName);
+                $smallLogoName          = saveImage('uploads/logo/' , $request->file('company_small_logo'));
 
                 $company_small_logo = !empty($request->company_small_logo) ? $smallLogoName : 'small_logo.png';
 
@@ -321,10 +324,7 @@ class SystemController extends Controller
                         'company_favicon' => 'image|mimes:png|max:20480',
                     ]
                 );
-                $favicon = $user->id . '_favicon.png';
-                $path    = $request->file('company_favicon')->storeAs('uploads/logo/', $favicon);
-
-                $company_favicon = !empty($request->favicon) ? $favicon : 'favicon.png';
+                $favicon    = saveImage('uploads/logo' ,$request->file('company_favicon'));
 
                 \DB::insert(
                     'insert into settings (`value`, `name`,`created_by`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ', [

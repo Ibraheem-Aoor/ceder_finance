@@ -15,8 +15,10 @@ class AddTrxNumberToCustomersTable extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->string('btw')
+                ->nullable()
                 ->comment('Represents The Tax Registration Number')
                 ->after('email');
+            $table->string('kvk')->nullable()->after('email');
         });
     }
 

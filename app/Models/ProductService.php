@@ -25,7 +25,7 @@ class ProductService extends Model
 
     public function unit()
     {
-        return $this->hasOne('App\Models\ProductServiceUnit', 'id', 'unit_id')->first();
+        return $this->hasOne('App\Models\ProductServiceUnit', 'id', 'unit_id');
     }
 
     public function category()

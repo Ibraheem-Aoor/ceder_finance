@@ -1,6 +1,5 @@
 @php
-    $logo=asset(Storage::url('uploads/logo/'));
-    $company_logo=App\Models\Utility::getValByName('company_logo');
+    $company_logo = isAdmin('web')  ?  getImageUrl('uploads/logo/logo.png'): getImageUrl(App\Models\Utility::getValByName('company_logo'));
     $company_small_logo=App\Models\Utility::getValByName('company_small_logo');
 @endphp
 
@@ -8,7 +7,7 @@
     <!-- Sidenav header -->
     <div class="sidenav-header d-flex align-items-center">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <img src="{{$logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')}}" class="navbar-brand-img"/>
+            <img src="{{$company_logo}}" class="navbar-brand-img" @if(isAdmin('web')) style="height: 2rem !important;" @endif/>
         </a>
         <div class="ml-auto">
             <div class="sidenav-toggler sidenav-toggler-dark d-md-none" data-action="sidenav-unpin" data-target="#sidenav-main">
@@ -266,7 +265,7 @@
 
 
             <!------Budget Planner ------>
-                <li class="nav-item  {{ (Request::segment(1) == 'budget')?'active':''}}">
+                <li class="nav-item  {{ (Request::segment(1) == 'budget')?'active':''}} d-none">
                     <a href="{{ route('budget.index') }}" class="nav-link">
                         <i class="fas fa-file-invoice-dollar"></i>{{__('Budget Planner')}}
                     </a>
@@ -297,7 +296,7 @@
                     </li>
                 @endif
                 @if(\Auth::user()->type=='super admin')
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a href="{{ route('plan_request.index') }}" class="nav-link {{ request()->is('plan_request*') ? 'active' : '' }}">
                             <i class="fas fa-paper-plane"></i>{{__('Plan Request')}}
                         </a>
@@ -311,7 +310,7 @@
                     </li>
                 @endif
                 @if(Gate::check('manage order'))
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a href="{{ route('order.index') }}" class="nav-link {{ (Request::segment(1) == 'order')?'active':''}}">
                             <i class="fas fa-cart-plus"></i>{{__('Order')}}
                         </a>
@@ -410,7 +409,7 @@
                     </li>
                 @endif
                 @if(Auth::user()->type == 'super admin')
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a href="{{route('custom_landing_page.index')}}" class="nav-link">
                             <i class="fas fa-clipboard"></i>{{__('Landing page')}}
                         </a>

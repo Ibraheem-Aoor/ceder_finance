@@ -26,7 +26,7 @@
             {{ Form::label('opening_balance', __('Opening Balance'),['class'=>'form-control-label']) }}
             <div class="form-icon-user">
                 <span><i class="fas fa-dollar-sign"></i></span>
-                {{ Form::number('opening_balance',null, array('class' => 'form-control','required'=>'required','step'=>'0.01')) }}
+                {{ Form::number('opening_balance',null, array('class' => 'form-control','step'=>'0.01')) }}
             </div>
         </div>
         <div class="form-group  col-md-12">
@@ -39,6 +39,10 @@
         <div class="form-group  col-md-12">
             {{ Form::label('bank_address', __('Bank Address'),['class'=>'form-control-label']) }}
             {{ Form::textarea('bank_address',null, array('class' => 'form-control','rows'=>3,'required'=>'required')) }}
+        </div>
+        <div class="form-group col-md-6 d-flex align-items-center p-3 ml-3">
+            <input type="checkbox" id="use_on_invoice" name="use_on_invoice" class="form-check-input" @if($bankAccount->use_on_invoice) checked  @endif>
+            {{ Form::label('use_on_invoice', __('Use This Account For Invoices'), ['class' => ' fs-10']) }}
         </div>
         @if(!$customFields->isEmpty())
             <div class="col-md-12">

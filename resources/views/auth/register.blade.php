@@ -8,12 +8,12 @@
   @section('page-title')
     {{__('Register')}}
   @endsection
-  
+
 @section('content')
     <div class="login-contain">
         <div class="login-inner-contain">
             <a class="navbar-brand" href="#">
-                <img src="{{$logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')}}" class="navbar-brand-img big-logo" alt="logo">
+                <img src="{{ getImageUrl(App\Models\Utility::getValByName('company_logo')) }}" class="navbar-brand-img big-logo" alt="logo">
             </a>
             <div class="login-form">
                 <div class="page-title"><h5>{{__('Register')}}</h5></div>

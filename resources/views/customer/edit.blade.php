@@ -11,22 +11,33 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group">
-                {{ Form::label('contact', __('Contact'), ['class' => 'form-control-label']) }}
-                <div class="form-icon-user">
-                    <span><i class="fas fa-mobile-alt"></i></span>
-                    {{ Form::text('contact', null, ['class' => 'form-control', 'required' => 'required']) }}
-                </div>
-            </div>
-        </div>
-        {{-- BTW Required Field --}}
+
+        {{-- BTW Optional Field --}}
         <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="form-group">
                 {{ Form::label('btw', __('BTW'), ['class' => 'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-file"></i></span>
-                    {{ Form::text('btw', null, ['class' => 'form-control', 'required' => 'required']) }}
+                    {{ Form::text('btw', null, ['class' => 'form-control']) }}
+                </div>
+            </div>
+        </div>
+        {{-- KVK Optional Field --}}
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('kvk', __('KVK'), ['class' => 'form-control-label']) }}
+                <div class="form-icon-user">
+                    <span><i class="fas fa-file"></i></span>
+                    {{ Form::text('kvk', null, ['class' => 'form-control']) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('contact', __('Contact'), ['class' => 'form-control-label']) }}
+                <div class="form-icon-user">
+                    <span><i class="fas fa-mobile-alt"></i></span>
+                    {{ Form::text('contact', null, ['class' => 'form-control']) }}
                 </div>
             </div>
         </div>
@@ -43,7 +54,7 @@
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="form-group">
-                {{ Form::label('billing_name', __('Name'), ['class' => '', 'class' => 'form-control-label']) }}
+                {{ Form::label('billing_name', __('Company Name'), ['class' => '', 'class' => 'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-address-card"></i></span>
                     {{ Form::text('billing_name', null, ['class' => 'form-control']) }}
@@ -54,8 +65,8 @@
             <div class="form-group">
                 {{ Form::label('billing_country', __('Country'), ['class' => 'form-control-label']) }}
                 <div class="form-icon-user">
-                    <span><i class="fas fa-flag"></i></span>
-                    {{ Form::text('billing_country', null, ['class' => 'form-control']) }}
+                    {{ Form::select('billing_country', $countries, null, ['class' => 'form-control ']) }}
+
                 </div>
             </div>
         </div>

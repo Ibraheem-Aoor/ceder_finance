@@ -579,7 +579,8 @@ class ProposalController extends Controller
 
         $logo         = asset(Storage::url('uploads/logo/'));
         $company_logo = Utility::getValByName('company_logo');
-        $img          = asset($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png'));
+                $img = $company_logo = getImageUrl(Utility::getValByName('company_logo') ?? 'uploads/logo/logo.png');
+
 
         return view('proposal.templates.' . $template, compact('proposal', 'preview', 'color', 'img', 'settings', 'customer', 'font_color', 'customFields'));
     }
@@ -665,7 +666,8 @@ class ProposalController extends Controller
         //Set your logo
         $logo         = asset(Storage::url('uploads/logo/'));
         $company_logo = Utility::getValByName('company_logo');
-        $img          = asset($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png'));
+                $img = $company_logo = getImageUrl(Utility::getValByName('company_logo') ?? 'uploads/logo/logo.png');
+
 
         if ($proposal) {
             $color      = '#' . $settings['proposal_color'];

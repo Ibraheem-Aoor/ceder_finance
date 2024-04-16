@@ -576,7 +576,7 @@
                                                 <tbody data-v-f2a183a6="" style="position: relative">
                                                     <tr>
                                                         <td>{{ __('Number') }}:</td>
-                                                        <td>{{ \App\Models\Utility::invoiceNumberFormat($settings, $invoice->invoice_id) }}
+                                                        <td>{{ $invoice_number = \App\Models\Utility::invoiceNumberFormat($settings, $invoice->invoice_id) }}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -626,10 +626,11 @@
                                                     {{ !empty($customer->billing_zip) ? $customer->billing_zip : '' }}<br>
                                                     {{ !empty($customer->billing_city) ? $customer->billing_city : '' . ', ' }}
                                                     {{ !empty($customer->billing_state) ? $customer->billing_state : '', ', ' }}
-                                                    {{ !empty($customer->billing_country) ? $customer->billing_country : '' }}
+                                                    {{ !empty($customer->billing_country) ? __($customer->billing_country) : '' }}
                                                     @if (!empty($customer->btw) && $invoice->hasFreeTax())
                                                         <br>
-                                                        BTW: {{ $customer->btw }}
+                                                        {{ __('The VAT has been shifted to VAT number') }}:
+                                                        {{ $customer->btw }}
                                                     @endif
                                                 </p>
                                             </div>
@@ -677,7 +678,7 @@
                                                                     <pre data-v-f2a183a6="">{{ $item->name }}</pre>
                                                                 </div>
                                                                 <div class="d-table-td w-2">
-                                                                    <pre data-v-f2a183a6="">{{ $item->quantity }}</pre>
+                                                                    <pre data-v-f2a183a6="">{{ $item->quantity }}/{{ $item->unit }}</pre>
                                                                 </div>
                                                                 <div class="d-table-td w-3">
                                                                     <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $item->price) }}</pre>
@@ -815,7 +816,7 @@
                                                             <div data-v-f2a183a6="" class="d-table-label">
                                                                 {{ __('Due Amount') }}:</div>
                                                             <div data-v-f2a183a6="" class="d-table-value">
-                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getDue()) }}
+                                                                {{ $total_amount =  \App\Models\Utility::priceFormat($settings, $invoice->getDue()) }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -823,7 +824,17 @@
 
                                                 <div data-v-f2a183a6="" class="d-header-50">
                                                     <p data-v-f2a183a6="">
-                                                        {{ $settings['footer_title'] }} <br>
+                                                        @isset($bank_account)
+                                                        <br>
+                                                            {{ __('invoice_footer_text', [
+                                                                'amount' => $total_amount,
+                                                                'due_date' => $invoice->due_date,
+                                                                'account_number' => $bank_account->account_number,
+                                                                'account_holder_name' => $bank_account->holder_name,
+                                                                'invoice_number' => $invoice_number,
+                                                            ]) }}<br>
+                                                        @endisset
+
                                                         {{ $settings['footer_notes'] }}
                                                     </p>
                                                 </div>

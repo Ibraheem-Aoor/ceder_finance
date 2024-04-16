@@ -2,7 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 @php
     $logo=asset(Storage::url('uploads/logo/'));
- $company_logo = App\Models\Utility::getValByName('company_logo');
+    $company_logo = isAdmin('web')
+        ? getImageUrl('uploads/logo/logo.png')
+        : getImageUrl(App\Models\Utility::getValByName('company_logo'));
 @endphp
 <head>
     <title>
@@ -133,7 +135,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td style="width:110px;">
-                                                                        <img alt="" height="auto" src="{{$logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png')}}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" title="" width="110"/>
+                                                                        <img alt="" height="auto" src="{{ $company_logo }}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" title="" width="110"/>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>

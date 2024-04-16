@@ -712,7 +712,8 @@ class BillController extends Controller
         $font_color   = Utility::getFontColor($color);
         $logo         = asset(Storage::url('uploads/logo/'));
         $company_logo = Utility::getValByName('company_logo');
-        $img          = asset($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png'));
+                $img = $company_logo = getImageUrl(Utility::getValByName('company_logo') ?? 'uploads/logo/logo.png');
+
 
         return view('bill.templates.' . $template, compact('bill', 'preview', 'color', 'img', 'settings', 'vendor', 'font_color', 'customFields'));
     }
@@ -796,7 +797,8 @@ class BillController extends Controller
         //Set your logo
         $logo         = asset(Storage::url('uploads/logo/'));
         $company_logo = Utility::getValByName('company_logo');
-        $img          = asset($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png'));
+                $img = $company_logo = getImageUrl(Utility::getValByName('company_logo') ?? 'uploads/logo/logo.png');
+
 
         if ($bill) {
             $color      = '#' . $settings['bill_color'];
@@ -1020,8 +1022,7 @@ class BillController extends Controller
 
         //Set your logo
         $logo         = asset(Storage::url('uploads/logo/'));
-        $company_logo = Utility::getValByName('company_logo');
-        $img          = asset($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png'));
+        $img = $company_logo = getImageUrl(Utility::getValByName('company_logo') ?? 'uploads/logo/logo.png');
 
         if ($bill) {
             $color      = '#' . $settings['bill_color'];
