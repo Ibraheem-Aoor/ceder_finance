@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\BillPayment;
 use App\Models\CustomField;
@@ -10,6 +11,7 @@ use App\Models\Payment;
 use App\Models\Revenue;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BankAccountController extends Controller
 {
@@ -28,9 +30,9 @@ class BankAccountController extends Controller
     public function create()
     {
         if (\Auth::user()->can('create bank account')) {
-            $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'account')->get();
-
-            return view('bankAccount.create', compact('customFields'));
+            $data['customFields'] = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'account')->get();
+            $data['banks'] = Bank::query()->pluck('name' , 'name');
+            return view('bankAccount.create', $data);
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -44,10 +46,10 @@ class BankAccountController extends Controller
                 $request->all(),
                 [
                     'holder_name' => 'required',
-                    'bank_name' => 'required',
+                    'bank_name' => 'required|'.Rule::in(array_values(Bank::query()->pluck('name' , 'name')->toArray())),
                     'account_number' => 'required',
                     'opening_balance' => 'required',
-                    'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+                    // 'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
                 ]
             );
 
@@ -85,9 +87,10 @@ class BankAccountController extends Controller
         if (\Auth::user()->can('edit bank account')) {
             if ($bankAccount->created_by == \Auth::user()->creatorId()) {
                 $bankAccount->customField = CustomField::getData($bankAccount, 'account');
-                $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'account')->get();
-
-                return view('bankAccount.edit', compact('bankAccount', 'customFields'));
+                $data['customFields'] = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'account')->get();
+                $data['banks'] = Bank::query()->pluck('name' , 'name');
+                $data['bankAccount'] = $bankAccount;
+                return view('bankAccount.edit', $data);
             } else {
                 return response()->json(['error' => __('Permission denied.')], 401);
             }
@@ -105,10 +108,10 @@ class BankAccountController extends Controller
                 $request->all(),
                 [
                     'holder_name' => 'required',
-                    'bank_name' => 'required',
+                    'bank_name' => 'required|'.Rule::in(array_values(Bank::query()->pluck('name' , 'name')->toArray())),
                     'account_number' => 'required',
                     'opening_balance' => 'required',
-                    'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+                    // 'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
                 ]
             );
 

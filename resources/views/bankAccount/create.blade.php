@@ -11,8 +11,7 @@
         <div class="form-group  col-md-6">
             {{ Form::label('bank_name', __('Bank Name'), ['class' => 'form-control-label']) }}
             <div class="form-icon-user">
-                <span><i class="fas fa-university"></i></span>
-                {{ Form::text('bank_name', '', ['class' => 'form-control', 'required' => 'required']) }}
+                {{ Form::select('bank_name', $banks,null, ['class' => 'form-control', 'required' => 'required']) }}
             </div>
         </div>
         <div class="form-group  col-md-6">
@@ -29,17 +28,17 @@
                 {{ Form::number('opening_balance', '', ['class' => 'form-control', 'step' => '0.01']) }}
             </div>
         </div>
-        <div class="form-group  col-md-12">
+        {{-- <div class="form-group  col-md-12 d-none">
             {{ Form::label('contact_number', __('Contact Number'), ['class' => 'form-control-label']) }}
             <div class="form-icon-user">
                 <span><i class="fas fa-mobile-alt"></i></span>
                 {{ Form::text('contact_number', '', ['class' => 'form-control', 'required' => 'required']) }}
             </div>
         </div>
-        <div class="form-group  col-md-12">
+        <div class="form-group  col-md-12  d-none">
             {{ Form::label('bank_address', __('Bank Address'), ['class' => 'form-control-label']) }}
             {{ Form::textarea('bank_address', '', ['class' => 'form-control', 'rows' => 3, 'required' => 'required']) }}
-        </div>
+        </div> --}}
         <div class="form-group col-md-6 d-flex align-items-center p-3 ml-3">
             <input type="checkbox" id="use_on_invoice" name="use_on_invoice" class="form-check-input">
             {{ Form::label('use_on_invoice', __('Use This Account For Invoices'), ['class' => ' fs-10']) }}
