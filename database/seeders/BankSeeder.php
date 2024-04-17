@@ -37,7 +37,7 @@ class BankSeeder extends Seeder
             'Bank Mendes Gans',
             'RegioBank',
             'NIBC ',
-            'ASN',
+            'ASN Bank',
         ];
     }
 }
