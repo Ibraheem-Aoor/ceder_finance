@@ -108,7 +108,7 @@
                                         </td>
                                         <td>{{ !empty($productService->category) ? $productService->category->name : '' }}
                                         </td>
-                                        <td>{{ !empty($productService->unit()) ? $productService->unit()->name : '' }}</td>
+                                        <td>{{ !empty($productService->unit) ? $productService->unit->name : '' }}</td>
                                         <td>{{ $productService->type }}</td>
                                         <td>{{ $productService->description }}</td>
 
