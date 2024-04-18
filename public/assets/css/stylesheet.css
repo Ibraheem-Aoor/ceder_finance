@@ -1597,7 +1597,7 @@ body {
 }
 
 .big-logo {
-    /* height: 50px; */
+    height: 50px;
 }
 
 .landing-logo {
@@ -3042,7 +3042,7 @@ form .row .select-box {
     }
 
     .big-logo {
-        width: auto;
+        width: 200px !important;
     }
 
     .plan-3 {
@@ -3502,7 +3502,7 @@ form .row .select-box {
     }
 
     .login-contain .navbar-brand img {
-        /* width: 185px; */
+        width: 100px !important;
     }
 
     .card-select .all-button-box a.mt-25 {
