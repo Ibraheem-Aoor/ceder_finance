@@ -121,6 +121,7 @@
 
         .d-body[data-v-f2a183a6] {
             padding: 50px;
+            padding-top: 15px !important;
         }
 
         .d[data-v-f2a183a6] {
@@ -653,10 +654,10 @@
 
                                                 <div data-v-f2a183a6="" class="d-table-tr"
                                                     style="background: {{ $color }};color:{{ $font_color }}">
-                                                    <div class="d-table-th w-5">{{ __('Item') }}</div>
-                                                    <div class="d-table-th w-2">{{ __('Quantity') }}</div>
+                                                    <div class="d-table-th w-3">{{ __('Item') }}</div>
+                                                    <div class="d-table-th w-3">{{ __('Quantity') }}</div>
                                                     <div class="d-table-th w-3">{{ __('Rate') }}</div>
-                                                    <div class="d-table-th w-5">{{ __('Tax') }} (%)</div>
+                                                    <div class="d-table-th w-4">{{ __('Tax') }} (%)</div>
                                                     @if ($invoice->discount_apply == 1)
                                                         <div class="d-table-th w-2">{{ __('Discount') }}</div>
                                                     @else
@@ -674,17 +675,16 @@
                                                         @foreach ($invoice->itemData as $key => $item)
                                                             <div class="d-table-tr"
                                                                 style="border-bottom:1px solid {{ $color }};">
-                                                                <div class="d-table-td w-5">
+                                                                <div class="d-table-td w-3">
                                                                     <pre data-v-f2a183a6="">{{ $item->name }}</pre>
                                                                 </div>
-                                                                <div class="d-table-td w-2">
+                                                                <div class="d-table-td w-3">
                                                                     <pre data-v-f2a183a6="">{{ $item->quantity }}/{{ $item->unit }}</pre>
                                                                 </div>
                                                                 <div class="d-table-td w-3">
                                                                     <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $item->price) }}</pre>
                                                                 </div>
-                                                                <div class="d-table-td w-5">
-                                                                    <pre data-v-f2a183a6="">
+                                                                <div class="d-table-td w-4">
                                                                    @if (!empty($item->itemTax))
 @foreach ($item->itemTax as $taxes)
 <span>{{ $taxes['name'] }}</span>  <span>({{ $taxes['rate'] }})</span> <span>{{ $taxes['price'] }}</span>
@@ -692,7 +692,6 @@
 @else
 -
 @endif
-                                                                </pre>
                                                                 </div>
                                                                 @if ($invoice->discount_apply == 1)
                                                                     <div class="d-table-td w-2">
