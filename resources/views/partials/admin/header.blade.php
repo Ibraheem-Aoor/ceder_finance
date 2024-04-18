@@ -1,6 +1,7 @@
 @php
     $users=\Auth::user();
-    $profile=asset(Storage::url('uploads/avatar/'));
+    $profile=getImageUrl($users->avatar);
+
     $currantLang = $users->currentLanguage();
     $languages=App\Models\Utility::languages();
 @endphp
@@ -38,7 +39,7 @@
                         aria-expanded="false"
                     >
                     <span class="avatar avatar-sm rounded-circle">
-                      <img src="{{(!empty($users->avatar)? $profile.'/'.$users->avatar : $profile.'/avatar.png')}}"/>
+                      <img src="{{$profile}}"/>
                     </span>
                     </a>
 
@@ -96,7 +97,7 @@
                     >
                         <div class="media media-pill align-items-center">
                       <span class="avatar rounded-circle">
-                        <img src="{{(!empty($users->avatar)? $profile.'/'.$users->avatar : $profile.'/avatar.png')}}"/>
+                        <img src="{{$profile}}"/>
                       </span>
                             <div class="ml-2 d-none d-lg-block">
                                 <span class="mb-0 text-sm font-weight-bold">{{\Auth::user()->name}}</span>

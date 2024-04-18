@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @php
-    $profile=asset(Storage::url('uploads/avatar/'));
+    $profile=getImageUrl($userDetail->avatar);
 @endphp
 @section('page-title')
     {{__('Profile Account')}}
@@ -11,7 +11,7 @@
         <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
             <div class="card profile-card">
                 <div class="icon-user avatar rounded-circle">
-                    <img alt="" src="{{(!empty($userDetail->avatar))? $profile.'/'.$userDetail->avatar : $profile.'/avatar.png'}}" class="">
+                    <img alt="" src="{{$profile}}" class="">
                 </div>
                 <h4 class="h4 mb-0 mt-2"> {{$userDetail->name}}</h4>
                 <div class="sal-right-card">

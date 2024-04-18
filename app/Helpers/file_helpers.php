@@ -10,7 +10,7 @@ function saveImage($path, $file)
         $tempFile = tempnam(sys_get_temp_dir(), 'temp_img');
         file_put_contents($tempFile, $file);
 
-        $file = new UploadedFile($tempFile, basename($file));   
+        $file = new UploadedFile($tempFile, basename($file));
     }
     $full_stored_image_path = Storage::disk('public')->putFile($path, $file);
     return $full_stored_image_path;
@@ -46,13 +46,13 @@ function deleteImage($oldImage)
 function getImageUrl($image)
 {
     if (is_null($image)) {
-        return asset('assets/common/product-placeholder.webp');
+        return asset('assets/img/placeholder.jpg');
     }
     $exists = Storage::disk('public')->exists($image);
     if ($exists) {
         return Storage::url($image);
     } else {
-        return asset('assets/common/product-placeholder.webp');
+        return asset('assets/img/placeholder.jpg');
     }
 }
 

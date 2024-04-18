@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 class AuthenticatedSessionController extends Controller
 {
+    use AuthenticatesUsers;
     /**
      * Display the login view.
      *
@@ -27,7 +29,7 @@ class AuthenticatedSessionController extends Controller
 
     public function __construct()
     {
-      
+
     }
 
 
@@ -36,7 +38,7 @@ class AuthenticatedSessionController extends Controller
 
     public function create()
     {
-       
+
     }
 
     /**
@@ -291,7 +293,7 @@ class AuthenticatedSessionController extends Controller
 
        return view('auth.forgot-password',compact('lang'));
 
-       
+
     }
 
     public function showCustomerLoginLang($lang = '')

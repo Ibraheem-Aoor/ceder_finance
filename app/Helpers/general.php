@@ -154,7 +154,7 @@ if (!function_exists('cacheAndGet')) {
 if (!function_exists('isAdmin')) {
     function isAdmin($guard)
     {
-        return getAuthUser($guard)->hasRole('super admin');
+        return getAuthUser($guard)?->hasRole('super admin');
     }
 }
 

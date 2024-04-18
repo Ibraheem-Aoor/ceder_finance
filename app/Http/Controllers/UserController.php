@@ -309,26 +309,7 @@ class UserController extends Controller
         );
         if($request->hasFile('profile'))
         {
-            $filenameWithExt = $request->file('profile')->getClientOriginalName();
-            $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension       = $request->file('profile')->getClientOriginalExtension();
-            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-
-            $dir        = storage_path('uploads/avatar/');
-            $image_path = $dir . $userDetail['avatar'];
-
-            if(File::exists($image_path))
-            {
-                File::delete($image_path);
-            }
-
-            if(!file_exists($dir))
-            {
-                mkdir($dir, 0777, true);
-            }
-
-            $path = $request->file('profile')->storeAs('uploads/avatar/', $fileNameToStore);
-
+            $fileNameToStore = saveImage('uploads/avatar/' , $request->file('profile'));
         }
 
         if(!empty($request->profile))
