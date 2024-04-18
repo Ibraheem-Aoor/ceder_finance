@@ -1,5 +1,5 @@
 @php
-    $company_logo = isAdmin('web')  ?  getImageUrl('uploads/logo/logo.png'): getImageUrl(App\Models\Utility::getValByName('company_logo'));
+    $company_logo = isAdmin('web')  ?  getImageUrl('uploads/logo/white_logo.png'): getImageUrl(App\Models\Utility::getValByName('company_logo'));
     $company_small_logo=App\Models\Utility::getValByName('company_small_logo');
 @endphp
 
