@@ -1315,7 +1315,7 @@ body {
 }
 
 .login-menu li a {
-    font-size: 12px;
+    font-size: 7px;
     color: #fff;
     font-family: 'Montserrat-SemiBold';
 }
@@ -1596,7 +1596,7 @@ body {
 }
 
 .big-logo {
-    height: 50px;
+    /* height: 50px; */
 }
 
 .landing-logo {
@@ -3502,7 +3502,7 @@ form .row .select-box {
     }
 
     .login-contain .navbar-brand img {
-        width: 185px;
+        /* width: 185px; */
     }
 
     .card-select .all-button-box a.mt-25 {
