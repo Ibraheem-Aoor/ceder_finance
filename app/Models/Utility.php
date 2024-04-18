@@ -13,16 +13,13 @@ class Utility extends Model
     public static function settings()
     {
         $data = DB::table('settings');
-        if(\Auth::check())
-        {
+        if (\Auth::check()) {
             $userId = \Auth::user()->creatorId();
-            $data   = $data->where('created_by', '=', $userId);
-        }
-        else
-        {
+            $data = $data->where('created_by', '=', $userId);
+        } else {
             $data = $data->where('created_by', '=', 1);
         }
-        $data     = $data->get();
+        $data = $data->get();
         $settings = [
             "site_currency" => "USD",
             "site_currency_symbol" => "$",
@@ -74,11 +71,10 @@ class Utility extends Model
             "twilio_sid" => "",
             "twilio_token" => "",
             "twilio_from" => "",
-
+            'company_favicon' => 'uploads/logo/favicon.png',
         ];
 
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -88,7 +84,7 @@ class Utility extends Model
     {
         $data = DB::table('settings');
         $data = $data->where('created_by', '=', $id);
-        $data     = $data->get();
+        $data = $data->get();
         $settings = [
             "site_currency" => "USD",
             "site_currency_symbol" => "$",
@@ -141,8 +137,7 @@ class Utility extends Model
             "twilio_from" => "",
         ];
 
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -151,17 +146,19 @@ class Utility extends Model
 
     public static function languages()
     {
-        $dir     = base_path() . '/resources/lang/';
-        $glob    = glob($dir . "*", GLOB_ONLYDIR);
+        $dir = base_path() . '/resources/lang/';
+        $glob = glob($dir . "*", GLOB_ONLYDIR);
         $arrLang = array_map(
-            function ($value) use ($dir){
+            function ($value) use ($dir) {
                 return str_replace($dir, '', $value);
-            }, $glob
+            },
+            $glob
         );
         $arrLang = array_map(
-            function ($value) use ($dir){
+            function ($value) use ($dir) {
                 return preg_replace('/[0-9]+/', '', $value);
-            }, $arrLang
+            },
+            $arrLang
         );
         $arrLang = array_filter($arrLang);
 
@@ -171,8 +168,7 @@ class Utility extends Model
     public static function getValByName($key)
     {
         $setting = Utility::settings();
-        if(!isset($setting[$key]) || empty($setting[$key]))
-        {
+        if (!isset($setting[$key]) || empty($setting[$key])) {
             $setting[$key] = '';
         }
 
@@ -182,29 +178,23 @@ class Utility extends Model
     public static function setEnvironmentValue(array $values)
     {
         $envFile = app()->environmentFilePath();
-        $str     = file_get_contents($envFile);
-        if(count($values) > 0)
-        {
-            foreach($values as $envKey => $envValue)
-            {
-                $keyPosition       = strpos($str, "{$envKey}=");
+        $str = file_get_contents($envFile);
+        if (count($values) > 0) {
+            foreach ($values as $envKey => $envValue) {
+                $keyPosition = strpos($str, "{$envKey}=");
                 $endOfLinePosition = strpos($str, "\n", $keyPosition);
-                $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+                $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
                 // If key does not exist, add it
-                if(!$keyPosition || !$endOfLinePosition || !$oldLine)
-                {
+                if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
                     $str .= "{$envKey}='{$envValue}'\n";
-                }
-                else
-                {
+                } else {
                     $str = str_replace($oldLine, "{$envKey}='{$envValue}'", $str);
                 }
             }
         }
         $str = substr($str, 0, -1);
         $str .= "\n";
-        if(!file_put_contents($envFile, $str))
-        {
+        if (!file_put_contents($envFile, $str)) {
             return false;
         }
 
@@ -213,8 +203,8 @@ class Utility extends Model
 
     public static function templateData()
     {
-        $arr              = [];
-        $arr['colors']    = [
+        $arr = [];
+        $arr['colors'] = [
             '003580',
             '666666',
             '6676ef',
@@ -322,9 +312,8 @@ class Utility extends Model
     {
 
         $taxArr = explode(',', $taxes);
-        $taxes  = [];
-        foreach($taxArr as $tax)
-        {
+        $taxes = [];
+        foreach ($taxArr as $tax) {
             $taxes[] = Tax::find($tax);
         }
 
@@ -340,13 +329,12 @@ class Utility extends Model
     public static function totalTaxRate($taxes)
     {
 
-        $taxArr  = explode(',', $taxes);
+        $taxArr = explode(',', $taxes);
         $taxRate = 0;
 
-        foreach($taxArr as $tax)
-        {
+        foreach ($taxArr as $tax) {
 
-            $tax     = Tax::find($tax);
+            $tax = Tax::find($tax);
             $taxRate += !empty($tax->rate) ? $tax->rate : 0;
         }
 
@@ -355,26 +343,19 @@ class Utility extends Model
 
     public static function userBalance($users, $id, $amount, $type)
     {
-        if($users == 'customer')
-        {
+        if ($users == 'customer') {
             $user = Customer::find($id);
-        }
-        else
-        {
+        } else {
             $user = Vender::find($id);
         }
 
-        if(!empty($user))
-        {
-            if($type == 'credit')
-            {
-                $oldBalance    = $user->balance;
+        if (!empty($user)) {
+            if ($type == 'credit') {
+                $oldBalance = $user->balance;
                 $user->balance = $oldBalance + $amount;
                 $user->save();
-            }
-            elseif($type == 'debit')
-            {
-                $oldBalance    = $user->balance;
+            } elseif ($type == 'debit') {
+                $oldBalance = $user->balance;
                 $user->balance = $oldBalance - $amount;
                 $user->save();
             }
@@ -384,17 +365,13 @@ class Utility extends Model
     public static function bankAccountBalance($id, $amount, $type)
     {
         $bankAccount = BankAccount::find($id);
-        if($bankAccount)
-        {
-            if($type == 'credit')
-            {
-                $oldBalance                   = $bankAccount->opening_balance;
+        if ($bankAccount) {
+            if ($type == 'credit') {
+                $oldBalance = $bankAccount->opening_balance;
                 $bankAccount->opening_balance = $oldBalance + $amount;
                 $bankAccount->save();
-            }
-            elseif($type == 'debit')
-            {
-                $oldBalance                   = $bankAccount->opening_balance;
+            } elseif ($type == 'debit') {
+                $oldBalance = $bankAccount->opening_balance;
                 $bankAccount->opening_balance = $oldBalance - $amount;
                 $bankAccount->save();
             }
@@ -407,14 +384,11 @@ class Utility extends Model
     {
         $hex = str_replace("#", "", $hex);
 
-        if(strlen($hex) == 3)
-        {
+        if (strlen($hex) == 3) {
             $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
             $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
             $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
-        }
-        else
-        {
+        } else {
             $r = hexdec(substr($hex, 0, 2));
             $g = hexdec(substr($hex, 2, 2));
             $b = hexdec(substr($hex, 4, 2));
@@ -432,7 +406,7 @@ class Utility extends Model
     public static function getFontColor($color_code)
     {
         $rgb = self::hex2rgb($color_code);
-        $R   = $G = $B = $C = $L = $color = '';
+        $R = $G = $B = $C = $L = $color = '';
 
         $R = (floor($rgb[0]));
         $G = (floor($rgb[1]));
@@ -444,26 +418,19 @@ class Utility extends Model
             $B / 255,
         ];
 
-        for($i = 0; $i < count($C); ++$i)
-        {
-            if($C[$i] <= 0.03928)
-            {
+        for ($i = 0; $i < count($C); ++$i) {
+            if ($C[$i] <= 0.03928) {
                 $C[$i] = $C[$i] / 12.92;
-            }
-            else
-            {
+            } else {
                 $C[$i] = pow(($C[$i] + 0.055) / 1.055, 2.4);
             }
         }
 
         $L = 0.2126 * $C[0] + 0.7152 * $C[1] + 0.0722 * $C[2];
 
-        if($L > 0.179)
-        {
+        if ($L > 0.179) {
             $color = 'black';
-        }
-        else
-        {
+        } else {
             $color = 'white';
         }
 
@@ -472,22 +439,17 @@ class Utility extends Model
 
     public static function delete_directory($dir)
     {
-        if(!file_exists($dir))
-        {
+        if (!file_exists($dir)) {
             return true;
         }
-        if(!is_dir($dir))
-        {
+        if (!is_dir($dir)) {
             return unlink($dir);
         }
-        foreach(scandir($dir) as $item)
-        {
-            if($item == '.' || $item == '..')
-            {
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
                 continue;
             }
-            if(!self::delete_directory($dir . DIRECTORY_SEPARATOR . $item))
-            {
+            if (!self::delete_directory($dir . DIRECTORY_SEPARATOR . $item)) {
                 return false;
             }
         }
@@ -536,9 +498,8 @@ class Utility extends Model
 
     public static function chartOfAccountTypeData()
     {
-        $chartOfAccountTypes = Self::$chartOfAccountType;
-        foreach($chartOfAccountTypes as $k => $type)
-        {
+        $chartOfAccountTypes = self::$chartOfAccountType;
+        foreach ($chartOfAccountTypes as $k => $type) {
 
             $accountType = ChartOfAccountType::create(
                 [
@@ -547,10 +508,9 @@ class Utility extends Model
                 ]
             );
 
-            $chartOfAccountSubTypes = Self::$chartOfAccountSubType;
+            $chartOfAccountSubTypes = self::$chartOfAccountSubType;
 
-            foreach($chartOfAccountSubTypes[$k] as $subType)
-            {
+            foreach ($chartOfAccountSubTypes[$k] as $subType) {
                 ChartOfAccountSubType::create(
                     [
                         'name' => $subType,
@@ -759,9 +719,8 @@ class Utility extends Model
 
     public static function chartOfAccountData($user)
     {
-        $chartOfAccounts = Self::$chartOfAccount;
-        foreach($chartOfAccounts as $account)
-        {
+        $chartOfAccounts = self::$chartOfAccount;
+        foreach ($chartOfAccounts as $account) {
             ChartOfAccount::create(
                 [
                     'code' => $account['code'],
@@ -778,7 +737,7 @@ class Utility extends Model
 
     public static function add_landing_page_data()
     {
-        $section_data   = [];
+        $section_data = [];
         $section_data[] = [
             'section_name' => 'section-1',
             'section_order' => 1,
@@ -876,8 +835,7 @@ class Utility extends Model
         ];
 
 
-        foreach($section_data as $section_key => $section_value)
-        {
+        foreach ($section_data as $section_key => $section_value) {
 
             LandingPageSection::create($section_value);
         }
@@ -887,12 +845,11 @@ class Utility extends Model
     public static function getCompanyPaymentSettingWithOutAuth($user_id)
     {
         // dd($user_id)
-        $data     = \DB::table('company_payment_settings');
+        $data = \DB::table('company_payment_settings');
         $settings = [];
-        $data    = $data->where('created_by', '=', $user_id);
+        $data = $data->where('created_by', '=', $user_id);
         $data = $data->get();
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -901,17 +858,15 @@ class Utility extends Model
 
     public static function getAdminPaymentSetting()
     {
-        $data     = \DB::table('admin_payment_settings');
+        $data = \DB::table('admin_payment_settings');
         $settings = [];
-        if(\Auth::check())
-        {
+        if (\Auth::check()) {
             $user_id = 1;
-            $data    = $data->where('created_by', '=', $user_id);
+            $data = $data->where('created_by', '=', $user_id);
 
         }
         $data = $data->get();
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -921,17 +876,15 @@ class Utility extends Model
     public static function getCompanyPaymentSetting($user_id)
     {
 
-        $data     = \DB::table('company_payment_settings');
+        $data = \DB::table('company_payment_settings');
         $settings = [];
-        if(\Auth::check())
-        {
+        if (\Auth::check()) {
             $user_id = \Auth::user()->creatorId();
-            $data    = $data->where('created_by', '=', $user_id);
+            $data = $data->where('created_by', '=', $user_id);
 
         }
         $data = $data->get();
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -940,13 +893,12 @@ class Utility extends Model
     public static function getNonAuthCompanyPaymentSetting($id)
     {
 
-        $data     = \DB::table('company_payment_settings');
+        $data = \DB::table('company_payment_settings');
         $settings = [];
-        $data    = $data->where('created_by', '=', $id);
+        $data = $data->where('created_by', '=', $id);
 
         $data = $data->get();
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -955,11 +907,11 @@ class Utility extends Model
 
     public static function error_res($msg = "", $args = array())
     {
-        $msg       = $msg == "" ? "error" : $msg;
-        $msg_id    = 'error.' . $msg;
+        $msg = $msg == "" ? "error" : $msg;
+        $msg_id = 'error.' . $msg;
         $converted = \Lang::get($msg_id, $args);
-        $msg       = $msg_id == $converted ? $msg : $converted;
-        $json      = array(
+        $msg = $msg_id == $converted ? $msg : $converted;
+        $json = array(
             'flag' => 0,
             'msg' => $msg,
         );
@@ -969,11 +921,11 @@ class Utility extends Model
 
     public static function success_res($msg = "", $args = array())
     {
-        $msg       = $msg == "" ? "success" : $msg;
-        $msg_id    = 'success.' . $msg;
+        $msg = $msg == "" ? "success" : $msg;
+        $msg_id = 'success.' . $msg;
         $converted = \Lang::get($msg_id, $args);
-        $msg       = $msg_id == $converted ? $msg : $converted;
-        $json      = array(
+        $msg = $msg_id == $converted ? $msg : $converted;
+        $json = array(
             'flag' => 1,
             'msg' => $msg,
         );
@@ -984,19 +936,13 @@ class Utility extends Model
     // get date format
     public static function getDateFormated($date, $time = false)
     {
-        if(!empty($date) && $date != '0000-00-00')
-        {
-            if($time == true)
-            {
+        if (!empty($date) && $date != '0000-00-00') {
+            if ($time == true) {
                 return date("d M Y H:i A", strtotime($date));
-            }
-            else
-            {
+            } else {
                 return date("d M Y", strtotime($date));
             }
-        }
-        else
-        {
+        } else {
             return '';
         }
     }
@@ -1004,105 +950,104 @@ class Utility extends Model
 
 
     public static function invoice_payment_settings($id)
-        {
-            $data = [];
+    {
+        $data = [];
 
-            $user = User::where(['id' => $id])->first();
-            if(!is_null($user)){
-                $data = DB::table('admin_payment_settings');
-                $data->where('created_by', '=',$id);
-                $data = $data->get();
-                //dd($data);
-            }
-
-            $res = [];
-
-            foreach ($data as $key => $value) {
-                $res[$value->name] = $value->value;
-            }
-
-            return $res;
+        $user = User::where(['id' => $id])->first();
+        if (!is_null($user)) {
+            $data = DB::table('admin_payment_settings');
+            $data->where('created_by', '=', $id);
+            $data = $data->get();
+            //dd($data);
         }
 
-        public static function bill_payment_settings($id)
-        {
-            $data = [];
+        $res = [];
 
-            $user = User::where(['id' => $id])->first();
-            if(!is_null($user)){
-                $data = DB::table('admin_payment_settings');
-                $data->where('created_by', '=',$id);
-                $data = $data->get();
-                //dd($data);
-            }
-
-            $res = [];
-
-            foreach ($data as $key => $value) {
-                $res[$value->name] = $value->value;
-            }
-
-            return $res;
+        foreach ($data as $key => $value) {
+            $res[$value->name] = $value->value;
         }
-        public static function settingById($id)
-        {
-            $data = DB::table('settings')->where('created_by', '=', $id)->get();
-            $settings = [
-                "site_currency" => "USD",
-                "site_currency_symbol" => "$",
-                "site_currency_symbol_position" => "pre",
-                "site_date_format" => "M j, Y",
-                "site_time_format" => "g:i A",
-                "company_name" => "",
-                "company_address" => "",
-                "company_city" => "",
-                "company_state" => "",
-                "company_zipcode" => "",
-                "company_country" => "",
-                "company_telephone" => "",
-                "company_email" => "",
-                "company_email_from_name" => "",
-                "invoice_prefix" => "#INVO",
-                "journal_prefix" => "#JUR",
-                "invoice_color" => "ffffff",
-                "proposal_prefix" => "#PROP",
-                "proposal_color" => "ffffff",
-                "bill_prefix" => "#BILL",
-                "bill_color" => "ffffff",
-                "customer_prefix" => "#CUST",
-                "vender_prefix" => "#VEND",
-                "footer_title" => "",
-                "footer_notes" => "",
-                "invoice_template" => "template1",
-                "bill_template" => "template1",
-                "proposal_template" => "template1",
-                "registration_number" => "",
-                "vat_number" => "",
-                "default_language" => "en",
-                "enable_stripe" => "",
-                "enable_paypal" => "",
-                "paypal_mode" => "",
-                "paypal_client_id" => "",
-                "paypal_secret_key" => "",
-                "stripe_key" => "",
-                "stripe_secret" => "",
-                "decimal_number" => "2",
-                "tax_type" => "",
-                "shipping_display" => "on",
-                "journal_prefix" => "#JUR",
-                "display_landing_page" => "on",
-                "title_text" => "",
-                'gdpr_cookie' => "off",
-                'cookie_text' => "",
-            ];
 
-            foreach($data as $row)
-            {
-                $settings[$row->name] = $row->value;
-            }
+        return $res;
+    }
 
-            return $settings;
+    public static function bill_payment_settings($id)
+    {
+        $data = [];
+
+        $user = User::where(['id' => $id])->first();
+        if (!is_null($user)) {
+            $data = DB::table('admin_payment_settings');
+            $data->where('created_by', '=', $id);
+            $data = $data->get();
+            //dd($data);
         }
+
+        $res = [];
+
+        foreach ($data as $key => $value) {
+            $res[$value->name] = $value->value;
+        }
+
+        return $res;
+    }
+    public static function settingById($id)
+    {
+        $data = DB::table('settings')->where('created_by', '=', $id)->get();
+        $settings = [
+            "site_currency" => "USD",
+            "site_currency_symbol" => "$",
+            "site_currency_symbol_position" => "pre",
+            "site_date_format" => "M j, Y",
+            "site_time_format" => "g:i A",
+            "company_name" => "",
+            "company_address" => "",
+            "company_city" => "",
+            "company_state" => "",
+            "company_zipcode" => "",
+            "company_country" => "",
+            "company_telephone" => "",
+            "company_email" => "",
+            "company_email_from_name" => "",
+            "invoice_prefix" => "#INVO",
+            "journal_prefix" => "#JUR",
+            "invoice_color" => "ffffff",
+            "proposal_prefix" => "#PROP",
+            "proposal_color" => "ffffff",
+            "bill_prefix" => "#BILL",
+            "bill_color" => "ffffff",
+            "customer_prefix" => "#CUST",
+            "vender_prefix" => "#VEND",
+            "footer_title" => "",
+            "footer_notes" => "",
+            "invoice_template" => "template1",
+            "bill_template" => "template1",
+            "proposal_template" => "template1",
+            "registration_number" => "",
+            "vat_number" => "",
+            "default_language" => "en",
+            "enable_stripe" => "",
+            "enable_paypal" => "",
+            "paypal_mode" => "",
+            "paypal_client_id" => "",
+            "paypal_secret_key" => "",
+            "stripe_key" => "",
+            "stripe_secret" => "",
+            "decimal_number" => "2",
+            "tax_type" => "",
+            "shipping_display" => "on",
+            "journal_prefix" => "#JUR",
+            "display_landing_page" => "on",
+            "title_text" => "",
+            'gdpr_cookie' => "off",
+            'cookie_text' => "",
+        ];
+
+        foreach ($data as $row) {
+            $settings[$row->name] = $row->value;
+        }
+
+        return $settings;
+    }
 
 
     public static function addNewData()
@@ -1119,18 +1064,16 @@ class Utility extends Model
             'view budget planner',
 
         ];
-        foreach($arrPermissions as $ap)
-        {
+        foreach ($arrPermissions as $ap) {
             // check if permission is not created then create it.
             $permission = Permission::where('name', 'LIKE', $ap)->first();
-            if(empty($permission))
-            {
+            if (empty($permission)) {
                 Permission::create(['name' => $ap]);
             }
         }
         $companyRole = Role::where('name', 'LIKE', 'company')->first();
 
-        $companyPermissions   = $companyRole->getPermissionNames()->toArray();
+        $companyPermissions = $companyRole->getPermissionNames()->toArray();
         $companyNewPermission = [
             'manage budget planner',
             'create budget planner',
@@ -1138,11 +1081,9 @@ class Utility extends Model
             'delete budget planner',
             'view budget planner',
         ];
-        foreach($companyNewPermission as $op)
-        {
+        foreach ($companyNewPermission as $op) {
             // check if permission is not assign to owner then assign.
-            if(!in_array($op, $companyPermissions))
-            {
+            if (!in_array($op, $companyPermissions)) {
                 $permission = Permission::findByName($op);
                 $companyRole->givePermissionTo($permission);
             }
@@ -1156,14 +1097,15 @@ class Utility extends Model
     public static function send_twilio_msg($to, $msg)
     {
 
-        $settings  = Utility::settings(\Auth::user()->creatorId());
-        $account_sid    = $settings['twilio_sid'];
+        $settings = Utility::settings(\Auth::user()->creatorId());
+        $account_sid = $settings['twilio_sid'];
         $auth_token = $settings['twilio_token'];
         $twilio_number = $settings['twilio_from'];
         $client = new Client($account_sid, $auth_token);
         $client->messages->create($to, [
             'from' => $twilio_number,
-            'body' => $msg]);
+            'body' => $msg
+        ]);
 
         //  dd('SMS Sent Successfully.');
 
