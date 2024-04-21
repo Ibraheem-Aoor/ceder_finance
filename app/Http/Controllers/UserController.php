@@ -210,6 +210,7 @@ class UserController extends Controller
                 }
 
                 $input = $request->all();
+                $input['is_accepted'] = $request->is_accepted == 'on' ? 1 : 0;
                 $user->fill($input)->save();
                 CustomField::saveData($user, $request->customField);
 

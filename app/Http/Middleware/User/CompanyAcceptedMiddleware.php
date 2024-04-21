@@ -18,7 +18,7 @@ class CompanyAcceptedMiddleware
     {
         $user = getAuthUser('web');
 
-        if($user->type == 'company' && !$user->is_accepted && !$request->is('dashboard'))
+        if($user?->type == 'company' && !$user?->is_accepted && !$request->is('dashboard' , 'logout'))
         {
             return back()->with('error' ,__('account_not_accepted'));
         }
