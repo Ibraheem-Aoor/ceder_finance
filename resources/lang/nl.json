@@ -1070,7 +1070,9 @@
     "Spain": "Spanje",
     "Sweden": "Zweden",
     "The VAT has been shifted to VAT number": "De BTW is verplaatst naar BTW-nummer",
-    "invoice_footer_text": "Gelieve dit bedrag :amount vóór :due_date over te maken naar rekeningnummer :account_number op naam van: :account_holder_name Factuurnummer :invoice_number"
+    "invoice_footer_text": "Gelieve dit bedrag :amount vóór :due_date over te maken naar rekeningnummer :account_number op naam van: :account_holder_name Factuurnummer :invoice_number",
+    "account_not_accepted": "Account niet goedgekeurd door beheerders"
+
 
 
 }

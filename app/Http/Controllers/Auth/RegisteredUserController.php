@@ -52,6 +52,7 @@ class RegisteredUserController extends Controller
             'lang' => Utility::getValByName('default_language'),
             'plan' => 1,
             'created_by' => 1,
+            'is_accepted' => 0,
         ]);
 
 
@@ -78,7 +79,6 @@ class RegisteredUserController extends Controller
         }
 
         \App::setLocale($lang);
-
         return view('auth.register', compact('lang'));
     }
 

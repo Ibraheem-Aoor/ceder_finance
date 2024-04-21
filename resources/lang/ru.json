@@ -1069,7 +1069,9 @@
     "Spain": "Испания",
     "Sweden": "Швеция",
     "The VAT has been shifted to VAT number": "НДС переведен на номер НДС",
-    "invoice_footer_text": "Пожалуйста, переведите сумму :amount до :due_date на счет :account_number на имя :account_holder_name Счет-фактура :invoice_number"
+    "invoice_footer_text": "Пожалуйста, переведите сумму :amount до :due_date на счет :account_number на имя :account_holder_name Счет-фактура :invoice_number",
+    "account_not_accepted": "Учетная запись не одобрена администраторами"
+
 
 
 }

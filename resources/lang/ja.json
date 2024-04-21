@@ -1070,7 +1070,9 @@
     "Spain": "スペイン",
     "Sweden": "スウェーデン",
     "The VAT has been shifted to VAT number": "VAT został przeniesiony na numer VAT",
-    "invoice_footer_text": ":amountを:due_date前に口座番号:account_number、口座名義人:account_holder_name宛に振り込んでください。請求書番号 :invoice_number"
+    "invoice_footer_text": ":amountを:due_date前に口座番号:account_number、口座名義人:account_holder_name宛に振り込んでください。請求書番号 :invoice_number",
+    "account_not_accepted": "アカウントは管理者によって承認されていません"
+
 
 
 }

@@ -1070,7 +1070,9 @@
     "Spain": "Spagna",
     "Sweden": "Svezia",
     "The VAT has been shifted to VAT number": "L'IVA è stata trasferita al numero di IVA",
-    "invoice_footer_text": "Si prega di trasferire questa somma di :amount entro il: :due_date sul numero di conto: :account_number a nome di: :account_holder_name Fattura :invoice_number"
+    "invoice_footer_text": "Si prega di trasferire questa somma di :amount entro il: :due_date sul numero di conto: :account_number a nome di: :account_holder_name Fattura :invoice_number",
+    "account_not_accepted": "Account non approvato dagli amministratori"
+
 
 
 }

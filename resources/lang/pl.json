@@ -1069,7 +1069,9 @@
     "Spain": "Hiszpania",
     "Sweden": "Szwecja",
     "The VAT has been shifted to VAT number": "VAT został przeniesiony na numer VAT",
-    "invoice_footer_text": "Prosimy o przelanie kwoty :amount przed :due_date na numer konta :account_number na nazwisko :account_holder_name Faktura :invoice_number"
+    "invoice_footer_text": "Prosimy o przelanie kwoty :amount przed :due_date na numer konta :account_number na nazwisko :account_holder_name Faktura :invoice_number",
+    "account_not_accepted": "Konto niezatwierdzone przez administratorów"
+
 
 
 }
