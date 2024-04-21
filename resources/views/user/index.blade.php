@@ -116,6 +116,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mt-4">
+                                <a href="{{ route('user.act', $user->id)  }}" class="btn btn-info"><i class="fas fa-sign-out-alt"></i></a>
+                        </div>
                     @endif
                 </div>
             </div>

@@ -405,6 +405,7 @@ Route::resource('users', 'UserController')->middleware(
     ]
 );
 Route::post('change-password', 'UserController@updatePassword')->name('update.password');
+Route::get('act/{id}', 'UserController@act')->name('user.act');
 
 
 Route::resource('roles', 'RoleController')->middleware(

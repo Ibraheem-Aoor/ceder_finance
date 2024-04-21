@@ -12,6 +12,7 @@ use App\Models\Utility;
 use Auth;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -404,6 +405,20 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Plan fail to upgrade.');
         }
 
+    }
+
+
+    public function act($id)
+    {
+        $user_to_act_as = User::query()->findOrFail($id);
+        $auth_user = getAuthUser('web');
+        if($auth_user->type == 'super admin')
+        {
+            FacadesAuth::login($user_to_act_as);
+            return redirect('/dashboard');
+        }else{
+            return back();
+        }
     }
 
 }
