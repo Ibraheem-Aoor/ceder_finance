@@ -6,7 +6,6 @@
 @section('action-button')
     <div class="row d-flex justify-content-end mb-2">
         @can('create invoice')
-
             <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12">
                 <div class="all-button-box">
                     <a href="{{ route('invoice.create', 0) }}" class="btn btn-xs btn-white btn-icon-only width-auto">
@@ -14,7 +13,6 @@
                     </a>
                 </div>
             </div>
-
         @endcan
         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12">
             <div class="all-button-box">
@@ -162,7 +160,11 @@
                                                             data-confirm="You want to confirm this action. Press Yes to continue or Cancel to go back"
                                                             data-confirm-yes="document.getElementById('duplicate-form-{{ $invoice->id }}').submit();">
                                                             <i class="fas fa-copy"></i>
-                                                            {!! Form::open(['method' => 'get', 'route' => ['invoice.duplicate', $invoice->id], 'id' => 'duplicate-form-' . $invoice->id]) !!}
+                                                            {!! Form::open([
+                                                                'method' => 'get',
+                                                                'route' => ['invoice.duplicate', $invoice->id],
+                                                                'id' => 'duplicate-form-' . $invoice->id,
+                                                            ]) !!}
                                                             {!! Form::close() !!}
                                                         </a>
                                                     @endcan
@@ -188,16 +190,22 @@
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
                                                     @endcan
-                                                    @can('delete invoice')
-                                                        <a href="#" class="delete-icon " data-toggle="tooltip"
-                                                            data-original-title="{{ __('Delete') }}"
-                                                            data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
-                                                            data-confirm-yes="document.getElementById('delete-form-{{ $invoice->id }}').submit();">
-                                                            <i class="fas fa-trash"></i>
-                                                        </a>
-                                                        {!! Form::open(['method' => 'DELETE', 'route' => ['invoice.destroy', $invoice->id], 'id' => 'delete-form-' . $invoice->id]) !!}
-                                                        {!! Form::close() !!}
-                                                    @endcan
+                                                    @if (getAuthUser('web')->type == 'super admin')
+                                                        @can('delete invoice')
+                                                            <a href="#" class="delete-icon " data-toggle="tooltip"
+                                                                data-original-title="{{ __('Delete') }}"
+                                                                data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
+                                                                data-confirm-yes="document.getElementById('delete-form-{{ $invoice->id }}').submit();">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                            {!! Form::open([
+                                                                'method' => 'DELETE',
+                                                                'route' => ['invoice.destroy', $invoice->id],
+                                                                'id' => 'delete-form-' . $invoice->id,
+                                                            ]) !!}
+                                                            {!! Form::close() !!}
+                                                        @endcan
+                                                    @endif
                                                 </span>
                                             </td>
                                         @endif
