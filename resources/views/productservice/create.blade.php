@@ -28,7 +28,7 @@
                 {{ Form::label('sale_price', __('Sale Price'),['class'=>'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-money-bill-alt"></i></span>
-                    {{ Form::number('sale_price', '', array('class' => 'form-control','required'=>'required','step'=>'0.01')) }}
+                    {{ Form::number('sale_price', '', array('class' => 'form-control','required'=>'required','step'=>'0.001')) }}
                 </div>
             </div>
         </div>
@@ -37,14 +37,19 @@
                 {{ Form::label('purchase_price', __('Purchase Price'),['class'=>'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-money-bill-alt"></i></span>
-                    {{ Form::number('purchase_price', '', array('class' => 'form-control','step'=>'0.01')) }}
+                    {{ Form::number('purchase_price', '', array('class' => 'form-control','step'=>'0.001')) }}
                 </div>
             </div>
         </div>
 
         <div class="form-group col-md-6">
             {{ Form::label('tax_id', __('Tax'),['class'=>'form-control-label']) }}
-            {{ Form::select('tax_id[]', $tax,null, array('class' => 'form-control select2')) }}
+            <select name="tax_id[]" class="form-control select2" >
+                @foreach ($tax as $vat)
+                <option value="{{ $vat->id }}">{{ $vat->name }} ({{ $vat->rate }}%)</option>
+                @endforeach
+                <option value=""></option>
+            </select>
         </div>
         <div class="form-group col-md-6">
             {{ Form::label('category_id', __('Category'),['class'=>'form-control-label']) }}

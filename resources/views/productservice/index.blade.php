@@ -99,7 +99,7 @@
                                                 @endphp
 
                                                 @foreach ($taxes as $tax)
-                                                    {{ !empty($tax) ? $tax->name : '' }}<br>
+                                                    {{ !empty($tax) ? $tax->name .'('.$tax->rate.')%' : '' }}<br>
 
                                                 @endforeach
                                             @else

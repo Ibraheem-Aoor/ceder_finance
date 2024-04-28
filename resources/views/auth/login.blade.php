@@ -19,8 +19,8 @@
             <div class="login-form">
                 <ul class="login-menu">
                     <li class="blue-login"><a href="{{route('login')}}">{{__('User Login')}}</a></li>
-                    <li class="gray-login"><a href="{{route('customer.login')}}">{{__('Customer Login')}}</a></li>
-                    <li class="gray-login"><a href="{{route('vender.login')}}">{{__('Vendor Login')}}</a></li>
+                    <li class="gray-login d-none"><a href="{{route('customer.login')}}">{{__('Customer Login')}}</a></li>
+                    <li class="gray-login d-none"><a href="{{route('vender.login')}}">{{__('Vendor Login')}}</a></li>
                 </ul>
                 <div class="page-title"><h5><span>{{__('User')}}</span> {{__('Login')}}</h5></div>
                 {{Form::open(array('route'=>'login','method'=>'post','id'=>'loginForm' ))}}

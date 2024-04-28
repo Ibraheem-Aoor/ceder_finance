@@ -171,8 +171,8 @@
 
             }).submit();
         });
-     @endif 
-         
+     @endif
+
      @if (isset($admin_payment_setting['is_razorpay_enabled']) && $admin_payment_setting['is_razorpay_enabled'] == 'on')
         // Razorpay Payment
         $(document).on("click", "#pay_with_razorpay", function () {
@@ -206,6 +206,11 @@
             }).submit();
         });
       @endif
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#contact-tab8').click();
+        });
     </script>
 @endpush
 
@@ -293,7 +298,7 @@
                         @endif
                         @if(isset($admin_payment_setting['is_mollie_enabled']) && $admin_payment_setting['is_mollie_enabled'] == 'on')
                             <li>
-                                <a data-toggle="tab" id="contact-tab8" href="#mollie_payment">{{__('Mollie')}}</a>
+                                <a data-toggle="tab" id="contact-tab8" href="#mollie_payment">{{__('PURCHASE NOW')}}</a>
                             </li>
                         @endif
                         @if(isset($admin_payment_setting['is_skrill_enabled']) && $admin_payment_setting['is_skrill_enabled'] == 'on')

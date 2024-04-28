@@ -692,6 +692,7 @@ class InvoiceController extends Controller
         $taxesData = [];
 
         $items = [];
+        $units_to_preview = ['Hrs' , 'PICS' , 'KG'];
         for ($i = 1; $i <= 3; $i++) {
             $item = new \stdClass();
             $item->name = 'Item ' . $i;
@@ -699,6 +700,8 @@ class InvoiceController extends Controller
             $item->tax = 5;
             $item->discount = 50;
             $item->price = 100;
+            $item->unit = $units_to_preview[$i-1];
+
 
             $taxes = [
                 'Tax 1',

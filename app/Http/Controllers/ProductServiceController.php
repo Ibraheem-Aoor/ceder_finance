@@ -42,8 +42,7 @@ class ProductServiceController extends Controller
             $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'product')->get();
             $category     = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 0)->get()->pluck('name', 'id');
             $unit         = ProductServiceUnit::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $tax          = Tax::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-
+            $tax          = Tax::where('created_by', '=', \Auth::user()->creatorId())->get(['id' , 'name' ,'rate']);
             return view('productservice.create', compact('category', 'unit', 'tax', 'customFields'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
