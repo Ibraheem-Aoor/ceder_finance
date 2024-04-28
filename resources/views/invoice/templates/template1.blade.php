@@ -567,6 +567,9 @@
                                                         @if (!empty($settings['tax_type']) && !empty($settings['vat_number']))
                                                             {{ 'BTW' }}: {{ $settings['vat_number'] }} <br>
                                                         @endif
+                                                        @isset ($bank_account)
+                                                            {{ __('bank_no') }}: {{  $bank_account->account_number }} <br>
+                                                        @endisset
 
                                             </p>
                                         </div>

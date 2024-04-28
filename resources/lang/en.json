@@ -1071,5 +1071,6 @@
     "Sweden": "Sweden",
     "The VAT has been shifted to VAT number": "The VAT has been shifted to VAT number",
     "invoice_footer_text": "Please transfer this amount of :amount before: :due_date to account number: :account_number in the name of: :account_holder_name Invoice :invoice_number",
-    "account_not_accepted" : "Account not Approved by Admins"
+    "account_not_accepted" : "Account not Approved by Admins",
+    "bank_no": "Bank"
 }
