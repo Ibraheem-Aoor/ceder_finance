@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'kvk' => [
+        'base_url' => 'https://api.kvk.nl/api/v2/',
+        'headers' => [
+            'apikey' => env('KVK_API_KEY'),
+        ],
+    ],
 ];

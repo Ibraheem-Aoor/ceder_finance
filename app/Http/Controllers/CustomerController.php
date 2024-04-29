@@ -20,6 +20,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CustomerExport;
 use App\Imports\CustomerImport;
 use App\Models\Country;
+use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class CustomerController extends Controller
 {
@@ -337,7 +339,7 @@ class CustomerController extends Controller
         );
 
         if ($request->hasFile('profile')) {
-            $fileNameToStore = saveImage('uploads/avatar/',$request->file('profile'));
+            $fileNameToStore = saveImage('uploads/avatar/', $request->file('profile'));
         }
 
         if (!empty($request->profile)) {
@@ -535,5 +537,28 @@ class CustomerController extends Controller
         }
 
         return redirect()->back()->with($data['status'], $data['msg']);
+    }
+
+
+    public function searchForKvk(Request $request)
+    {
+        try {
+            $endpoint = config('services.kvk.base_url') . 'zoeken';
+            $response = Http::withHeaders(config('services.kvk.headers'))->get($endpoint, [
+                'kvkNummer' => $request->query('name', null),
+            ])->json();
+            $results = @$response['resultaten'] ?? null;
+            $status = isset($results , $results[0]);
+            return response()->json([
+                'status' => $status,
+                'result' => $results[0],
+            ]);
+        } catch (Throwable $e) {
+            info('ERROR IN  searchForKvk IN: ' .get_class($this) );
+            return response()->json([
+                'status' => false,
+                'result' => [],
+            ]);
+        }
     }
 }

@@ -490,6 +490,8 @@ Route::group(
 
         Route::get('customer/{id}/show', 'CustomerController@show')->name('customer.show');
         Route::resource('customer', 'CustomerController');
+        Route::get('search-for-kvk' ,'CustomerController@searchForKvk')->name('customer.search_kvk');
+
 
     }
 );

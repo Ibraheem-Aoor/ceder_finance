@@ -76,6 +76,7 @@
                 <div class="form-icon-user">
                     <span><i class="fas fa-address-card"></i></span>
                     {{ Form::text('billing_name', null, ['class' => 'form-control']) }}
+
                 </div>
             </div>
         </div>

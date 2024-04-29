@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @php
-    $profile=asset(Storage::url('uploads/avatar/'));
+    $profile = asset(Storage::url('uploads/avatar/'));
 @endphp
 @push('script-page')
     <script>
-        $(document).on('click', '#billing_data', function () {
+        $(document).on('click', '#billing_data', function() {
             $("[name='shipping_name']").val($("[name='billing_name']").val());
             $("[name='shipping_country']").val($("[name='billing_country']").val());
             $("[name='shipping_state']").val($("[name='billing_state']").val());
@@ -13,33 +13,36 @@
             $("[name='shipping_zip']").val($("[name='billing_zip']").val());
             $("[name='shipping_address']").val($("[name='billing_address']").val());
         })
-
     </script>
 @endpush
 @section('page-title')
-    {{__('Manage Customers')}}
+    {{ __('Manage Customers') }}
 @endsection
 
 @section('action-button')
     <div class="all-button-box row d-flex justify-content-end">
         @can('create customer')
             <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                <a href="#" data-size="2xl" data-url="{{ route('customer.create') }}" data-ajax-popup="true" data-title="{{__('Create New Customer')}}" class="btn btn-xs btn-white btn-icon-only width-auto commonModal">
-                    <i class="fas fa-plus"></i> {{__('Create')}}
+                <a href="#" data-size="2xl" data-url="{{ route('customer.create') }}" data-ajax-popup="true"
+                    data-title="{{ __('Create New Customer') }}"
+                    class="btn btn-xs btn-white btn-icon-only width-auto commonModal">
+                    <i class="fas fa-plus"></i> {{ __('Create') }}
                 </a>
             </div>
         @endcan
         <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
             <div class="all-button-box">
-                <a href="{{route('customer.export')}}" class="btn btn-xs btn-white btn-icon-only width-auto">
-                    <i class="fa fa-file-excel"></i> {{__('Export')}}
+                <a href="{{ route('customer.export') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
+                    <i class="fa fa-file-excel"></i> {{ __('Export') }}
                 </a>
             </div>
         </div>
         <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
             <div class="all-button-box">
-                <a href="#" class="btn btn-xs btn-white btn-icon-only width-auto" data-url="{{ route('customer.file.import') }}" data-ajax-popup="true" data-title="{{__('Import customer CSV file')}}">
-                    <i class="fa fa-file-csv"></i> {{__('Import')}}
+                <a href="#" class="btn btn-xs btn-white btn-icon-only width-auto"
+                    data-url="{{ route('customer.file.import') }}" data-ajax-popup="true"
+                    data-title="{{ __('Import customer CSV file') }}">
+                    <i class="fa fa-file-csv"></i> {{ __('Import') }}
                 </a>
             </div>
         </div>
@@ -54,64 +57,78 @@
                     <div class="table-responsive">
                         <table class="table table-striped mb-0 dataTable">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th> {{__('Name')}}</th>
-                                <th> {{__('Contact')}}</th>
-                                <th> {{__('Email')}}</th>
-                                <th> {{__('BTW')}}</th>
-                                <th> {{__('Last Login')}}</th>
-                                <th>{{__('Action')}}</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th> {{ __('Name') }}</th>
+                                    <th> {{ __('Contact') }}</th>
+                                    <th> {{ __('Email') }}</th>
+                                    <th> {{ __('BTW') }}</th>
+                                    <th> {{ __('Last Login') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($customers as $k=>$customer)
-                                <tr class="cust_tr" id="cust_detail" data-url="{{route('customer.show',$customer['id'])}}" data-id="{{$customer['id']}}">
-                                    <td class="Id">
-                                        @can('show customer')
-                                            <a href="{{ route('customer.show',\Crypt::encrypt($customer['id'])) }}">
-                                                {{ AUth::user()->customerNumberFormat($customer['customer_id']) }}
-                                            </a>
-                                        @else
-                                            <a href="#" class="btn btn-outline-primary">
-                                                {{ AUth::user()->customerNumberFormat($customer['customer_id']) }}
-                                            </a>
-                                        @endcan
-                                    </td>
-                                    <td class="font-style">{{$customer['name']}}</td>
-                                    <td>{{$customer['contact']}}</td>
-                                    <td>{{$customer['email']}}</td>
-                                    <td>{{$customer['btw']}}</td>
-                                    <td>
-                                        {{ (!empty($customer->last_login_at)) ? $customer->last_login_at : '-' }}
-                                    </td>
-                                    <td class="Action">
-                                        <span>
-                                        @if($customer['is_active']==0)
-                                                <i class="fa fa-lock" title="Inactive"></i>
+                                @foreach ($customers as $k => $customer)
+                                    <tr class="cust_tr" id="cust_detail"
+                                        data-url="{{ route('customer.show', $customer['id']) }}"
+                                        data-id="{{ $customer['id'] }}">
+                                        <td class="Id">
+                                            @can('show customer')
+                                                <a href="{{ route('customer.show', \Crypt::encrypt($customer['id'])) }}">
+                                                    {{ AUth::user()->customerNumberFormat($customer['customer_id']) }}
+                                                </a>
                                             @else
-                                                @can('show customer')
-                                                    <a href="{{ route('customer.show',\Crypt::encrypt($customer['id'])) }}" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="{{__('View')}}">
-                                                    <i class="fas fa-eye"></i>
+                                                <a href="#" class="btn btn-outline-primary">
+                                                    {{ AUth::user()->customerNumberFormat($customer['customer_id']) }}
                                                 </a>
-                                                @endcan
-                                                @can('edit customer')
-                                                    <a href="#" class="edit-icon" data-size="2xl" data-url="{{ route('customer.edit',$customer['id']) }}" data-ajax-popup="true" data-title="{{__('Edit Customer')}}" data-toggle="tooltip" data-original-title="{{__('Edit')}}">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                @endcan
-                                                @can('delete customer')
-                                                    <a href="#" class="delete-icon " data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="{{__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="document.getElementById('delete-form-{{ $customer['id']}}').submit();">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['customer.destroy', $customer['id']],'id'=>'delete-form-'.$customer['id']]) !!}
-                                                    {!! Form::close() !!}
-                                                @endcan
-                                            @endif
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                            @endcan
+                                        </td>
+                                        <td class="font-style">{{ $customer['name'] }}</td>
+                                        <td>{{ $customer['contact'] }}</td>
+                                        <td>{{ $customer['email'] }}</td>
+                                        <td>{{ $customer['btw'] }}</td>
+                                        <td>
+                                            {{ !empty($customer->last_login_at) ? $customer->last_login_at : '-' }}
+                                        </td>
+                                        <td class="Action">
+                                            <span>
+                                                @if ($customer['is_active'] == 0)
+                                                    <i class="fa fa-lock" title="Inactive"></i>
+                                                @else
+                                                    @can('show customer')
+                                                        <a href="{{ route('customer.show', \Crypt::encrypt($customer['id'])) }}"
+                                                            class="edit-icon bg-success" data-toggle="tooltip"
+                                                            data-original-title="{{ __('View') }}">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('edit customer')
+                                                        <a href="#" class="edit-icon" data-size="2xl"
+                                                            data-url="{{ route('customer.edit', $customer['id']) }}"
+                                                            data-ajax-popup="true" data-title="{{ __('Edit Customer') }}"
+                                                            data-toggle="tooltip" data-original-title="{{ __('Edit') }}">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete customer')
+                                                        <a href="#" class="delete-icon " data-toggle="tooltip"
+                                                            data-original-title="{{ __('Delete') }}"
+                                                            data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
+                                                            data-confirm-yes="document.getElementById('delete-form-{{ $customer['id'] }}').submit();">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                        {!! Form::open([
+                                                            'method' => 'DELETE',
+                                                            'route' => ['customer.destroy', $customer['id']],
+                                                            'id' => 'delete-form-' . $customer['id'],
+                                                        ]) !!}
+                                                        {!! Form::close() !!}
+                                                    @endcan
+                                                @endif
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -120,3 +137,31 @@
         </div>
     </div>
 @endsection
+
+
+@push('script-page')
+    <script>
+        $(document).on('keyup', 'input[name="kvk"]', function() {
+            searchForKvk($(this).val());
+        });
+
+        function searchForKvk(query) {
+            $.get("{{ route('customer.search_kvk') }}", {
+                'name': query,
+            }, function(response) {
+                if (response.status && response.result) {
+                    $('input[name="billing_name"]').val(response.result.naam);
+                    $('textarea[name="billing_address"]').text(response.result.adres.binnenlandsAdres.straatnaam +','+ response.result.adres.binnenlandsAdres.plaats);
+                    if(response.result.postcode)
+                    {
+                        $('input[name="billing_zip"]').text(response.result.postcode);
+                    }
+                } else {
+                    $('input[name="billing_name"]').val("");
+                    $('textarea[name="billing_address"]').text("");
+                    $('input[name="billing_zip"]').text("");
+                }
+            });
+        }
+    </script>
+@endpush
