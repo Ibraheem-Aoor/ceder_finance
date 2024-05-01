@@ -87,7 +87,7 @@ class ProductServiceController extends Controller
             $productService->save();
             CustomField::saveData($productService, $request->customField);
 
-            return redirect()->route('productservice.index')->with('success', __('Product successfully created.'));
+            return redirect()->back()->with('success', __('Product successfully created.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
