@@ -359,7 +359,7 @@ Route::prefix('vender')->as('vender.')->group(
 );
 
 
-// Route::get('/', 'DashboardController@index')->name('dashboard')->middleware(['XSS', 'revalidate',]);
+Route::get('/', 'DashboardController@index')->name('dashboard')->middleware(['XSS', 'revalidate',]);
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard')->middleware(
     [
@@ -970,7 +970,7 @@ Route::group(
 //================================= Custom Landing Page ====================================//
 
 Route::get('/landingpage', 'LandingPageSectionController@index')->name('custom_landing_page.index')->middleware(['auth', 'XSS']);
-Route::get('/LandingPage/show/{id}', 's@show');
+Route::get('/LandingPage/show/{id}', 'LandingPageSectionController@show');
 Route::post('/LandingPage/setConetent', 'LandingPageSectionController@setConetent')->middleware(['auth', 'XSS']);
 Route::get('/get_landing_page_section/{name}', function ($name) {
     $plans = \DB::table('plans')->get();

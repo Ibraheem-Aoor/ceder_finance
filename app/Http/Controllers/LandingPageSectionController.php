@@ -75,7 +75,7 @@ class LandingPageSectionController extends Controller
                             {
                                 $ext      = $logo->getClientOriginalExtension();
                                 $fileName = 'logo_' . time() . rand() . '.' . $ext;
-                                $request->file('logo')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                $request->file('logo')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                 $data['logo'] = $fileName;
                             }
                             else
@@ -89,7 +89,7 @@ class LandingPageSectionController extends Controller
                             {
                                 $ext      = $image->getClientOriginalExtension();
                                 $fileName = 'image_' . time() . rand() . '.' . $ext;
-                                $request->file('image')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                $request->file('image')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                 $data['image'] = $fileName;
                             }
                             else
@@ -168,7 +168,7 @@ class LandingPageSectionController extends Controller
                                         {
                                             $ext      = $image_array_val->getClientOriginalExtension();
                                             $fileName = 'logo_' . $no . '_' . time() . rand() . '.' . $ext;
-                                            $image_array_val->storeAs('uploads/custom_landing_page_image', $fileName);
+                                            $image_array_val->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                             $val_data->image = $fileName;
                                         }
                                     }
@@ -220,7 +220,7 @@ class LandingPageSectionController extends Controller
                                                 {
                                                     $ext      = $image->getClientOriginalExtension();
                                                     $fileName = 'image_' . time() . rand() . '.' . $ext;
-                                                    $request->file('image')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                                    $request->file('image')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                                     $data_value->image = $fileName;
                                                 }
                                             }
@@ -260,7 +260,7 @@ class LandingPageSectionController extends Controller
                                         {
                                             $ext      = $image->getClientOriginalExtension();
                                             $fileName = 'image_' . time() . rand() . '.' . $ext;
-                                            $request->file('image')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                            $request->file('image')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                             $data_value['image'] = $fileName;
                                         }
                                         /*$system_inner_data[] = $data_value;*/
@@ -343,7 +343,7 @@ class LandingPageSectionController extends Controller
                                         {
                                             $ext      = $image->getClientOriginalExtension();
                                             $fileName = 'image_' . time() . rand() . '.' . $ext;
-                                            $request->file('image')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                            $request->file('image')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                             $data_value['image'] = $fileName;
                                         }
                                         else
@@ -374,7 +374,7 @@ class LandingPageSectionController extends Controller
                                 {
                                     $ext      = $image->getClientOriginalExtension();
                                     $fileName = 'image_' . time() . rand() . '.' . $ext;
-                                    $request->file('image')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                    $request->file('image')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                     $data_value['image'] = $fileName;
                                 }
                                 else
@@ -421,7 +421,7 @@ class LandingPageSectionController extends Controller
                                         {
                                             $ext      = $logo->getClientOriginalExtension();
                                             $fileName = 'logo_' . time() . rand() . '.' . $ext;
-                                            $request->file('logo')->storeAs('uploads/custom_landing_page_image', $fileName);
+                                            $request->file('logo')->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                             $json_val->logo = $fileName;
                                         }
                                         if(!is_null($text_value))
@@ -504,7 +504,7 @@ class LandingPageSectionController extends Controller
                                                                 {
                                                                     $ext      = $val['image']->getClientOriginalExtension();
                                                                     $fileName = 'contact_app_' . time() . $contact_key . rand() . '.' . $ext;
-                                                                    $val['image']->storeAs('uploads/custom_landing_page_image', $fileName);
+                                                                    $val['image']->storeAs('app/public/uploads/custom_landing_page_image', $fileName);
                                                                     $contact_data->image = $fileName;
                                                                 }
                                                                 if(!empty($val['href']))
