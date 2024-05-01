@@ -1070,7 +1070,7 @@
     "Sweden": "السويد",
     "The VAT has been shifted to VAT number": "تم نقل ضريبة القيمة المضافة إلى رقم ضريبة القيمة المضافة",
     "invoice_footer_text": "يرجى تحويل هذا المبلغ :amount قبل: :due_date إلى رقم الحساب: :account_number باسم: :account_holder_name فاتورة :invoice_number",
-    "account_not_accepted": "الحساب غير موافق عليه من قبل المسؤولين",
+    "account_not_accepted": "الحساب غير موافق عليه من قبل المسؤولين"
 
 
 }
