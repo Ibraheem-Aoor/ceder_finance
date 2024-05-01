@@ -615,6 +615,7 @@ class SystemController extends Controller
         }
         catch(\Exception $e)
         {
+            info('MAIL ERROR: ');
             info($e);
             $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
         }
