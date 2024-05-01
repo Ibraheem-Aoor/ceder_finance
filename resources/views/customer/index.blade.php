@@ -151,6 +151,7 @@
             }, function(response) {
                 if (response.status && response.result) {
                     $('input[name="billing_name"]').val(response.result.naam);
+                    $('input[name="billing_city"]').val(response.result.adres.binnenlandsAdres.plaats);
                     $('textarea[name="billing_address"]').text(response.result.adres.binnenlandsAdres.straatnaam +','+ response.result.adres.binnenlandsAdres.plaats);
                     if(response.result.postcode)
                     {
@@ -158,6 +159,7 @@
                     }
                 } else {
                     $('input[name="billing_name"]').val("");
+                    $('input[name="billing_city"]').val("");
                     $('textarea[name="billing_address"]').text("");
                     $('input[name="billing_zip"]').text("");
                 }

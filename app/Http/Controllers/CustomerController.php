@@ -69,7 +69,7 @@ class CustomerController extends Controller
                 'name' => 'required',
                 'contact' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
                 'email' => 'required|email|unique:customers',
-                'password' => 'required',
+                'password' => 'nullable',
                 'btw' => 'nullable|string|regex:/^NL[0-9]{9}B[0-9]{2}$/',
                 'kvk' => 'nullable|string',
             ];
@@ -78,7 +78,6 @@ class CustomerController extends Controller
 
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
-
                 return redirect()->route('customer.index')->with('error', $messages->first());
             }
 
@@ -96,7 +95,7 @@ class CustomerController extends Controller
                 $customer->btw = $request->btw;
                 $customer->kvk = $request->kvk;
                 $customer->email = $request->email;
-                $customer->password = Hash::make($request->password);
+                $customer->password = Hash::make('123123123');
                 $customer->created_by = \Auth::user()->creatorId();
                 $customer->billing_name = $request->billing_name;
                 $customer->billing_country = $request->billing_country;
@@ -539,7 +538,9 @@ class CustomerController extends Controller
         return redirect()->back()->with($data['status'], $data['msg']);
     }
 
-
+    /**
+     * Search For Cusotmer KVK.NL Info
+     */
     public function searchForKvk(Request $request)
     {
         try {

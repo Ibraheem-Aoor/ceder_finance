@@ -50,12 +50,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="col-lg-4 col-md-4 col-sm-6 d-none">
             <div class="form-group">
                 {{ Form::label('password', __('Password'), ['class' => 'form-control-label']) }}
                 <div class="form-icon-user">
                     <span><i class="fas fa-key"></i></span>
-                    {{ Form::password('password', ['class' => 'form-control', 'required' => 'required', 'minlength' => '6']) }}
+                    {{ Form::password('password', ['class' => 'form-control', 'minlength' => '6']) }}
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
             <div class="form-group">
                 {{ Form::label('billing_country', __('Country'), ['class' => 'form-control-label']) }}
                 <div class="form-icon-user">
-                    {{ Form::select('billing_country', $countries, null, ['class' => 'form-control ']) }}
+                    {{ Form::select('billing_country', $countries, "Netherlands", ['class' => 'form-control ']) }}
                 </div>
             </div>
         </div>
