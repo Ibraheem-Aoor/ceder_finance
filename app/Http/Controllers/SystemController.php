@@ -168,7 +168,7 @@ class SystemController extends Controller
             $settings = Utility::settings();
             foreach($post as $key => $data)
             {
-                
+
                 if(in_array($key, array_keys($settings)))
                 {
                     \DB::insert(
@@ -615,6 +615,7 @@ class SystemController extends Controller
         }
         catch(\Exception $e)
         {
+            info($e);
             $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
         }
 
