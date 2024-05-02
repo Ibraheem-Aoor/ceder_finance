@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -753,6 +754,20 @@ Route::resource('plans', 'PlanController')->middleware(
         'revalidate',
     ]
 );
+Route::resource('inbox', 'InboxController')->middleware(
+    [
+        'auth',
+        'XSS',
+        'revalidate',
+    ]
+);
+Route::get('download' , [FileController::class , 'download'])
+->name('file.download')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);;
 
 
 Route::resource('expenses', 'ExpenseController')->middleware(
