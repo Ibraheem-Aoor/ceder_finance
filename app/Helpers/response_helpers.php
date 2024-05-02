@@ -38,7 +38,7 @@ if (!function_exists('generateResponse')) {
             'table' => $table,
             'is_deleted' => $is_deleted,
         ];
-        $response = array_merge($base_response_data, ['data'=>$extra_data]);
+        $response = array_merge($base_response_data, ['data' => $extra_data]);
         return $response;
     }
 }
@@ -52,7 +52,7 @@ if (!function_exists('generateResponse')) {
  * @param array $data
  */
 if (!function_exists('generateApiResoponse')) {
-    function generateApiResoponse($status, $code, $data = [], $message = null)
+    function generateApiResoponse($status, $code, $data = [], $message = null, $paginator = null)
     {
         $response = [
             'code' => $code,
@@ -61,6 +61,22 @@ if (!function_exists('generateApiResoponse')) {
         ];
         if ($message) {
             $response['message'] = $message;
+        }
+        if (isset($paginator)) {
+            $response['meta'] = [
+                'pagination' => [
+                    'total' => $paginator->total(),
+                    'count' => $paginator->count(),
+                    'per_page' => $paginator->perPage(),
+                    'current_page' => $paginator->currentPage(),
+                    'total_pages' => $paginator->lastPage(),
+                    'links' => [
+                            'next' => $paginator->nextPageUrl(),
+                            'prev' => $paginator->previousPageUrl(),
+                        ],
+                ],
+            ];
+
         }
         return response()->json($response, $code);
     }
