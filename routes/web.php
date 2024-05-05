@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-Route::redirect('/', 'login')->name('dashboard')->middleware(['XSS', 'revalidate',]);;
+// Route::redirect('/', 'login')->name('dashboard')->middleware(['XSS', 'revalidate',]);;
 require __DIR__ . '/auth.php';
 
 
