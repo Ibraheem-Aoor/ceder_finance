@@ -22,13 +22,13 @@
 @section('action-button')
     <div class="all-button-box row d-flex justify-content-end">
         {{-- @can('create employee') --}}
-            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                <a href="#" data-size="2xl" data-url="{{ route('hr.employee.create') }}" data-ajax-popup="true"
-                    data-title="{{ __('Create New Employee') }}"
-                    class="btn btn-xs btn-white btn-icon-only width-auto commonModal">
-                    <i class="fas fa-plus"></i> {{ __('Create') }}
-                </a>
-            </div>
+        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
+            <a href="#" data-size="2xl" data-url="{{ route('hr.employee.create') }}" data-ajax-popup="true"
+                data-title="{{ __('Create New Employee') }}"
+                class="btn btn-xs btn-white btn-icon-only width-auto commonModal">
+                <i class="fas fa-plus"></i> {{ __('Create') }}
+            </a>
+        </div>
         {{-- @endcan --}}
     </div>
 @endsection
@@ -63,6 +63,7 @@
                                                 @if (getAuthUser('web')->is_active == 0)
                                                     <i class="fa fa-lock" title="Inactive"></i>
                                                 @else
+                                                    @can('edit employees')
                                                         <a href="#" class="edit-icon" data-size="2xl"
                                                             data-url="{{ route('hr.employee.edit', $employee['id']) }}"
                                                             data-ajax-popup="true" data-title="{{ __('Edit Employee') }}"
@@ -75,18 +76,22 @@
                                                             data-toggle="tooltip" data-original-title="{{ __('Edit') }}">
                                                             <i class="fa fa-clock"></i>
                                                         </a>
+                                                    @endcan
+                                                    @can('delete employees')
                                                         <a href="#" class="delete-icon " data-toggle="tooltip"
                                                             data-original-title="{{ __('Delete') }}"
                                                             data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
                                                             data-confirm-yes="document.getElementById('delete-form-{{ $employee['id'] }}').submit();">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
+
                                                         {!! Form::open([
                                                             'method' => 'DELETE',
                                                             'route' => ['hr.employee.destroy', $employee['id']],
                                                             'id' => 'delete-form-' . $employee['id'],
                                                         ]) !!}
                                                         {!! Form::close() !!}
+                                                    @endcan
                                                 @endif
                                             </span>
                                         </td>
@@ -100,5 +105,3 @@
         </div>
     </div>
 @endsection
-
-

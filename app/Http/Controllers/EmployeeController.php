@@ -28,6 +28,7 @@ use App\Exports\WeeklyReportsExport;
 use App\Models\Employee;
 use App\Models\EmployeeWorkHours;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class EmployeeController extends Controller
@@ -41,31 +42,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $currentDate = Carbon::now(); // Get the current date and time
-
-        // Get the start of the week (Assuming your week starts from Monday)
-        $startOfWeek = $currentDate->startOfWeek();
-
-        // Create an array to store the days and dates of the week
-        $weekDays = [];
-
-        // Loop through 7 days starting from the start of the week
-        for ($i = 0; $i < 7; $i++) {
-            // Add the current day and its date to the array
-            $weekDays[] = [
-                'day' => $startOfWeek->format('l'), // Format 'l' gives full textual representation of the day
-                'date' => $startOfWeek->toDateString() // Get the date in YYYY-MM-DD format
-            ];
-
-            // Move to the next day
-            $startOfWeek->addDay();
-        }
-        // dd($weekDays);
-
-        // Now $weekDays array contains the days and dates of the current week
-// You can use it as per your requirement
-        // \Auth::user()->can('manage employees')
-        if (true) {
+        if (Auth::user()->can('view employees')) {
             $data['employees'] = Employee::query()
                 ->whereBelongsTo(getAuthUser('web'), 'company')
                 ->latest()
@@ -80,11 +57,9 @@ class EmployeeController extends Controller
     public function create()
     {
 
-        #\Auth::user()->can('create emplyoee')
-        if (true) {
+        if (Auth::user()->can('create employees')) {
             $data = [];
             return view("{$this->view}.create", $data);
-
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -93,9 +68,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        #\Auth::user()->can('create emplyoee')
-
-        if (true) {
+        if (Auth::user()->can('create employees')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -126,7 +99,7 @@ class EmployeeController extends Controller
     {
         #\Auth::user()->can('create emplyoee')
 
-        if (true) {
+        if (Auth::user()->can('edit employees')) {
             $data['employee'] = $employee;
             return view('hr.employee.edit', $data);
         } else {
@@ -137,9 +110,7 @@ class EmployeeController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
-        #\Auth::user()->can('create emplyoee')
-
-        if (true) {
+        if (Auth::user()->can('edit employees')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -169,14 +140,19 @@ class EmployeeController extends Controller
      */
     public function editSchedule(Request $request, Employee $employee)
     {
-        try {
-            $data['employee'] = $employee;
-            $data['today_name'] = Carbon::today()->format('l');
-            $data['today_date'] = Carbon::today()->format('Y-m-d');
-            $data['today_work_hours'] = EmployeeWorkHours::query()->where('employee_id', $employee->id)->where('date', $data['today_date'])->first()?->hours;
-            return view('HR.employee.edit_schedule', $data);
-        } catch (Throwable $e) {
-            dd($e);
+        if (Auth::user()->can('edit employees')) {
+            try {
+                $data['employee'] = $employee;
+                $data['today_name'] = Carbon::today()->format('l');
+                $data['today_date'] = Carbon::today()->format('Y-m-d');
+                $data['today_work_hours'] = EmployeeWorkHours::query()->where('employee_id', $employee->id)->where('date', $data['today_date'])->first()?->hours;
+                return view('HR.employee.edit_schedule', $data);
+            } catch (Throwable $e) {
+                dd($e);
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+
         }
     }
 
@@ -185,29 +161,35 @@ class EmployeeController extends Controller
      */
     public function updateSchedule(Request $request, Employee $employee)
     {
-        try {
-            $validator = \Validator::make(
-                $request->all(),
-                [
-                    'hours' => 'required|numeric',
-                ]
-            );
-            if ($validator->fails()) {
-                $messages = $validator->getMessageBag();
-                return redirect()->route($this->route . '.index')->with('error', $messages->first());
+        if (Auth::user()->can('edit employees')) {
+
+            try {
+                $validator = \Validator::make(
+                    $request->all(),
+                    [
+                        'hours' => 'required|numeric',
+                    ]
+                );
+                if ($validator->fails()) {
+                    $messages = $validator->getMessageBag();
+                    return redirect()->route($this->route . '.index')->with('error', $messages->first());
+                }
+                EmployeeWorkHours::updateOrCreate([
+                    'employee_id' => $employee->id,
+                    'day' => Carbon::today()->format('l'),
+                ], [
+                    'employee_id' => $employee->id,
+                    'day' => Carbon::today()->format('l'),
+                    'date' => Carbon::today()->format('Y-m-d'),
+                    'hours' => $request->hours,
+                ]);
+                return redirect()->route($this->route . '.index')->with('success', __('Employee Updated Successfully'));
+            } catch (Throwable $e) {
+                dd($e);
             }
-            EmployeeWorkHours::updateOrCreate([
-                'employee_id' => $employee->id,
-                'day' => Carbon::today()->format('l'),
-            ], [
-                'employee_id' => $employee->id,
-                'day' => Carbon::today()->format('l'),
-                'date' => Carbon::today()->format('Y-m-d'),
-                'hours' => $request->hours,
-            ]);
-            return redirect()->route($this->route . '.index')->with('success', __('Employee Updated Successfully'));
-        } catch (Throwable $e) {
-            dd($e);
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+
         }
     }
 
@@ -215,37 +197,43 @@ class EmployeeController extends Controller
 
     public function downloadSchedule(Request $request, Employee $employee)
     {
-        // Get the start and end dates of the year
-        $startDate = Carbon::now()->startOfYear();
-        $endDate = Carbon::now()->endOfYear();
+        if (Auth::user()->can('manage employees')) {
 
-        // Retrieve work hour data for the entire year
-        $yearlyData = EmployeeWorkHours::query()
-            ->whereBelongsTo($employee)
-            ->whereBetween('date', [$startDate, $endDate])
-            ->orderBy('date')
-            ->get();
+            // Get the start and end dates of the year
+            $startDate = Carbon::now()->startOfYear();
+            $endDate = Carbon::now()->endOfYear();
 
-        // Organize the data by week
-        $reportData = [];
-        foreach ($yearlyData as $data) {
-            $weekNumber = Carbon::parse($data->date)->weekOfYear; // Get the week number
-            $reportData[$weekNumber][] = [
-                'day' => $data->day, // Get the day name
-                'date' => $data->date,
-                'hours' => $data->hours,
-                'employee_name' => $data->employee->name, // Assuming you have an 'employees' table and a relationship set up
-            ];
+            // Retrieve work hour data for the entire year
+            $yearlyData = EmployeeWorkHours::query()
+                ->whereBelongsTo($employee)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->orderBy('date')
+                ->get();
+
+            // Organize the data by week
+            $reportData = [];
+            foreach ($yearlyData as $data) {
+                $weekNumber = Carbon::parse($data->date)->weekOfYear; // Get the week number
+                $reportData[$weekNumber][] = [
+                    'day' => $data->day, // Get the day name
+                    'date' => $data->date,
+                    'hours' => $data->hours,
+                    'employee_name' => $data->employee->name, // Assuming you have an 'employees' table and a relationship set up
+                ];
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+
         }
-        return Excel::download(new WeeklyReportsExport($reportData , $employee->name), $employee->name.'.xlsx');
+        return Excel::download(new WeeklyReportsExport($reportData, $employee->name), $employee->name . '.xlsx');
     }
 
 
     public function destroy(Employee $employee)
     {
-        #\Auth::user()->can('delete emplyoee')
 
-        if (true) {
+        if (Auth::user()->can('delete employees')) {
+
             if ($employee->created_by == \Auth::user()->creatorId()) {
                 $employee->delete();
                 return redirect()->route("{$this->route}.index")->with('success', __('Employee successfully deleted.'));

@@ -139,26 +139,28 @@
                         </li>
                     @endif
                     {{-- HR --}}
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('HR*') ? ' active' : 'collapsed' }}" href="#navbar-hr"
-                            data-toggle="collapse" role="button"
-                            aria-expanded="{{ Request::is('HR*') == 'permissions' ? 'true' : 'false' }}"
-                            aria-controls="navbar-hr">
-                            <i class="fas fa-users"></i>{{ __('HR') }}
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-                        <div class="collapse {{ Request::is('HR*') == 'permissions' ? 'show' : '' }}"
-                            id="navbar-hr">
-                            <ul class="nav flex-column submenu-ul">
-                                @can('manage user')
-                                    <li
-                                        class="nav-item {{ Request::is('HR/employee*') ? ' active' : '' }}">
-                                        <a href="{{ route('hr.employee.index') }}" class="nav-link">{{ __('Employees') }}</a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </div>
-                    </li>
+                    @if (Gate::check('manage employees'))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('HR*') ? ' active' : 'collapsed' }}" href="#navbar-hr"
+                                data-toggle="collapse" role="button"
+                                aria-expanded="{{ Request::is('HR*') == 'permissions' ? 'true' : 'false' }}"
+                                aria-controls="navbar-hr">
+                                <i class="fas fa-users"></i>{{ __('HR') }}
+                                <i class="fas fa-sort-up"></i>
+                            </a>
+                            <div class="collapse {{ Request::is('HR*') == 'permissions' ? 'show' : '' }}"
+                                id="navbar-hr">
+                                <ul class="nav flex-column submenu-ul">
+                                    @can('manage employees')
+                                        <li class="nav-item {{ Request::is('HR/employee*') ? ' active' : '' }}">
+                                            <a href="{{ route('hr.employee.index') }}"
+                                                class="nav-link">{{ __('Employees') }}</a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </div>
+                        </li>
+                    @endif
                 @endif
                 @if (Gate::check('manage product & service'))
                     <li class="nav-item">
@@ -286,8 +288,7 @@
                                 @can('manage debit note')
                                     <li
                                         class="nav-item {{ Request::route()->getName() == 'debit.note' ? ' active' : '' }}">
-                                        <a href="{{ route('debit.note') }}"
-                                            class="nav-link">{{ __('Debit Note') }}</a>
+                                        <a href="{{ route('debit.note') }}" class="nav-link">{{ __('Debit Note') }}</a>
                                     </li>
                                 @endcan
                             </ul>
