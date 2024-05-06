@@ -1107,6 +1107,9 @@ Route::get('invoice/pay/pdf/{id}', 'InvoiceController@pdffrominvoice')->name('in
 
 Route::group(['prefix' => 'HR' , 'as'=> 'hr.'] , function(){
     Route::resource('employee' , 'EmployeeController');
+    Route::get('employee/edit-schedule/{employee}' , 'EmployeeController@editSchedule')->name('employee.edit_schedule');
+    Route::put('employee/update-schedule/{employee}' , 'EmployeeController@updateSchedule')->name('employee.update_schedule');
+    Route::get('employee/download-schedule/{employee}' , 'EmployeeController@downloadSchedule')->name('employee.download_schedule');
 });
 
 // -------------------------------------import export------------------------------

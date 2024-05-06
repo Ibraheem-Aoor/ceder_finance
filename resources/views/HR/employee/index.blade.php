@@ -69,6 +69,12 @@
                                                             data-toggle="tooltip" data-original-title="{{ __('Edit') }}">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
+                                                        <a href="#" class="edit-icon" data-size="2xl"
+                                                            data-url="{{ route('hr.employee.edit_schedule', $employee['id']) }}"
+                                                            data-ajax-popup="true" data-title="{{ __('Working Hours') }}"
+                                                            data-toggle="tooltip" data-original-title="{{ __('Edit') }}">
+                                                            <i class="fa fa-clock"></i>
+                                                        </a>
                                                         <a href="#" class="delete-icon " data-toggle="tooltip"
                                                             data-original-title="{{ __('Delete') }}"
                                                             data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
