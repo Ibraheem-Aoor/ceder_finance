@@ -1105,6 +1105,9 @@ Route::post('{id}/pay-with-paypal', 'PaypalController@clientPayWithPaypal')->nam
 
 Route::get('invoice/pay/pdf/{id}', 'InvoiceController@pdffrominvoice')->name('invoice.download.pdf');
 
+Route::group(['prefix' => 'HR' , 'as'=> 'hr.'] , function(){
+    Route::resource('employee' , 'EmployeeController');
+});
 
 // -------------------------------------import export------------------------------
 
