@@ -6,7 +6,7 @@
                 <ul>
                     <li>
                         <a href="#">
-                            <img src="" alt="logo" height="35px" width="auto" id="logo">
+                            <img src="" alt="logo" height="100px" width="auto" id="logo">
                         </a>
                     </li>
                     <ul id="menu">
@@ -14,7 +14,7 @@
                     </ul>
                 </ul>
             </div>
-            <div class="col-lg-6 col-md-6 right-part">
+            <d  iv class="col-lg-6 col-md-6 right-part">
                 <ul>
                     <li>
                         <a href="{{ route('login') }}" class="button" id="button"></a>
@@ -23,7 +23,7 @@
                         <a href="{{ route('register') }}" class="button">Signup</a>
                     </li>
                 </ul>
-            </div>
+            </d>
         </div>
     </div>
     <div class="container">

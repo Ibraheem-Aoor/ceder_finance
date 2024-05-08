@@ -4,7 +4,7 @@
             <div class="col-lg-3 top-part" id="logo">
                 <div class="first-sec">
                     <a href="#">
-                        <img src="" alt="logo" height="35px" width="auto" id="section_section-10_logo">
+                        <img src="" alt="logo" height="120px" width="auto" id="section_section-10_logo">
                     </a>
 
                 </div>

@@ -435,17 +435,19 @@ body {
 }
 
 .nav.nav-tabs li a {
-    color: #51947d;
     text-decoration: none;
     padding: 10px 15px;
     display: inline-block;
     border-radius: 10px;
     font-size: 12px;
 }
+.nav.nav-tabs li a:not(.active) {
+    color: white;
+}
 
 .nav.nav-tabs li a.active {
-    background: #51947d;
-    color: white;
+    background: white;
+    color: #51947d;
 }
 
 .panal-1 img {

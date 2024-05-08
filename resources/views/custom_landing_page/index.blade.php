@@ -15,7 +15,7 @@
     <!-- Landing External CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('landing/css/font-awesome.min.css') }}">
     <link href="{{ asset('landing/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all">
-    <link href="{{ asset('landing/css/style.css') }}?v=0.001" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ asset('landing/css/style.css') }}?v=0.002" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('landing/css/responsive.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="{{ asset('landing/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css" media="all">
     <script src="{{ asset('landing/js/jquery-3.4.1.min.js') }}"></script>
