@@ -16,7 +16,6 @@
             <div class="col-lg-6 col-md-6 inner-text">
                 <div class="copy-right" id="text">
 
-
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 inner-text">
