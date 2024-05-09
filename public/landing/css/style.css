@@ -587,7 +587,7 @@ body {
     color: #fff;
     z-index: 999;
     position: relative;
-    box-shadow: 0 0 87px rgba(15, 96, 246, .57);
+    /* box-shadow: 0 0 87px rgba(15, 96, 246, .57); */
 }
 
 .subscribe-part form {
