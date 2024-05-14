@@ -181,6 +181,11 @@
                                                                 data-original-title="{{ __('Detail') }}">
                                                                 <i class="fas fa-eye"></i>
                                                             </a>
+                                                            <a href="{{ route('invoice.pdf', Crypt::encrypt($invoice->id)) }}"
+                                                                class="edit-icon bg-primary" data-toggle="tooltip"
+                                                                data-original-title="{{ __('Download') }}" target="__blank">
+                                                                <i class="fas fa-download"></i>
+                                                            </a>
                                                         @endif
                                                     @endcan
                                                     @can('edit invoice')
