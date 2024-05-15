@@ -18,7 +18,7 @@
 
 <body>
     <div class="max-w-4xl mx-auto bg-white p-6 shadow rounded bg-gray-100 p-8" id="boxes">
-        <h1 class="text-xl font-bold mb-4">
+        {{-- <h1 class="text-xl font-bold mb-4">
             Btw-aangifte {{ $quarter }}e kwartaal 2024 (ingediend)
         </h1>
         <div class="mb-4">
@@ -31,7 +31,7 @@
             <p>
                 Ontvangen door Belastingdienst: 08 april 2024 13:31
             </p>
-        </div>
+        </div> --}}
         <table class="w-full text-sm">
             <tbody>
                 <tr>
@@ -222,7 +222,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        5g Totaal 
+                        5g Totaal
                     </td>
                     <td class="text-right">
                     </td>
