@@ -567,8 +567,8 @@
                                                         @if (!empty($settings['tax_type']) && !empty($settings['vat_number']))
                                                             {{ 'BTW' }}: {{ $settings['vat_number'] }} <br>
                                                         @endif
-                                                        @isset ($bank_account)
-                                                            {{ __('bank_no') }}: {{  $bank_account->account_number }} <br>
+                                                        @isset($bank_account)
+                                                            {{ __('bank_no') }}: {{ $bank_account->account_number }} <br>
                                                         @endisset
 
                                             </p>
@@ -688,13 +688,15 @@
                                                                     <pre data-v-f2a183a6="">{{ \App\Models\Utility::priceFormat($settings, $item->price) }}</pre>
                                                                 </div>
                                                                 <div class="d-table-td w-4">
-                                                                   @if (!empty($item->itemTax))
-@foreach ($item->itemTax as $taxes)
-<span>{{ $taxes['name'] }}</span>  <span>({{ $taxes['rate'] }})</span> <span>{{ $taxes['price'] }}</span>
-@endforeach
-@else
--
-@endif
+                                                                    @if (!empty($item->itemTax))
+                                                                        @foreach ($item->itemTax as $taxes)
+                                                                            <span>{{ $taxes['name'] }}</span>
+                                                                            <span>({{ $taxes['rate'] }})</span>
+                                                                            <span>{{ $taxes['price'] }}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                        -
+                                                                    @endif
                                                                 </div>
                                                                 @if ($invoice->discount_apply == 1)
                                                                     <div class="d-table-td w-2">
@@ -786,39 +788,44 @@
                                                             @foreach ($invoice->taxesData as $taxName => $taxPrice)
                                                                 <div data-v-f2a183a6="" class="d-table-summary-item">
                                                                     <div data-v-f2a183a6="" class="d-table-label">
-                                                                        {{ $taxName }} :</div>
+                                                                        {{ 'BTW(' .\App\Models\Tax::query()->whereName($taxName)->whereCreatedBy(getAuthUser()->id)->first()?->rate .'%)' }}
+                                                                        :</div>
                                                                     <div data-v-f2a183a6="" class="d-table-value">
                                                                         {{ \App\Models\Utility::priceFormat($settings, $taxPrice) }}
                                                                     </div>
                                                                 </div>
                                                             @endforeach
                                                         @endif
-                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                        {{-- <div data-v-f2a183a6="" class="d-table-summary-item d-none">
                                                             <div data-v-f2a183a6="" class="d-table-label">
                                                                 {{ __('Total') }}:</div>
                                                             <div data-v-f2a183a6="" class="d-table-value">
                                                                 {{ \App\Models\Utility::priceFormat($settings, $invoice->getSubTotal() - $invoice->getTotalDiscount() + $invoice->getTotalTax()) }}
                                                             </div>
-                                                        </div>
-                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                            <div data-v-f2a183a6="" class="d-table-label">
-                                                                {{ __('Paid') }}:</div>
-                                                            <div data-v-f2a183a6="" class="d-table-value">
-                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->getTotal() - $invoice->getDue() - $invoice->invoiceTotalCreditNote()) }}
+                                                        </div> --}}
+                                                        @if ($total_paid = $invoice->getTotal() - $invoice->getDue() - $invoice->invoiceTotalCreditNote() > 0)
+                                                            <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                                <div data-v-f2a183a6="" class="d-table-label">
+                                                                    {{ __('Paid') }}:</div>
+                                                                <div data-v-f2a183a6="" class="d-table-value">
+                                                                    {{ \App\Models\Utility::priceFormat($settings, $total_paid) }}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div data-v-f2a183a6="" class="d-table-summary-item">
-                                                            <div data-v-f2a183a6="" class="d-table-label">
-                                                                {{ __('Credit Note') }}:</div>
-                                                            <div data-v-f2a183a6="" class="d-table-value">
-                                                                {{ \App\Models\Utility::priceFormat($settings, $invoice->invoiceTotalCreditNote()) }}
+                                                        @endif
+                                                        @if ($credit_note = $invoice->invoiceTotalCreditNote() > 0)
+                                                            <div data-v-f2a183a6="" class="d-table-summary-item">
+                                                                <div data-v-f2a183a6="" class="d-table-label">
+                                                                    {{ __('Credit Note') }}:</div>
+                                                                <div data-v-f2a183a6="" class="d-table-value">
+                                                                    {{ \App\Models\Utility::priceFormat($settings, $credit_note) }}
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        @endif
                                                         <div data-v-f2a183a6="" class="d-table-summary-item">
                                                             <div data-v-f2a183a6="" class="d-table-label">
                                                                 {{ __('Due Amount') }}:</div>
                                                             <div data-v-f2a183a6="" class="d-table-value">
-                                                                {{ $total_amount =  \App\Models\Utility::priceFormat($settings, $invoice->getDue()) }}
+                                                                {{ $total_amount = \App\Models\Utility::priceFormat($settings, $invoice->getDue()) }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -827,7 +834,7 @@
                                                 <div data-v-f2a183a6="" class="d-header-50">
                                                     <p data-v-f2a183a6="">
                                                         @isset($bank_account)
-                                                        <br>
+                                                            <br>
                                                             {{ __('invoice_footer_text', [
                                                                 'amount' => $total_amount,
                                                                 'due_date' => $invoice->due_date,
