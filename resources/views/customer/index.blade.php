@@ -30,14 +30,14 @@
                 </a>
             </div>
         @endcan
-        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
+        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 d-none">
             <div class="all-button-box">
                 <a href="{{ route('customer.export') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
                     <i class="fa fa-file-excel"></i> {{ __('Export') }}
                 </a>
             </div>
         </div>
-        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
+        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 d-none">
             <div class="all-button-box">
                 <a href="#" class="btn btn-xs btn-white btn-icon-only width-auto"
                     data-url="{{ route('customer.file.import') }}" data-ajax-popup="true"
