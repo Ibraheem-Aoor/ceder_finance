@@ -1070,7 +1070,21 @@
     "Sweden": "السويد",
     "The VAT has been shifted to VAT number": "تم نقل ضريبة القيمة المضافة إلى رقم ضريبة القيمة المضافة",
     "invoice_footer_text": "يرجى تحويل هذا المبلغ :amount قبل: :due_date إلى رقم الحساب: :account_number باسم: :account_holder_name فاتورة :invoice_number",
-    "account_not_accepted": "الحساب غير موافق عليه من قبل المسؤولين"
-
+    "account_not_accepted": "الحساب غير موافق عليه من قبل المسؤولين",
+    "montly": "شهريا",
+    "yearly": "سنوي",
+    "quarter": "ربع سنوي",
+    "fine": "معفى",
+    "btw_time": "تقديم الضريبة على القيمة المضافة",
+    "company_type": "نوع الشركة",
+    "PROPRIETORSHIP": "شركة فردية",
+    "GENERAL_PARTNERSHIP": "شركة شراكة عامة",
+    "BV": "شركة محدودة",
+    "CV": "شركة مساهمة محدودة",
+    "NV": "شركة مساهمة عامة",
+    "CO": "تعاونية",
+    "industry": "صناعة",
+    "payment_days": "مدة الدفع",
+    "bcc" : "Bcc"
 
 }

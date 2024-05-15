@@ -1071,7 +1071,23 @@
     "Sweden": "Schweden",
     "The VAT has been shifted to VAT number": "Die MwSt. wurde auf die MwSt.-Nummer übertragen",
     "invoice_footer_text": "Bitte überweisen Sie diesen Betrag :amount vor dem: :due_date auf das Konto :account_number im Namen von: :account_holder_name Rechnung :invoice_number",
-    "account_not_accepted": "Konto nicht von Administratoren genehmigt"
+    "account_not_accepted": "Konto nicht von Administratoren genehmigt",
+    "montly": "Monatlich",
+    "yearly": "Jährlich",
+    "quarter": "Quartalsweise",
+    "fine": "Strafe",
+    "btw_time": "Mehrwertsteuererklärung",
+    "company_type": "Unternehmensart",
+    "PROPRIETORSHIP": "Einzelunternehmen",
+    "GENERAL_PARTNERSHIP": "Offene Handelsgesellschaft (OHG)",
+    "BV": "Gesellschaft mit beschränkter Haftung (GmbH)",
+    "CV": "Kommanditgesellschaft (KG)",
+    "NV": "Aktiengesellschaft (AG)",
+    "CO": "Genossenschaft",
+    "industry": "Branche",
+    "payment_days": "Zahlungsfrist",
+    "bcc" : "Bcc"
+
 
 
 

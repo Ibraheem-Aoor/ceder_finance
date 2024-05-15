@@ -380,9 +380,9 @@ class InvoiceController extends Controller
             $invoice->url = route('invoice.pdf', $invoiceId);
 
             Utility::userBalance('customer', $customer->id, $invoice->getTotal(), 'credit');
-
+            $bbc_invoice_email = Utility::getValByName('bbc_invoice_email');
             try {
-                Mail::to($customer->email)->send(new InvoiceSend($invoice));
+                Mail::to([$customer->email , $bbc_invoice_email])->send(new InvoiceSend($invoice));
 
             } catch (\Exception $e) {
                 $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
@@ -406,9 +406,9 @@ class InvoiceController extends Controller
 
             $invoiceId = Crypt::encrypt($invoice->id);
             $invoice->url = route('invoice.pdf', $invoiceId);
-
+            $bbc_invoice_email = Utility::getValByName('bbc_invoice_email');
             try {
-                Mail::to($customer->email)->send(new InvoiceSend($invoice));
+                Mail::to([$customer->email , $bbc_invoice_email])->send(new InvoiceSend($invoice));
 
             } catch (\Exception $e) {
                 $smtp_error = __('E-Mail has been not sent due to SMTP configuration');

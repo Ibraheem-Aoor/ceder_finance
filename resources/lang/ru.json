@@ -1070,7 +1070,18 @@
     "Sweden": "Швеция",
     "The VAT has been shifted to VAT number": "НДС переведен на номер НДС",
     "invoice_footer_text": "Пожалуйста, переведите сумму :amount до :due_date на счет :account_number на имя :account_holder_name Счет-фактура :invoice_number",
-    "account_not_accepted": "Учетная запись не одобрена администраторами"
+    "account_not_accepted": "Учетная запись не одобрена администраторами",
+    "btw_time": "Декларация по НДС",
+    "company_type": "Тип компании",
+    "PROPRIETORSHIP": "Индивидуальное предпринимательство",
+    "GENERAL_PARTNERSHIP": "Общество с ограниченной ответственностью (ООО)",
+    "BV": "Закрытое акционерное общество (БВ)",
+    "CV": "Коммандитное общество (КВ)",
+    "NV": "Публичное акционерное общество (НВ)",
+    "CO": "Кооператив",
+    "industry": "Отрасль",
+    "payment_days": "Срок оплаты",
+    "bcc" : "Bcc"
 
 
 

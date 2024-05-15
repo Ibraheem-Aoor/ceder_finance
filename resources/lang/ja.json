@@ -1071,7 +1071,22 @@
     "Sweden": "スウェーデン",
     "The VAT has been shifted to VAT number": "VAT został przeniesiony na numer VAT",
     "invoice_footer_text": ":amountを:due_date前に口座番号:account_number、口座名義人:account_holder_name宛に振り込んでください。請求書番号 :invoice_number",
-    "account_not_accepted": "アカウントは管理者によって承認されていません"
+    "account_not_accepted": "アカウントは管理者によって承認されていません",
+    "montly": "月次",
+    "yearly": "年次",
+    "quarter": "四半期毎",
+    "fine": "罰金",
+    "btw_time": "消費税申告",
+    "company_type": "企業形態",
+    "PROPRIETORSHIP": "個人事業主",
+    "GENERAL_PARTNERSHIP": "合名会社",
+    "BV": "有限会社 (BV)",
+    "CV": "合名会社 (CV)",
+    "NV": "株式会社 (NV)",
+    "CO": "協同組合",
+    "industry": "産業",
+    "payment_days": "支払期日"
+
 
 
 

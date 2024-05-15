@@ -1073,8 +1073,21 @@
     "invoice_footer_text": "Gelieve dit bedrag :amount vóór :due_date over te maken naar rekeningnummer :account_number op naam van: :account_holder_name Factuurnummer :invoice_number",
     "account_not_accepted": "Account niet goedgekeurd door beheerders",
     "PURCHASE NOW": "KOOP NU",
-    "bank_no": "G-Rekening"
+    "bank_no": "G-Rekening",
+    "btw_time": "Btw-aangifte",
+    "montly": "Maandelijks",
+    "yearly": "Jaar",
+    "quarter": "Per kwartaal",
+    "fine": "Vrijgesteld",
 
-
-
+    "company_type": "Rechtsvorm ",
+    "PROPRIETORSHIP": "Eenmanszaak ",
+    "GENERAL_PARTNERSHIP": "Vennootschap onder firma (vof) ",
+    "BV": "Besloten vennootschap (bv) ",
+    "CV": "Maatschap Stichting Vereniging Commanditaire vennootschap (cv) ",
+    "NV": "Naamloze vennootschap (nv) ",
+    "CO": "Coöperatie",
+    "industry": "Branche",
+    "payment_days":"Betaaltermijn",
+    "bcc" : "Bcc"
 }

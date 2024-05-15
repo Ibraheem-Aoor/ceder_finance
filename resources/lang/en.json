@@ -1072,5 +1072,21 @@
     "The VAT has been shifted to VAT number": "The VAT has been shifted to VAT number",
     "invoice_footer_text": "Please transfer this amount of :amount before: :due_date to account number: :account_number in the name of: :account_holder_name Invoice :invoice_number",
     "account_not_accepted" : "Account not Approved by Admins",
-    "bank_no": "Bank"
+    "bank_no": "Bank",
+    "montly": "Monthly",
+    "yearly": "Yearly",
+    "quarter": "Quarterly",
+    "fine": "Fine",
+    "btw_time": "VAT Declaration",
+    "company_type": "Company Type",
+    "PROPRIETORSHIP": "Sole Proprietorship",
+    "GENERAL_PARTNERSHIP": "General Partnership",
+    "BV": "Private Limited Company (BV)",
+    "CV": "Limited Partnership (CV)",
+    "NV": "Public Limited Company (NV)",
+    "CO": "Cooperative",
+    "industry": "Industry",
+    "payment_days": "Payment Days"
+
+
 }

@@ -1070,7 +1070,22 @@
     "Sweden": "Szwecja",
     "The VAT has been shifted to VAT number": "VAT został przeniesiony na numer VAT",
     "invoice_footer_text": "Prosimy o przelanie kwoty :amount przed :due_date na numer konta :account_number na nazwisko :account_holder_name Faktura :invoice_number",
-    "account_not_accepted": "Konto niezatwierdzone przez administratorów"
+    "account_not_accepted": "Konto niezatwierdzone przez administratorów",
+    "montly": "Miesięczny",
+    "yearly": "Roczny",
+    "quarter": "Kwartalnie",
+    "fine": "Kara",
+    "btw_time": "Deklaracja VAT",
+    "company_type": "Rodzaj firmy",
+    "PROPRIETORSHIP": "Przedsiębiorstwo jednoosobowe",
+    "GENERAL_PARTNERSHIP": "Spółka jawna",
+    "BV": "Spółka z ograniczoną odpowiedzialnością (BV)",
+    "CV": "Spółka komandytowa (CV)",
+    "NV": "Spółka akcyjna (NV)",
+    "CO": "Spółdzielnia",
+    "industry": "Branża",
+    "payment_days": "Termin płatności"
+
 
 
 

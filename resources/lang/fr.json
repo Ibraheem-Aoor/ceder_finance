@@ -1071,7 +1071,24 @@
     "Sweden": "Suède",
     "The VAT has been shifted to VAT number": "La TVA a été transférée au numéro de TVA",
     "invoice_footer_text": "Veuillez transférer ce montant de :amount avant le :due_date au numéro de compte :account_number au nom de :account_holder_name Facture :invoice_number",
-    "account_not_accepted": "Compte non approuvé par les administrateurs"
+    "account_not_accepted": "Compte non approuvé par les administrateurs",
+    "montly": "Mensuel",
+    "yearly": "Annuel",
+    "quarter": "Trimestriel",
+    "fine": "Amende",
+    "btw_time": "Déclaration de TVA",
+    "company_type": "Type d'entreprise",
+    "PROPRIETORSHIP": "Entreprise individuelle",
+    "GENERAL_PARTNERSHIP": "Société en nom collectif (SNC)",
+    "BV": "Société à responsabilité limitée (SARL)",
+    "CV": "Société en commandite",
+    "NV": "Société anonyme (SA)",
+    "CO": "Coopérative",
+    "industry": "Industrie",
+    "payment_days": "Délai de paiement",
+    "bcc" : "Bcc"
+
+
 
 
 

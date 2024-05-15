@@ -433,10 +433,19 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
-                                            {{ Form::label('registration_number', __('Company Registration Number *'), ['class' => 'form-control-label']) }}
-                                            {{ Form::text('registration_number', null, ['class' => 'form-control']) }}
-
+                                            {{ Form::label('bbc_invoice_email', __('bbc_invoice_email'), ['class' => 'form-control-label']) }}
+                                            {{ Form::text('bbc_invoice_email', null, ['class' => 'form-control font-style', 'required' => 'required']) }}
+                                            @error('bbc_invoice_email')
+                                                <span class="invalid-company_email_from_name" role="alert">
+                                                    <strong class="text-danger">{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
+                                            <div class="form-group col-md-6">
+                                                {{ Form::label('registration_number', __('Company Registration Number *'), ['class' => 'form-control-label']) }}
+                                                {{ Form::text('registration_number', null, ['class' => 'form-control']) }}
+
+                                            </div>
 
                                         <div class="form-group col-md-6">
                                             <div class="form-group">
@@ -463,6 +472,37 @@
                                                 {{ Form::text('vat_number', null, ['class' => 'form-control', 'placeholder' => __('Enter VAT / GST Number')]) }}
 
                                             </div>
+                                        </div>
+                                        {{-- New Fields  --}}
+                                        <div class="form-group col-md-6">
+                                            {{ Form::label('btw_print_time', __('btw_time'), ['class' => 'form-control-label']) }}
+                                            <select name="btw_print_time" id="btw_print_time" class="form-control" required>
+                                                <option value="">{{ __('select') }}</option>
+                                                @foreach ($btw_print_times as $time)
+                                                <option value="{{ $time->value }}" @if(@$settings['btw_print_time'] == $time->value) selected @endif>{{ __($time->value) }}</option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{ Form::label('company_type', __('company_type'), ['class' => 'form-control-label']) }}
+                                            <select name="company_type" id="company_type" class="form-control" required>
+                                                <option value="">{{ __('select') }}</option>
+                                                @foreach ($company_types as $type)
+                                                <option value="{{ $type->value }}" @if(@$settings['company_type'] == $type->value) selected @endif>{{ __($type->name) }}</option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{ Form::label('industry', __('industry'), ['class' => 'form-control-label']) }}
+                                            {{ Form::text('industry', null, ['class' => 'form-control' , 'required' => 'required']) }}
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{ Form::label('payment_days', __('payment_days'), ['class' => 'form-control-label']) }}
+                                            {{ Form::text('payment_days', null, ['class' => 'form-control' , 'required' => 'required']) }}
+
                                         </div>
 
                                     </div>

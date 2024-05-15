@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BtwTimeEnum;
+use App\Enums\CompanyTypeEnum;
 use App\Models\Mail\EmailTest;
 use App\Models\Mail\testMail;
 use App\Models\Utility;
@@ -161,6 +163,11 @@ class SystemController extends Controller
                     'company_name' => 'required|string|max:255',
                     'company_email' => 'required',
                     'company_email_from_name' => 'required|string',
+                    'btw_print_time' =>'required',
+                    'company_type' =>'required',
+                    'payment_days' =>'required',
+                    'industry' =>'required',
+                    'bbc_invoice_email' => 'required',
                 ]
             );
             $post = $request->all();
@@ -368,10 +375,11 @@ class SystemController extends Controller
     {
         if(\Auth::user()->can('manage company settings'))
         {
-            $settings                = Utility::settings();
-            $company_payment_setting = Utility::getCompanyPaymentSetting(\Auth::user()->id);
-
-            return view('settings.company', compact('settings', 'company_payment_setting'));
+            $data['settings']                = Utility::settings();
+            $data['company_payment_setting'] = Utility::getCompanyPaymentSetting(\Auth::user()->id);
+            $data['btw_print_times'] = BtwTimeEnum::cases();
+            $data['company_types'] = CompanyTypeEnum::cases();
+            return view('settings.company', $data);
         }
         else
         {

@@ -1071,7 +1071,22 @@
     "Sweden": "Sverige",
     "The VAT has been shifted to VAT number": "Momsen er overført til momsnummeret",
     "invoice_footer_text": "Overfør venligst dette beløb :amount før: :due_date til kontonummer: :account_number i navnet på: :account_holder_name Faktura :invoice_number",
-    "account_not_accepted": "Konto ikke godkendt af administratorer"
+    "account_not_accepted": "Konto ikke godkendt af administratorer",
+    "montly": "Månedligt",
+    "yearly": "Årligt",
+    "quarter": "Kvartalsvis",
+    "fine": "Bøde",
+    "btw_time": "Momsangivelse",
+    "company_type": "Virksomhedstype",
+    "PROPRIETORSHIP": "Enkeltmandsvirksomhed",
+    "GENERAL_PARTNERSHIP": "Interessentskab (I/S)",
+    "BV": "Anpartsselskab (ApS)",
+    "CV": "Kommanditselskab (K/S)",
+    "NV": "Aktieselskab (A/S)",
+    "CO": "Andelsselskab (A/S)",
+    "industry": "Industri",
+    "payment_days": "Betalingsbetingelser"
+
 
 
 

@@ -1071,7 +1071,21 @@
     "Sweden": "Svezia",
     "The VAT has been shifted to VAT number": "L'IVA è stata trasferita al numero di IVA",
     "invoice_footer_text": "Si prega di trasferire questa somma di :amount entro il: :due_date sul numero di conto: :account_number a nome di: :account_holder_name Fattura :invoice_number",
-    "account_not_accepted": "Account non approvato dagli amministratori"
+    "account_not_accepted": "Account non approvato dagli amministratori",
+    "montly": "Mensile",
+    "yearly": "Annuale",
+    "quarter": "Trimestrale",
+    "fine": "Multare",
+    "btw_time": "Dichiarazione IVA",
+    "company_type": "Tipo di azienda",
+    "PROPRIETORSHIP": "Impresa individuale",
+    "GENERAL_PARTNERSHIP": "Società in nome collettivo (SNC)",
+    "BV": "Società a responsabilità limitata (SRL)",
+    "CV": "Società in accomandita",
+    "NV": "Società per azioni (SPA)",
+    "CO": "Cooperativa",
+    "industry": "Settore",
+    "payment_days": "Giorni di pagamento"
 
 
 

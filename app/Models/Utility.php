@@ -72,6 +72,11 @@ class Utility extends Model
             "twilio_token" => "",
             "twilio_from" => "",
             'company_favicon' => 'uploads/logo/favicon.png',
+            'btw_print_time'  => null,
+            'payment_days' => null,
+            'company_type' => null,
+            'industry' => null,
+            'bbc_invoice_email' => null,
         ];
 
         foreach ($data as $row) {
