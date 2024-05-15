@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        1a Leveringen/diensten belast met hoog tarief
+                        1a Leveringen/diensten belast met hoog tarief (21%)
                     </td>
                     {{-- Total Income Inside NL (21%) --}}
                     <td class="text-right">
@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        1b Leveringen/diensten belast met laag tarief
+                        1b Leveringen/diensten belast met laag tarief (9%)
                     </td>
                     <td class="text-right">
                         {{ $total_income_nl_9 }}
@@ -93,7 +93,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        1e Leveringen/diensten belast met 0% of niet bij u belast
+                        1e Leveringen/diensten belast met 0% of niet bij u belast (Verlegd binnen NL)
                     </td>
                     <td class="text-right">
                         € 0
@@ -209,7 +209,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        5b Voorbelasting
+                        5b Voorbelasting (21% + 9%)
                     </td>
                     <td class="text-right">
                     </td>
@@ -222,7 +222,7 @@
                 </tr>
                 <tr>
                     <td class="py-1">
-                        5g Totaal
+                        5g Totaal 
                     </td>
                     <td class="text-right">
                     </td>
