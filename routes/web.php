@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
@@ -231,7 +232,7 @@ Route::prefix('customer')->as('customer.')->group(
         Route::post('/invoice-pay-with-coingate', ['as' => 'invoice.pay.with.coingate', 'uses' => 'CoingatePaymentController@invoicePayWithCoingate'])->middleware(['XSS']);
         Route::get('/invoice/coingate/{invoice}/{amount}', ['as' => 'invoice.coingate', 'uses' => 'CoingatePaymentController@getInvoicePaymentStatus'])->middleware(['XSS']);
 
-
+        Route::get('coming-soon' , [DashboardController::class , 'comingSoon'])->name('coming-soon');
 
     }
 );

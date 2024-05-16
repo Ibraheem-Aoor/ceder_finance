@@ -1089,9 +1089,13 @@
     "CO": "Coöperatie",
     "industry": "Branche",
     "payment_days":"Betaaltermijn",
-    "bcc" : "Bcc"
+    "bcc" : "Bcc",
 
-    
+    "tax_authorities_link" : "Koppeling Belastingdienst",
+    "ICP" : "Opgaaf ICP",
+    "company_decleration": "Company declaration",
+    "income_tax": "Inkomstenbelasting",
+    "relation": "Relatie"
 
 
 }

@@ -17,6 +17,7 @@ use App\Models\Projects;
 use App\Models\Revenue;
 use App\Models\Tax;
 use App\Models\Utility;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -176,6 +177,12 @@ class DashboardController extends Controller
         }
 
         return $arrTask;
+    }
+
+
+    public function comingSoon(Request $request)
+    {
+        return view('partials.coming-soon');
     }
 }
 
