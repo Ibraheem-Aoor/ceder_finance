@@ -45,6 +45,10 @@
                                     <th>#</th>
                                     <th> {{ __('Name') }}</th>
                                     <th> {{ __('Mobile') }}</th>
+                                    <th> {{ __('role') }}</th>
+                                    <th> {{ __('start_date') }}</th>
+                                    <th> {{ __('end_date') }}</th>
+                                    <th> {{ __('salary') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -56,8 +60,12 @@
                                         <td class="Id">
                                             {{ $loop->index + 1 }}
                                         </td>
-                                        <td class="font-style">{{ $employee['name'] }}</td>
-                                        <td>{{ $employee['mobile'] }}</td>
+                                        <td class="font-style">{{ $employee['first_name']  }} {{ $employee['last_name'] }}</td>
+                                        <td>{{ $employee['phone'] }}</td>
+                                        <td>{{ $employee['role'] }}</td>
+                                        <td>{{ $employee['start_date'] }}</td>
+                                        <td>{{ $employee['end_date'] }}</td>
+                                        <td>{{ $employee['salary'] }}</td>
                                         <td class="Action">
                                             <span>
                                                 @if (getAuthUser('web')->is_active == 0)

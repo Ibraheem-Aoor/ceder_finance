@@ -9,12 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Employee extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'mobile',
-        'created_by',
-    ];
-
+    protected $guarded = ['id' , 'token'];
 
     /**
      * Each employee belongs to one company.

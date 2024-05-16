@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Permission;
@@ -64,12 +65,16 @@ class PermsissonSeeder extends Seeder
      */
     protected function createRolesAndAssignPermissions(array $created_permissions, array $roles = [])
     {
+        $companies = User::query()->where('type' ,'company')->get();
         foreach ($roles as $role) {
             $role = Role::where('name', $role)->firstOrCreate([
                 'name' => $role,
                 'guard_name' => 'web',
             ]);
             $role->givePermissionTo($created_permissions);
+            foreach ($companies as $company) {
+                $company->assignRole($role->name);
+            }
         }
     }
 }

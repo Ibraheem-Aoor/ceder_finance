@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EmployeeLegtemationType;
+use App\Enums\EmployeeLegtemationTypeEnum;
+use App\Enums\EmployeeSalaryPaymentPhaseEnum;
+use App\Enums\EmployeSalarayPaymentPhaseEnum;
 use App\Models\BankAccount;
 use App\Models\Bill;
 use App\Models\BillPayment;
@@ -29,6 +33,7 @@ use App\Models\Employee;
 use App\Models\EmployeeWorkHours;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Throwable;
 
 class EmployeeController extends Controller
@@ -58,7 +63,11 @@ class EmployeeController extends Controller
     {
 
         if (Auth::user()->can('create employees')) {
-            $data = [];
+            $data = [
+                'legtemate_types' => EmployeeLegtemationTypeEnum::cases(),
+                'salary_payment_phases' => EmployeSalarayPaymentPhaseEnum::cases(),
+            ];
+            // dd($data);
             return view("{$this->view}.create", $data);
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
@@ -72,19 +81,34 @@ class EmployeeController extends Controller
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'name' => 'required|string',
-                    'mobile' => 'required',
+                    'first_name' => 'required|string',
+                    'last_name' => 'required|string',
+                    'dob' => 'required|date',
+                    'phone' => 'required|numeric',
+                    'email' => 'required|email',
+                    'role' => 'required',
+                    'account_number' => 'required',
+                    'alias' => 'required',
+                    'legitimation_type' => 'required|'.Rule::in(EmployeeLegtemationTypeEnum::getValues()),
+                    'legitimation_number' => 'required|',
+                    'bsn' => 'required',
+                    'valid_until' => 'required|date',
+                    'contract_date' => 'required|date',
+                    'start_date' => 'required|date',
+                    'end_date' => 'required|date',
+                    'salary' => 'required',
+                    'salary_payment' => 'required',
+                    'id_file' =>'required|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
                 ]
             );
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
                 return redirect()->route($this->route . '.index')->with('error', $messages->first());
             }
-            Employee::create([
-                'name' => $request->input('name'),
-                'mobile' => $request->input('mobile'),
-                'created_by' => getAuthUser('web')?->creatorId(),
-            ]);
+            $employee = $request->except('_token');
+            $employee['created_by'] = getAuthUser()->id;
+            $employee['id_file'] = saveImage('emplpoyees/'.getAuthUser()->id.'/', $request->file('id_file'));
+            Employee::create($employee);
             return redirect()->route($this->route . '.index')->with('success', __('Employee Created Successfully'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -100,7 +124,11 @@ class EmployeeController extends Controller
         #\Auth::user()->can('create emplyoee')
 
         if (Auth::user()->can('edit employees')) {
-            $data['employee'] = $employee;
+            $data = [
+                'employee' => $employee,
+                'legtemate_types' => EmployeeLegtemationTypeEnum::cases(),
+                'salary_payment_phases' => EmployeSalarayPaymentPhaseEnum::cases(),
+            ];
             return view('hr.employee.edit', $data);
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
@@ -114,19 +142,33 @@ class EmployeeController extends Controller
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'name' => 'required|string',
-                    'mobile' => 'required',
+                    'first_name' => 'required|string',
+                    'last_name' => 'required|string',
+                    'dob' => 'required|date',
+                    'phone' => 'required|numeric',
+                    'email' => 'required|email',
+                    'role' => 'required',
+                    'account_number' => 'required',
+                    'alias' => 'required',
+                    'legitimation_type' => 'required|'.Rule::in(EmployeeLegtemationTypeEnum::getValues()),
+                    'legitimation_number' => 'required|',
+                    'bsn' => 'required',
+                    'valid_until' => 'required|date',
+                    'contract_date' => 'required|date',
+                    'start_date' => 'required|date',
+                    'end_date' => 'required|date',
+                    'salary' => 'required',
+                    'salary_payment' => 'required',
+                    'id_file' =>'nullable|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
                 ]
             );
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
                 return redirect()->route($this->route . '.index')->with('error', $messages->first());
             }
-            $employee->update([
-                'name' => $request->input('name'),
-                'mobile' => $request->input('mobile'),
-                'created_by' => getAuthUser('web')?->creatorId(),
-            ]);
+            $employee_to_update = $request->except('_token');
+            $employee_to_update['id_file'] = $request->hasFile('id_file') ?  saveImage('emplpoyees/'.getAuthUser()->id.'/', $request->file('id_file')) : $employee->id_file;
+            $employee->update($employee_to_update);
             return redirect()->route($this->route . '.index')->with('success', __('Employee Updated Successfully'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
