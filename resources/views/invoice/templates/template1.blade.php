@@ -793,6 +793,7 @@
                                                                     <div data-v-f2a183a6="" class="d-table-value">
                                                                         {{ \App\Models\Utility::priceFormat($settings, $taxPrice) }}
                                                                     </div>
+                                                                    
                                                                 </div>
                                                             @endforeach
                                                         @endif
