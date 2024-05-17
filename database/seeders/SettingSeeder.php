@@ -42,6 +42,7 @@ class SettingSeeder extends Seeder
             'company_type' => null,
             'industry' => null,
             'bbc_invoice_email' => null,
+            'emplyoee_number_prefix' => '#PERSO'
         ];
     }
 }

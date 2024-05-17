@@ -58,9 +58,10 @@
                                         data-url="{{ route('hr.employee.show', $employee['id']) }}"
                                         data-id="{{ $employee['id'] }}">
                                         <td class="Id">
-                                            {{ $loop->index + 1 }}
+                                            {{ $auth_user->employeeNumberFormat($employee->id) }}
                                         </td>
-                                        <td class="font-style">{{ $employee['first_name']  }} {{ $employee['last_name'] }}</td>
+                                        <td class="font-style">{{ $employee['first_name'] }} {{ $employee['last_name'] }}
+                                        </td>
                                         <td>{{ $employee['phone'] }}</td>
                                         <td>{{ $employee['role'] }}</td>
                                         <td>{{ $employee['start_date'] }}</td>
@@ -113,3 +114,67 @@
         </div>
     </div>
 @endsection
+
+@push('script-page')
+    <script>
+        $(document).on('click', '.week-navigate', function(e) {
+            event.preventDefault();
+            var url = $(this).data('href');
+            var form = $('#schedule-form');
+            var formData = form.serialize();
+            console.log(url);
+            $.ajax({
+                url: url,
+                method: "PUT",
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+
+                },
+                success: function(response) {
+                    if (response.status) {
+                        show_toastr('Success', response.message, 'success');
+                        console.log('TRUE');
+                        $('#table-content').html(response.html);
+                        calculateTotal();
+                    } else {
+                        show_toastr('Error', response.message, 'error');
+                        console.log('false');
+                    }
+                },
+                error: function(response) {
+                    if (response.status == 422) {
+                        $.each(response.responseJSON.errors, function(key, errorsArray) {
+                            $.each(errorsArray, function(item, error) {
+                                show_toastr('Error', error, 'error');
+
+                            });
+                        });
+                    } else {
+                        show_toastr('Error', response.message, 'error');
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        $('#commonModal').on('shown.bs.modal' , function(){
+            calculateTotal();
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateTotal();
+
+            document.querySelectorAll('input[name^="hours"]').forEach(function(input) {
+                input.addEventListener('input', calculateTotal);
+            });
+        });
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('input[name^="hours"]').forEach(function(input) {
+                total += parseFloat(input.value) || 0;
+            });
+            document.getElementById('total-hours').innerText = total.toFixed(2);
+        }
+    </script>
+@endpush

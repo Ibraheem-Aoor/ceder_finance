@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BillExport;
 use App\Exports\WeeklyReportsExport;
+use App\Http\Requests\Company\EmployeeWorkHoursRequest;
 use App\Models\Employee;
 use App\Models\EmployeeWorkHours;
 use Carbon\Carbon;
@@ -52,6 +53,7 @@ class EmployeeController extends Controller
                 ->whereBelongsTo(getAuthUser('web'), 'company')
                 ->latest()
                 ->get();
+            $data['auth_user'] = getAuthUser();
             return view("{$this->view}.index", $data);
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
@@ -67,7 +69,6 @@ class EmployeeController extends Controller
                 'legtemate_types' => EmployeeLegtemationTypeEnum::cases(),
                 'salary_payment_phases' => EmployeSalarayPaymentPhaseEnum::cases(),
             ];
-            // dd($data);
             return view("{$this->view}.create", $data);
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
@@ -89,7 +90,7 @@ class EmployeeController extends Controller
                     'role' => 'required',
                     'account_number' => 'required',
                     'alias' => 'required',
-                    'legitimation_type' => 'required|'.Rule::in(EmployeeLegtemationTypeEnum::getValues()),
+                    'legitimation_type' => 'required|' . Rule::in(EmployeeLegtemationTypeEnum::getValues()),
                     'legitimation_number' => 'required|',
                     'bsn' => 'required',
                     'valid_until' => 'required|date',
@@ -98,7 +99,7 @@ class EmployeeController extends Controller
                     'end_date' => 'required|date',
                     'salary' => 'required',
                     'salary_payment' => 'required',
-                    'id_file' =>'required|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
+                    'id_file' => 'required|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
                 ]
             );
             if ($validator->fails()) {
@@ -107,7 +108,7 @@ class EmployeeController extends Controller
             }
             $employee = $request->except('_token');
             $employee['created_by'] = getAuthUser()->id;
-            $employee['id_file'] = saveImage('emplpoyees/'.getAuthUser()->id.'/', $request->file('id_file'));
+            $employee['id_file'] = saveImage('emplpoyees/' . getAuthUser()->id . '/', $request->file('id_file'));
             Employee::create($employee);
             return redirect()->route($this->route . '.index')->with('success', __('Employee Created Successfully'));
         } else {
@@ -150,7 +151,7 @@ class EmployeeController extends Controller
                     'role' => 'required',
                     'account_number' => 'required',
                     'alias' => 'required',
-                    'legitimation_type' => 'required|'.Rule::in(EmployeeLegtemationTypeEnum::getValues()),
+                    'legitimation_type' => 'required|' . Rule::in(EmployeeLegtemationTypeEnum::getValues()),
                     'legitimation_number' => 'required|',
                     'bsn' => 'required',
                     'valid_until' => 'required|date',
@@ -159,7 +160,7 @@ class EmployeeController extends Controller
                     'end_date' => 'required|date',
                     'salary' => 'required',
                     'salary_payment' => 'required',
-                    'id_file' =>'nullable|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
+                    'id_file' => 'nullable|file|mimes:jpg,png,jpeg,webp,pdf|max:2048',
                 ]
             );
             if ($validator->fails()) {
@@ -167,7 +168,7 @@ class EmployeeController extends Controller
                 return redirect()->route($this->route . '.index')->with('error', $messages->first());
             }
             $employee_to_update = $request->except('_token');
-            $employee_to_update['id_file'] = $request->hasFile('id_file') ?  saveImage('emplpoyees/'.getAuthUser()->id.'/', $request->file('id_file')) : $employee->id_file;
+            $employee_to_update['id_file'] = $request->hasFile('id_file') ? saveImage('emplpoyees/' . getAuthUser()->id . '/', $request->file('id_file')) : $employee->id_file;
             $employee->update($employee_to_update);
             return redirect()->route($this->route . '.index')->with('success', __('Employee Updated Successfully'));
         } else {
@@ -182,12 +183,12 @@ class EmployeeController extends Controller
      */
     public function editSchedule(Request $request, Employee $employee)
     {
-        if (Auth::user()->can('edit employees')) {
+        $auth_user = getAuthUser();
+        if ($auth_user->can('edit employees')) {
             try {
                 $data['employee'] = $employee;
-                $data['today_name'] = Carbon::today()->format('l');
-                $data['today_date'] = Carbon::today()->format('Y-m-d');
-                $data['today_work_hours'] = EmployeeWorkHours::query()->where('employee_id', $employee->id)->where('date', $data['today_date'])->first()?->hours;
+                $data['customers'] = Customer::query()->createdBy($auth_user->creatorId())->get(['id', 'name']);
+                $data['work_hours'] = $employee->workHours()->pluck('hours', 'date')->toArray();
                 return view('HR.employee.edit_schedule', $data);
             } catch (Throwable $e) {
                 dd($e);
@@ -201,39 +202,48 @@ class EmployeeController extends Controller
     /**
      * Edit Employee Work Hours Schedule.
      */
-    public function updateSchedule(Request $request, Employee $employee)
+    public function updateSchedule(EmployeeWorkHoursRequest $request, Employee $employee)
     {
         if (Auth::user()->can('edit employees')) {
-
             try {
-                $validator = \Validator::make(
-                    $request->all(),
-                    [
-                        'hours' => 'required|numeric',
-                    ]
-                );
-                if ($validator->fails()) {
-                    $messages = $validator->getMessageBag();
-                    return redirect()->route($this->route . '.index')->with('error', $messages->first());
+                $dates = $request->input('dates');
+                $hours = $request->input('hours');
+                // insert data
+                foreach ($dates as $day => $date) {
+                    EmployeeWorkHours::updateOrCreate([
+                        'employee_id' => $employee->id,
+                        'day' => $day,
+                        'date' => $date,
+                    ], [
+                        'employee_id' => $employee->id,
+                        'day' => $day,
+                        'date' => $date,
+                        'hours' => @$hours[$day] ?? 0,
+                        'location' => $request->input('location'),
+                        'customer_id' => $request->input('customer'),
+                    ]);
                 }
-                EmployeeWorkHours::updateOrCreate([
-                    'employee_id' => $employee->id,
-                    'day' => Carbon::today()->format('l'),
-                ], [
-                    'employee_id' => $employee->id,
-                    'day' => Carbon::today()->format('l'),
-                    'date' => Carbon::today()->format('Y-m-d'),
-                    'hours' => $request->hours,
+                return response()->json([
+                    'status' => true,
+                    'message' => __('Success'),
+                    'html' => view('HR.employee.weeks_table', [
+                        'employee' => $employee,
+                        'week_start' => $request->query('week_start'),
+                        'work_hours' => $employee->workHours()->pluck('hours', 'date')->toArray(),
+                    ])->render(),
                 ]);
-                return redirect()->route($this->route . '.index')->with('success', __('Employee Updated Successfully'));
             } catch (Throwable $e) {
                 dd($e);
+                return response()->json([
+                    'status' => false,
+                    'message' => __('Failed'),
+                ]);
             }
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
-
         }
     }
+
 
 
 
@@ -260,14 +270,16 @@ class EmployeeController extends Controller
                     'day' => $data->day, // Get the day name
                     'date' => $data->date,
                     'hours' => $data->hours,
-                    'employee_name' => $data->employee->name, // Assuming you have an 'employees' table and a relationship set up
+                    'employee_name' => $data->employee->first_name .' '. $data->employee->last_name, // Assuming you have an 'employees' table and a relationship set up
+                    'customer' => $data->customer->name,
+                    'location' => $data->location,
                 ];
             }
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
 
         }
-        return Excel::download(new WeeklyReportsExport($reportData, $employee->name), $employee->name . '.xlsx');
+        return Excel::download(new WeeklyReportsExport($reportData, $employee->name), $employee->first_name.' '.$employee->last_name . '.xlsx');
     }
 
 

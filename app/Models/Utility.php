@@ -62,7 +62,6 @@ class Utility extends Model
             "decimal_number" => "2",
             "tax_type" => "",
             "shipping_display" => "on",
-            "journal_prefix" => "#JUR",
             "display_landing_page" => "on",
             'gdpr_cookie' => "off",
             'cookie_text' => "",
@@ -77,6 +76,8 @@ class Utility extends Model
             'company_type' => null,
             'industry' => null,
             'bbc_invoice_email' => null,
+            'emplyoee_number_prefix' => '#PERSO'
+
         ];
 
         foreach ($data as $row) {

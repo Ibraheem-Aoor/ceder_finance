@@ -99,7 +99,7 @@ function show_toastr(title, message, type) {
         },
         offset: {x: 15, y: 15},
         spacing: 10,
-        z_index: 1080,
+        z_index: 9999999,
         delay: 2500,
         timer: 2000,
         url_target: "_blank",

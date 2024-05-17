@@ -10,11 +10,23 @@ class EmployeeWorkHours extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['employee_id', 'day', 'date' , 'hours'];
+    protected $fillable = [
+        'employee_id',
+        'day',
+        'date',
+        'hours',
+        'location',
+        'customer_id',
+    ];
 
 
-    public function employee() : BelongsTo
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
 }

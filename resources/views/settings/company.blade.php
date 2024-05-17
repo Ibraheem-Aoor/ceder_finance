@@ -303,6 +303,15 @@
                                                 </span>
                                             @enderror
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            {{ Form::label('emplyoee_prefix', __('emplyoee_prefix'), ['class' => 'form-control-label']) }}
+                                            {{ Form::text('emplyoee_number_prefix', null, ['class' => 'form-control']) }}
+                                            @error('emplyoee_number_prefix')
+                                                <span class="invalid-emplyoee_number_prefix" role="alert">
+                                                    <strong class="text-danger">{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
 
                                         <div class="form-group col-md-6">
                                             {{ Form::label('shipping_display', __('Shipping Display in Proposal / Invoice / Bill ?'), ['class' => 'form-control-label']) }}

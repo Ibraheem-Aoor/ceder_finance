@@ -607,4 +607,12 @@ class User extends Authenticatable
         return $billDetail;
     }
 
+    public function employeeNumberFormat($employee_id)
+    {
+        $settings = Utility::settings();
+
+        return $settings["emplyoee_number_prefix"] . sprintf("%05d", $employee_id);
+    }
+
+
 }
