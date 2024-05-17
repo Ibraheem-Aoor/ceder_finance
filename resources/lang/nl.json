@@ -321,7 +321,8 @@
     "Email send Successfully.": "E-mail is verzonden.",
     "Email Setting": "E-mailinstelling",
     "Email settings": "E-mailinstellingen",
-    "Employee": "Werknemer",
+    "Employee": "Medewerker",
+    "Employees": "Medewerker",
     "Enable": "Inschakelen",
     "Enable CoinGate": "CoinGate inschakelen",
     "Enable Flutterwave": "Flutterwave inschakelen",
@@ -1130,5 +1131,6 @@
     "Thursday": "donderdag",
     "Friday": "vrijdag",
     "Saturday": "zaterdag",
-    "Sunday": "zondag"
+    "Sunday": "zondag",
+
 }
