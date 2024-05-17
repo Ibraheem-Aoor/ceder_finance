@@ -147,7 +147,6 @@
                         $.each(response.responseJSON.errors, function(key, errorsArray) {
                             $.each(errorsArray, function(item, error) {
                                 show_toastr('Error', error, 'error');
-
                             });
                         });
                     } else {
