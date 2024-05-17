@@ -38,6 +38,7 @@ class BankSeeder extends Seeder
             'RegioBank',
             'NIBC ',
             'ASN Bank',
+            "Knab"
         ];
     }
 }
