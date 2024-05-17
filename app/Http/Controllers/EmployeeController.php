@@ -41,7 +41,7 @@ class EmployeeController extends Controller
 {
     public function __construct()
     {
-        $this->view = $this->route = 'hr.employee';
+        $this->view = $this->route = 'HR.employee';
 
     }
 
