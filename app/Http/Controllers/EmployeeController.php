@@ -33,6 +33,7 @@ use App\Http\Requests\Company\EmployeeWorkHoursRequest;
 use App\Models\Employee;
 use App\Models\EmployeeWorkHours;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -189,7 +190,10 @@ class EmployeeController extends Controller
             try {
                 $data['employee'] = $employee;
                 $data['customers'] = Customer::query()->createdBy($auth_user->creatorId())->get(['id', 'name']);
-                $data['work_hours'] = $employee->workHours()->pluck('hours', 'date')->toArray();
+                $work_hours_and_location = $this->getWorkHours($request->week_start, $employee);
+                $data['location'] = @$work_hours_and_location['location'];
+                $data['customer_id'] = @$work_hours_and_location['customer_id'];
+                $data['work_hours'] = @$work_hours_and_location['work_hours'];
                 return view('HR.employee.edit_schedule', $data);
             } catch (Throwable $e) {
                 dd($e);
@@ -224,17 +228,19 @@ class EmployeeController extends Controller
                         'customer_id' => $request->input('customer'),
                     ]);
                 }
+                $work_hours_and_location = $this->getWorkHours($request->week_start, $employee);
+
+                $view_data['work_hours'] = @$work_hours_and_location['work_hours'];
+                $view_data['employee'] = $employee;
+                $view_data['week_start'] = $request->week_start;
                 return response()->json([
                     'status' => true,
                     'message' => __('Success'),
-                    'html' => view('HR.employee.weeks_table', [
-                        'employee' => $employee,
-                        'week_start' => $request->query('week_start'),
-                        'work_hours' => $employee->workHours()->pluck('hours', 'date')->toArray(),
-                    ])->render(),
+                    'location' => @$work_hours_and_location['location'],
+                    'customer_id'=> @$work_hours_and_location['customer_id'],
+                    'html' => view('HR.employee.weeks_table', $view_data)->render(),
                 ]);
             } catch (Throwable $e) {
-                dd($e);
                 return response()->json([
                     'status' => false,
                     'message' => __('Failed'),
@@ -245,12 +251,39 @@ class EmployeeController extends Controller
         }
     }
 
+    /**
+     * Get The Work Hours Of The Given Employee In The Given Week.
+     * Each Week 'days' Related To Same Customer And Location
+     */
+    protected function getWorkHours($week_start = null, Employee $employee): array
+    {
+        $days_in_dates = [];
+        if(isset($week_start))
+        {
+            $week_start = Carbon::parse($week_start);
+        }else{
+            $week_start = Carbon::now()->startOfWeek();
+        }
+        $week_end = $week_start->copy()->endOfWeek();
+        $days = CarbonPeriod::create($week_start, $week_end);
+        foreach ($days as $day) {
+            $days_in_dates[$day->format('l')] = $day->toDateString();
+        }
+        // Get The Work Hours For The Given Week Only.
+        $work_hours = $employee->workHours()->whereIn('date', array_values($days_in_dates))->get();
+        $data['location'] = $work_hours->first()?->location;
+        $data['customer_id'] = $work_hours->first()?->customer_id;
+        $data['work_hours'] = $work_hours->pluck('hours', 'date')->toArray();
+        return $data;
+    }
+
 
 
 
     public function downloadSchedule(Request $request, Employee $employee)
     {
-        if (Auth::user()->can('manage employees')) {
+        $auth_user = getAuthUser('web');
+        if ($auth_user->can('manage employees')) {
 
             // Get the start and end dates of the year
             $startDate = Carbon::now()->startOfYear();
@@ -271,16 +304,16 @@ class EmployeeController extends Controller
                     'day' => $data->day, // Get the day name
                     'date' => $data->date,
                     'hours' => $data->hours,
-                    'employee_name' => $data->employee->first_name .' '. $data->employee->last_name, // Assuming you have an 'employees' table and a relationship set up
+                    'employee_name' => $data->employee->first_name . ' ' . $data->employee->last_name, // Assuming you have an 'employees' table and a relationship set up
                     'customer' => $data->customer->name,
                     'location' => $data->location,
                 ];
             }
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
-
         }
-        return Excel::download(new WeeklyReportsExport($reportData, $employee->name), $employee->first_name.' '.$employee->last_name . '.xlsx');
+        $file_name = $auth_user->employeeNumberFormat($employee->id) . '_' . date('Y') . '_' . date('m') . '_' . date('d') . '.xlsx';
+        return Excel::download(new WeeklyReportsExport($reportData, $employee->name), $file_name);
     }
 
 

@@ -119,8 +119,17 @@
     <script>
         $(document).on('click', '.week-navigate', function(e) {
             event.preventDefault();
-            var url = $(this).data('href');
+            $('input[name="week_start"]').val($(this).data('week_start'));
+            submitScheduleForm();
+        });
+        $(document).on('submit' , '#schedule-form' , function(e){
+            event.preventDefault();
+            submitScheduleForm($(this).attr('action'));
+        });
+        // Form To Submit The Schedule
+        function submitScheduleForm() {
             var form = $('#schedule-form');
+            var url = form.attr('action');
             var formData = form.serialize();
             console.log(url);
             $.ajax({
@@ -134,12 +143,19 @@
                 success: function(response) {
                     if (response.status) {
                         show_toastr('Success', response.message, 'success');
-                        console.log('TRUE');
                         $('#table-content').html(response.html);
+                        if(response.location)
+                        {
+                            $('input[name="location"]').val(response.location);
+                        }
+                        if(response.customer_id)
+                        {
+                            $('select[name="customer"]').val(response.customer_id);
+                        }
+
                         calculateTotal();
                     } else {
                         show_toastr('Error', response.message, 'error');
-                        console.log('false');
                     }
                 },
                 error: function(response) {
@@ -153,8 +169,8 @@
                         show_toastr('Error', response.message, 'error');
                     }
                 }
-            })
-        });
+            });
+        }
     </script>
     <script>
         $('#commonModal').on('shown.bs.modal' , function(){
