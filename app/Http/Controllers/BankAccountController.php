@@ -10,6 +10,7 @@ use App\Models\InvoicePayment;
 use App\Models\Payment;
 use App\Models\Revenue;
 use App\Models\Transaction;
+use App\Rules\Company\ValidIban;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -47,7 +48,7 @@ class BankAccountController extends Controller
                 [
                     'holder_name' => 'required',
                     'bank_name' => 'required|'.Rule::in(array_values(Bank::query()->pluck('name' , 'name')->toArray())),
-                    'account_number' => 'required',
+                    'account_number' => ['required' , new ValidIban()],
                     'opening_balance' => 'required',
                     // 'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
                 ]
@@ -109,7 +110,7 @@ class BankAccountController extends Controller
                 [
                     'holder_name' => 'required',
                     'bank_name' => 'required|'.Rule::in(array_values(Bank::query()->pluck('name' , 'name')->toArray())),
-                    'account_number' => 'required',
+                    'account_number' => ['required' , new ValidIban()],
                     'opening_balance' => 'required',
                     // 'contact_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
                 ]

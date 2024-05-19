@@ -13,7 +13,7 @@
     "Account Balance": "Rekeningbalans",
     "Account Code": "Rekeningcode",
     "Account Name": "Accountnaam",
-    "Account Number": "Rekeningnummer",
+    "Account Number": "IBAN",
     "Account Statement": "Bankafschrift",
     "Account Statement Summary": "Overzicht van de rekeningafschriften",
     "Account successfully created.": "Account succesvol aangemaakt.",
@@ -1131,6 +1131,7 @@
     "Thursday": "donderdag",
     "Friday": "vrijdag",
     "Saturday": "zaterdag",
-    "Sunday": "zondag"
+    "Sunday": "zondag",
+    "INVALID IBAN":"Ongeldig IBAN"
 
 }

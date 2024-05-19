@@ -13,7 +13,7 @@
     "Account Balance": "Account Balance",
     "Account Code": "Account Code",
     "Account Name": "Account Name",
-    "Account Number": "Account Number",
+    "Account Number": "IBAN",
     "Account Statement": "Account Statement",
     "Account Statement Summary": "Account Statement Summary",
     "Account successfully created.": "Account successfully created.",
@@ -1086,5 +1086,7 @@
     "NV": "Public Limited Company (NV)",
     "CO": "Cooperative",
     "industry": "Industry",
-    "payment_days": "Payment Days"
+    "payment_days": "Payment Days",
+    "INVALID IBAN":"INVALID IBAN"
+
 }
