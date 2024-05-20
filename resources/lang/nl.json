@@ -1132,6 +1132,19 @@
     "Friday": "vrijdag",
     "Saturday": "zaterdag",
     "Sunday": "zondag",
-    "INVALID IBAN":"Ongeldig IBAN"
-
+    "INVALID IBAN":"Ongeldig IBAN",
+    "Cars" : "Auto's",
+    "Manage cars": "Auto's beheren",
+    "color":"kleur",
+    "brand":"merk",
+    "model":"model",
+    "license_plate":"kenteken",
+    "car":"auto",
+    "car_brand":"auto merk",
+    "car_color":"auto kleur",
+    "car_model":"auto model",
+    "car_plate_number":"auto kenteken",
+    "fuel":"brandstof",
+    "walked_distance":"gekeerd afstand",
+    "Updated Successfully": "Bijgewerkt"
 }

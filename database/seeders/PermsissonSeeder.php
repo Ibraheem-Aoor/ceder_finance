@@ -35,7 +35,7 @@ class PermsissonSeeder extends Seeder
 
                     ]
                 )->id;
-                $this->createRolesAndAssignPermissions($created_permissions, @$section_permissions['roles']);
+                    $this->createRolesAndAssignPermissions($created_permissions, @$section_permissions['roles']);
             }
         }
 
@@ -54,6 +54,17 @@ class PermsissonSeeder extends Seeder
                 'delete',
                 'roles' => [
                     'HR',
+                ],
+            ],
+            // Car Permissions
+            'car' => [
+                'manage',
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'roles' => [
+                    'Car Manager',
                 ],
             ],
         ];

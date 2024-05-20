@@ -1106,11 +1106,17 @@ Route::post('{id}/pay-with-paypal', 'PaypalController@clientPayWithPaypal')->nam
 
 Route::get('invoice/pay/pdf/{id}', 'InvoiceController@pdffrominvoice')->name('invoice.download.pdf');
 
+// HR Routes
 Route::group(['prefix' => 'HR' , 'as'=> 'hr.'] , function(){
     Route::resource('employee' , 'EmployeeController');
     Route::get('employee/edit-schedule/{employee}' , 'EmployeeController@editSchedule')->name('employee.edit_schedule');
     Route::put('employee/update-schedule/{employee}' , 'EmployeeController@updateSchedule')->name('employee.update_schedule');
     Route::get('employee/download-schedule/{employee}' , 'EmployeeController@downloadSchedule')->name('employee.download_schedule');
+});
+// Cars Routes
+Route::group(['prefix' => 'cars' , 'as'=> 'cars.'] , function(){
+    Route::resource('' , 'CarController');
+    Route::resource('/distance' , 'CarDistanceController');
 });
 
 // -------------------------------------import export------------------------------

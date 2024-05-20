@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasCreatedBy;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,6 +11,7 @@ class Customer extends Authenticatable
 {
     use HasRoles;
     use Notifiable;
+    use HasCreatedBy;
 
     protected $guard_name = 'web';
 
@@ -263,20 +265,8 @@ class Customer extends Authenticatable
         return $total;
     }
 
-    public function customerTotalInvoice($customerId)
-    {
-        $invoices = Invoice:: where('customer_id', $customerId)->count();
-
-        return $invoices;
-    }
 
 
-    /**
-     * Scope For Customers Created By
-     */
-    public function scopeCreatedBy($query , $creator_id)
-    {
-        return $query->where('created_by' , $creator_id);
-    }
+
 
 }

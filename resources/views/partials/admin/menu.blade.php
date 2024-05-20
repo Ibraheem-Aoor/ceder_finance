@@ -110,7 +110,7 @@
                         </li>
                     @endcan
                 @else
-                    @if (Gate::check('manage user') || Gate::check('manage role'))
+                    {{-- @if (Gate::check('manage user') || Gate::check('manage role'))
                         <li class="nav-item">
                             <a class="nav-link {{ Request::segment(1) == 'users' || Request::segment(1) == 'roles' || Request::segment(1) == 'permissions' ? ' active' : 'collapsed' }}"
                                 href="#navbar-staff" data-toggle="collapse" role="button"
@@ -137,7 +137,7 @@
                                 </ul>
                             </div>
                         </li>
-                    @endif
+                    @endif --}}
                     {{-- HR --}}
                     @if (Gate::check('manage employees'))
                         <li class="nav-item">
@@ -155,6 +155,33 @@
                                         <li class="nav-item {{ Request::is('HR/employee*') ? ' active' : '' }}">
                                             <a href="{{ route('hr.employee.index') }}"
                                                 class="nav-link">{{ __('Employees') }}</a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </div>
+                        </li>
+                    @endif
+                    {{-- CARS --}}
+                    @if (Gate::check('manage car'))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('cars*') ? ' active' : 'collapsed' }}" href="#navbar-cars"
+                                data-toggle="collapse" role="button"
+                                aria-expanded="{{ Request::is('cars*') ? 'true' : 'false' }}"
+                                aria-controls="navbar-cars">
+                                <i class="fas fa-users"></i>{{ __('Cars') }}
+                                <i class="fas fa-sort-up"></i>
+                            </a>
+                            <div class="collapse {{ Request::is('cars*') ? 'show' : '' }}"
+                                id="navbar-cars">
+                                <ul class="nav flex-column submenu-ul">
+                                    @can('manage car')
+                                        <li class="nav-item {{ Request::is('cars*') ? ' active' : '' }}">
+                                            <a href="{{ route('cars.index') }}"
+                                                class="nav-link">{{ __('Cars') }}</a>
+                                        </li>
+                                        <li class="nav-item {{ Request::is('cars/distance*') ? ' active' : '' }}">
+                                            <a href="{{ route('cars.distance.index') }}"
+                                                class="nav-link">{{ __('Cars Walked Distance') }}</a>
                                         </li>
                                     @endcan
                                 </ul>

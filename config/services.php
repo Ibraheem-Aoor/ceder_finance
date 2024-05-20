@@ -30,10 +30,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // NL KVK
     'kvk' => [
         'base_url' => 'https://api.kvk.nl/api/v2/',
         'headers' => [
             'apikey' => env('KVK_API_KEY'),
         ],
+    ],
+    // NL CARS DATA
+    'regcheck' => [
+        'base_url' => 'https://www.regcheck.org.uk/api/reg.asmx',
+        'username' => env('REGCHECK_USERNAME'),
     ],
 ];
