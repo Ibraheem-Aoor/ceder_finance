@@ -122,7 +122,7 @@ class InvoiceController extends Controller
                     'due_date' => 'required',
                     'category_id' => 'required',
                     'items' => 'required',
-
+                    'items.*' => 'required',
                 ]
             );
             if ($validator->fails()) {
