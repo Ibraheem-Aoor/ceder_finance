@@ -16,7 +16,7 @@ class InvoiceSubmitRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'invoice' => 'required|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'image' => 'required|file|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
 }
