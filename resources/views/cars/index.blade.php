@@ -45,7 +45,7 @@
                                         <td class="Id">
                                             {{ $loop->index+1 }}
                                         </td>
-                                        <td><img src="{{ $car['extra_data']['ImageUrl'] }}" alt="$car['trade_name']" width="200"></td>
+                                        <td><img src="{{ $car['extra_data']['ImageUrl'] }}" alt="$car['trade_name']" width="100"></td>
                                         <td class="font-style">{{ $car['trade_name'] }}
                                         </td>
                                         <td>{{ $car['color'] }}</td>
