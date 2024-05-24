@@ -15,6 +15,14 @@
         })
     </script>
 @endpush
+
+@push('script-page')
+    <style>
+        .w-200 {
+            width: 200px !important;
+        }
+    </style>
+@endpush
 @section('page-title')
     {{ __('Manage Employees') }}
 @endsection
@@ -117,12 +125,13 @@
 
 @push('script-page')
     <script>
+        console.log('S');
         $(document).on('click', '.week-navigate', function(e) {
             event.preventDefault();
             $('input[name="week_start"]').val($(this).data('week_start'));
             submitScheduleForm();
         });
-        $(document).on('submit' , '#schedule-form' , function(e){
+        $(document).on('submit', '#schedule-form', function(e) {
             event.preventDefault();
             submitScheduleForm($(this).attr('action'));
         });
@@ -144,16 +153,13 @@
                     if (response.status) {
                         show_toastr('Success', response.message, 'success');
                         $('#table-content').html(response.html);
-                        if(response.location)
-                        {
+                        if (response.location) {
                             $('input[name="location"]').val(response.location);
                         }
-                        if(response.customer_id)
-                        {
+                        if (response.customer_id) {
                             $('select[name="customer"]').val(response.customer_id);
                         }
 
-                        calculateTotal();
                     } else {
                         show_toastr('Error', response.message, 'error');
                     }
@@ -170,26 +176,6 @@
                     }
                 }
             });
-        }
-    </script>
-    <script>
-        $('#commonModal').on('shown.bs.modal' , function(){
-            calculateTotal();
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            calculateTotal();
-
-            document.querySelectorAll('input[name^="hours"]').forEach(function(input) {
-                input.addEventListener('input', calculateTotal);
-            });
-        });
-
-        function calculateTotal() {
-            let total = 0;
-            document.querySelectorAll('input[name^="hours"]').forEach(function(input) {
-                total += parseFloat(input.value) || 0;
-            });
-            document.getElementById('total-hours').innerText = total.toFixed(2);
         }
     </script>
 @endpush

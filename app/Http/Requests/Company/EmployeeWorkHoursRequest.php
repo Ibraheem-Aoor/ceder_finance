@@ -26,9 +26,11 @@ class EmployeeWorkHoursRequest extends FormRequest
     public function rules()
     {
         return [
-            'hours.*' => 'required|numeric',
-            'dates.*' => 'required',
-            'location' =>'required',
+            'locations.*.name' => 'required|string',
+            'locations.*.hours' => 'required|array',
+            'locations.*.hours.*' => 'required|numeric',
+            'locations.*.dates' => 'required|array',
+            'locations.*.dates.*' => 'required',
             'customer' => 'required',
         ];
     }

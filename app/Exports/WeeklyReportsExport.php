@@ -5,8 +5,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class WeeklyReportsExport implements FromCollection, WithHeadings, WithStyles
+class WeeklyReportsExport implements FromCollection, ShouldAutoSize, WithHeadings, WithStyles
 {
     protected $reportData;
     protected $employeeName;
@@ -26,19 +27,18 @@ class WeeklyReportsExport implements FromCollection, WithHeadings, WithStyles
 
             // Extract customer and location from the first entry of the week
             $customer = $weekData[0]['customer'];
-            $location = $weekData[0]['location'];
 
             // Add the week number with customer and location info with a background color
             $data[] = [
-                'Week' => "Week $weekNumber | Customer: " . $customer . ' | Location: '. $location,
+                'Week' => "Week $weekNumber | Customer: " . $customer,
             ];
 
-            // Add headings for day, date, and hours
+            // Add headings for day, date, hours, and location
             $data[] = [
                 'Day' => 'Day',
                 'Date' => 'Date',
                 'Hours' => 'Hours',
-                ''
+                'Location' => 'Location'
             ];
 
             // Add each day's data for the week
@@ -46,7 +46,7 @@ class WeeklyReportsExport implements FromCollection, WithHeadings, WithStyles
                 // Remove the employee name from each day's data
                 unset($dayData['employee_name']);
                 unset($dayData['customer']);
-                unset($dayData['location']);
+                $dayData['day'] = __($dayData['day']);
                 $data[] = $dayData;
                 $totalHours += $dayData['hours']; // Sum up total hours
             }
@@ -87,10 +87,10 @@ class WeeklyReportsExport implements FromCollection, WithHeadings, WithStyles
             }
         }
 
-        // Apply styles to the headings row (day, date, hours)
-        for ($i = 2; $i <= $highestRow; $i++) {
+        // Apply styles to the headings row (day, date, hours, location)
+        for ($i = 1; $i <= $highestRow; $i++) {
             if ($sheet->getCell('A' . $i)->getValue() === 'Day') {
-                $sheet->getStyle('A' . $i . ':C' . $i)->applyFromArray([
+                $sheet->getStyle('A' . $i . ':D' . $i)->applyFromArray([
                     'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
@@ -101,7 +101,7 @@ class WeeklyReportsExport implements FromCollection, WithHeadings, WithStyles
             }
         }
 
-        // Apply styles to the rest of the cells (day, date, hours, total, total hours)
+        // Apply styles to the rest of the cells (day, date, hours, location, total, total hours)
         $sheet->getStyle('A1:D' . $highestRow)->applyFromArray([
             'alignment' => ['horizontal' => 'center'],
             'borders' => [

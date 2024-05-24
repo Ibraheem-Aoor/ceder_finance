@@ -29,4 +29,8 @@ class EmployeeWorkHours extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
+    public function workHours()
+    {
+        return $this->hasMany(EmployeeWorkHours::class, 'employee_id');
+    }
 }

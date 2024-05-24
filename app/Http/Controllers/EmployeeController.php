@@ -34,6 +34,7 @@ use App\Models\Employee;
 use App\Models\EmployeeWorkHours;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -190,10 +191,8 @@ class EmployeeController extends Controller
             try {
                 $data['employee'] = $employee;
                 $data['customers'] = Customer::query()->createdBy($auth_user->creatorId())->get(['id', 'name']);
-                $work_hours_and_location = $this->getWorkHours($request->week_start, $employee);
-                $data['location'] = @$work_hours_and_location['location'];
-                $data['customer_id'] = @$work_hours_and_location['customer_id'];
-                $data['work_hours'] = @$work_hours_and_location['work_hours'];
+                $data['work_locations'] = $this->getWorkLocations($request->week_start, $employee);
+                $data['customer_id'] = @$data['work_locations']?->first()?->first()?->customer_id;
                 return view('HR.employee.edit_schedule', $data);
             } catch (Throwable $e) {
                 dd($e);
@@ -211,36 +210,45 @@ class EmployeeController extends Controller
     {
         if (Auth::user()->can('edit employees')) {
             try {
-                $dates = $request->input('dates');
-                $hours = $request->input('hours');
-                // insert data
-                foreach ($dates as $day => $date) {
-                    EmployeeWorkHours::updateOrCreate([
-                        'employee_id' => $employee->id,
-                        'day' => $day,
-                        'date' => $date,
-                    ], [
-                        'employee_id' => $employee->id,
-                        'day' => $day,
-                        'date' => $date,
-                        'hours' => @$hours[$day] ?? 0,
-                        'location' => $request->input('location'),
-                        'customer_id' => $request->input('customer'),
-                    ]);
-                }
-                $work_hours_and_location = $this->getWorkHours($request->week_start, $employee);
 
-                $view_data['work_hours'] = @$work_hours_and_location['work_hours'];
+                $locations = $request->input('locations');
+                // Get The Start Of The Week According To The Filled Dates
+                $dates = $locations[array_key_first($locations)]['dates'];
+                $start_of_the_filled_week = Carbon::parse($dates[array_key_last($dates)])->startOfWeek()->toDateString();
+                $days_in_dates = $this->getDaysInDates($start_of_the_filled_week);
+                // Delete The Requested Week for "Syncing"
+                $employee->workHours()->whereIn('date', array_values($days_in_dates))->delete();
+                foreach ($locations as $location) {
+                    $location_name = $location['name'];
+                    $dates = $location['dates'];
+                    $hours = $location['hours'];
+
+                    // insert data
+                    foreach ($dates as $day => $date) {
+                        EmployeeWorkHours::create([
+                            'employee_id' => $employee->id,
+                            'day' => $day,
+                            'date' => $date,
+                            'hours' => @$hours[$day] ?? 0,
+                            'location' => $location_name,
+                            'customer_id' => $request->input('customer'),
+                        ]);
+                    }
+                }
+
+                $work_locations = $this->getWorkLocations($request->week_start, $employee);
                 $view_data['employee'] = $employee;
                 $view_data['week_start'] = $request->week_start;
+                $view_data['work_locations'] = $work_locations;
                 return response()->json([
                     'status' => true,
                     'message' => __('Success'),
-                    'location' => @$work_hours_and_location['location'],
-                    'customer_id'=> @$work_hours_and_location['customer_id'],
+                    'work_locations' => $work_locations,
+                    'customer_id' => @$work_locations?->first()?->first()->customer_id,
                     'html' => view('HR.employee.weeks_table', $view_data)->render(),
                 ]);
             } catch (Throwable $e) {
+                dd($e);
                 return response()->json([
                     'status' => false,
                     'message' => __('Failed'),
@@ -255,28 +263,32 @@ class EmployeeController extends Controller
      * Get The Work Hours Of The Given Employee In The Given Week.
      * Each Week 'days' Related To Same Customer And Location
      */
-    protected function getWorkHours($week_start = null, Employee $employee): array
+    protected function getWorkLocations($week_start = null, Employee $employee): Collection
     {
-        $days_in_dates = [];
-        if(isset($week_start))
-        {
+        $days_in_dates = $this->getDaysInDates($week_start);
+        // Get The Work Hours For The Given Week Only.
+        return $employee->workHours()->whereIn('date', array_values($days_in_dates))->get()->groupBy('location');
+    }
+
+    protected function getPeriod($week_start = null)
+    {
+        if (isset($week_start)) {
             $week_start = Carbon::parse($week_start);
-        }else{
+        } else {
             $week_start = Carbon::now()->startOfWeek();
         }
         $week_end = $week_start->copy()->endOfWeek();
-        $days = CarbonPeriod::create($week_start, $week_end);
+        return CarbonPeriod::create($week_start, $week_end);
+    }
+
+    public function getDaysInDates($week_start = null)
+    {
+        $days = $this->getPeriod($week_start);
         foreach ($days as $day) {
             $days_in_dates[$day->format('l')] = $day->toDateString();
         }
-        // Get The Work Hours For The Given Week Only.
-        $work_hours = $employee->workHours()->whereIn('date', array_values($days_in_dates))->get();
-        $data['location'] = $work_hours->first()?->location;
-        $data['customer_id'] = $work_hours->first()?->customer_id;
-        $data['work_hours'] = $work_hours->pluck('hours', 'date')->toArray();
-        return $data;
+        return $days_in_dates;
     }
-
 
 
 
