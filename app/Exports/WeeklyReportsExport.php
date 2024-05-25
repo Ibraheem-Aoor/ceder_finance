@@ -1,4 +1,6 @@
-<?php namespace App\Exports;
+<?php
+
+namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -21,42 +23,69 @@ class WeeklyReportsExport implements FromCollection, ShouldAutoSize, WithHeading
     public function collection()
     {
         $data = [];
+        $weekColumns = [
+            'Week',
+            'Employee Name',
+            'Location',
+            'Customer',
+            __('Monday'),
+            __('Tuesday'),
+            __('Wednesday'),
+            __('Thursday'),
+            __('Friday'),
+            __('Saturday'),
+            __('Sunday'),
+            'Totaaluren'
+        ];
 
+        // Iterate through each week's data
         foreach ($this->reportData as $weekNumber => $weekData) {
-            $totalHours = 0; // Initialize total hours for the week
+            $weekTotalHours = 0; // Initialize total hours for the entire week
 
-            // Extract customer and location from the first entry of the week
-            $customer = $weekData[0]['customer'];
+            // Group data by location
+            $locations = collect($weekData)->groupBy('location');
 
-            // Add the week number with customer and location info with a background color
-            $data[] = [
-                'Week' => "Week $weekNumber | Customer: " . $customer,
-            ];
+            foreach ($locations as $location => $locationData) {
+                $totalHours = 0; // Initialize total hours for the location
+                $weekRow = array_fill_keys($weekColumns, ''); // Template for each location's row
 
-            // Add headings for day, date, hours, and location
-            $data[] = [
-                'Day' => 'Day',
-                'Date' => 'Date',
-                'Hours' => 'Hours',
-                'Location' => 'Location'
-            ];
+                // Extract customer and employee name from the first entry for the location
+                $customer = $locationData[0]['customer'];
+                $employeeName = $locationData[0]['employee_name'];
 
-            // Add each day's data for the week
-            foreach ($weekData as $dayData) {
-                // Remove the employee name from each day's data
-                unset($dayData['employee_name']);
-                unset($dayData['customer']);
-                $dayData['day'] = __($dayData['day']);
-                $data[] = $dayData;
-                $totalHours += $dayData['hours']; // Sum up total hours
+                $weekRow['Week'] = "Week $weekNumber";
+                $weekRow['Employee Name'] = $employeeName;
+                $weekRow['Location'] = $location;
+                $weekRow['Customer'] = $customer;
+
+                // Fill in hours for each day of the week
+                foreach ($locationData as $dayData) {
+                    $day = $dayData['day'];
+                    $hours = $dayData['hours'];
+                    $weekRow[__($day)] = $hours;
+                    $totalHours += $hours;
+                }
+
+                // Add total hours to the row
+                $weekRow['Totaaluren'] = $totalHours;
+                $data[] = $weekRow;
+                $weekTotalHours += $totalHours; // Add location's total hours to the week's total
             }
 
-            // Add a row for the total working hours for the week
+            // Add a row for the total hours of the week
             $data[] = [
-                'Total' => 'Total',
-                '',
-                'Total Hours' => $totalHours,
-                ''
+                'Week' => "Totaaluren voor for Week $weekNumber",
+                'Employee Name' => '',
+                'Location' => '',
+                'Customer' => '',
+                __('Monday') => '',
+                __('Tuesday') => '',
+                __('Wednesday') => '',
+                __('Thursday') => '',
+                __('Friday') => '',
+                __('Saturday') => '',
+                __('Sunday') => '',
+                'Totaaluren' => $weekTotalHours
             ];
         }
 
@@ -65,44 +94,60 @@ class WeeklyReportsExport implements FromCollection, ShouldAutoSize, WithHeading
 
     public function headings(): array
     {
-        return [];
+        return [
+            'Week',
+            'Employee Name',
+            'Location',
+            'Customer',
+            __('Monday'),
+            __('Tuesday'),
+            __('Wednesday'),
+            __('Thursday'),
+            __('Friday'),
+            __('Saturday'),
+            __('Sunday'),
+            'Totaaluren'
+        ];
     }
 
     public function styles(Worksheet $sheet)
     {
         $highestRow = $sheet->getHighestRow();
 
-        // Apply styles to the week number rows (with background color)
-        for ($i = 1; $i <= $highestRow; $i++) {
-            if ($sheet->getCell('A' . $i)->getValue() && strpos($sheet->getCell('A' . $i)->getValue(), 'Week') !== false) {
-                $sheet->getStyle('A' . $i . ':D' . $i)->applyFromArray([
+        // Apply styles to the heading row
+        $sheet->getStyle('A1:L1')->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '808080'],
+            ],
+            'alignment' => ['horizontal' => 'center'],
+        ]);
+
+        // Apply styles to the "Total Hours" columns
+        $sheet->getStyle('L2:L' . $highestRow)->applyFromArray([
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'FFFF00'],
+            ],
+        ]);
+
+        // Apply styles to the week total rows
+        for ($i = 2; $i <= $highestRow; $i++) {
+            if (strpos($sheet->getCell('A' . $i)->getValue(), 'Totaaluren voor for Week') !== false) {
+                $sheet->getStyle('A' . $i . ':L' . $i)->applyFromArray([
+                    'font' => ['bold' => true],
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                         'startColor' => ['rgb' => 'CCEEFF'],
                     ],
-                    'font' => ['bold' => true, 'size' => 14],
-                    'alignment' => ['horizontal' => 'center'],
-                ]);
-                $sheet->mergeCells('A' . $i . ':D' . $i); // Merge cells for the week info
-            }
-        }
-
-        // Apply styles to the headings row (day, date, hours, location)
-        for ($i = 1; $i <= $highestRow; $i++) {
-            if ($sheet->getCell('A' . $i)->getValue() === 'Day') {
-                $sheet->getStyle('A' . $i . ':D' . $i)->applyFromArray([
-                    'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
-                    'fill' => [
-                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'startColor' => ['rgb' => '808080'],
-                    ],
                     'alignment' => ['horizontal' => 'center'],
                 ]);
             }
         }
 
-        // Apply styles to the rest of the cells (day, date, hours, location, total, total hours)
-        $sheet->getStyle('A1:D' . $highestRow)->applyFromArray([
+        // Apply styles to the rest of the cells (week, employee name, location, customer, hours)
+        $sheet->getStyle('A2:L' . $highestRow)->applyFromArray([
             'alignment' => ['horizontal' => 'center'],
             'borders' => [
                 'allBorders' => [

@@ -1146,5 +1146,8 @@
     "car_plate_number":"auto kenteken",
     "fuel":"brandstof",
     "walked_distance":"gekeerd afstand",
-    "Updated Successfully": "Bijgewerkt"
+    "Updated Successfully": "Bijgewerkt",
+    "Total Hours": "Totaaluren",
+    "Total Hours For": "Totaaluren voor"
+
 }
