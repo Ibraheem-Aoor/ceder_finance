@@ -33,7 +33,10 @@
         </div> --}}
         {{-- Weeks TABLE --}}
         <div class="col-md-12 px-0" id="table-content">
-            @include('HR.employee.weeks_table', ['employee' => $employee , 'work_locations' => $work_locations])
+            @include('HR.employee.weeks_table', [
+                'employee' => $employee,
+                'work_locations' => $work_locations,
+            ])
         </div>
         <div class="col-md-12 px-0">
             <input type="submit" value="{{ __('Update') }}" class="btn-create badge-blue">
@@ -69,7 +72,8 @@
                 }
             }
         });
-
+        let newRowTotalHours = newRow.querySelector('#total-hours');
+        newRowTotalHours.innerText =  "0.00";
         // Remove any existing delete button in the cloned row
         let existingDeleteCell = newRow.querySelector('td:last-child');
         if (existingDeleteCell && existingDeleteCell.innerHTML.includes('fa-trash')) {
@@ -99,26 +103,30 @@
         }
     }
 
-    // Example function for calculating total, adjust as needed
-    function calculateTotal() {
+    function calculateRowTotal(row) {
         let totalHours = 0;
-        document.querySelectorAll('input[name^="location"]').forEach(input => {
-            if (input.name.includes('hours')) {
-                totalHours += parseFloat(input.value) || 0;
-            }
+        row.querySelectorAll('input[name*="[hours]"]').forEach(input => {
+            totalHours += parseFloat(input.value) || 0;
         });
-        let totalElement = document.getElementById('total-hours');
+        let totalElement = row.querySelector('#total-hours');
         if (totalElement) {
             totalElement.innerText = totalHours.toFixed(2);
         }
     }
 
+    function calculateAllRowsTotal() {
+        document.querySelectorAll('tbody tr').forEach(row => {
+            calculateRowTotal(row);
+        });
+    }
+
     document.addEventListener('input', (event) => {
-        if (event.target.matches('input[name^="location"]')) {
-            calculateTotal();
+        if (event.target.matches('input[name*="[hours]"]')) {
+            let row = event.target.closest('tr');
+            calculateRowTotal(row);
         }
     });
 
     // Initial calculation on page load
-    document.addEventListener('DOMContentLoaded', calculateTotal);
+    document.addEventListener('DOMContentLoaded', calculateAllRowsTotal);
 </script>

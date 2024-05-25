@@ -41,7 +41,9 @@
                         <input class="form-control w-200" name="locations[{{ $index }}][name]"
                             value="{{ $location->first()->location }}" required>
                     </td>
-
+                    @php
+                        $total = 0;
+                    @endphp
                     @foreach ($days as $day)
                         @php
                             $work_hours = $location->pluck('hours', 'date')->toArray();
@@ -49,6 +51,7 @@
                             if (isset($work_hours) && in_array($day->toDateString(), array_keys($work_hours))) {
                                 $value = $work_hours[$day->toDateString()];
                             }
+                            $total += $value;
                         @endphp
                         <td>
                             <input type="number"
@@ -59,7 +62,7 @@
                                 value="{{ $day->toDateString() }}">
                         </td>
                     @endforeach
-                    <td id="total-hours">0</td>
+                    <td id="total-hours">{{ $total }}</td>
 
                     <td>
                         @if (!$loop->first)
