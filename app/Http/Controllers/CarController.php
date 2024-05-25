@@ -71,7 +71,7 @@ class CarController extends Controller
                 );
                 if ($validator->fails()) {
                     $messages = $validator->getMessageBag();
-                    return redirect()->route($this->route . '.index')->with('error', $messages->first());
+                    return redirect()->route($this->route . 'index')->with('error', $messages->first());
                 }
                 $car_data = $this->getCarDataFromApi($request->input('license_plate'));
                 if (empty($car_data)) {
@@ -133,12 +133,10 @@ class CarController extends Controller
 
     public function destroy(Car $car)
     {
-
         if (Auth::user()->can('delete employees')) {
-
             if ($car->created_by == \Auth::user()->creatorId()) {
                 $car->delete();
-                return redirect()->route("{$this->route}.index")->with('success', __('Employee successfully deleted.'));
+                return redirect()->route("{$this->route}index")->with('success', __('Employee successfully deleted.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }

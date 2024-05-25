@@ -1116,6 +1116,7 @@ Route::group(['prefix' => 'HR' , 'as'=> 'hr.'] , function(){
 // Cars Routes
 Route::group(['prefix' => 'cars' , 'as'=> 'cars.'] , function(){
     Route::resource('' , 'CarController');
+    Route::delete('{car}' , 'CarController@destroy')->name('.destroy');
     Route::resource('/distance' , 'CarDistanceController');
 });
 

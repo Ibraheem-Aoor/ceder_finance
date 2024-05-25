@@ -34,7 +34,7 @@
                                     <th> {{ __('walked_distance') }}</th>
                                     <th> {{ __('brand') }}</th>
                                     <th> {{ __('fuel') }}</th>
-                                    {{-- <th> {{ __('Action') }}</th> --}}
+                                    <th> {{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,19 +53,19 @@
                                         <td class="text-success">{{ $car['walked_distance'] + $car->walks()->sum('walked_distance') }}</td>
                                         <td>{{ $car['brand']->name }}</td>
                                         <td>{{ $car['fuel']->name }}</td>
-                                        {{-- <td class="Action">
+                                        <td class="Action">
                                             <span>
                                                 @if (getAuthUser('web')->is_active == 0)
                                                     <i class="fa fa-lock" title="Inactive"></i>
                                                 @else
-                                                    @can('edit car')
+                                                    {{-- @can('edit car')
                                                         <a href="#" class="edit-icon" data-size="2xl"
                                                             data-url="{{ route('cars.edit', $car['id']) }}"
                                                             data-ajax-popup="true" data-title="{{ __('Edit car') }}"
                                                             data-toggle="tooltip" data-original-title="{{ __('Edit') }}">
                                                             <i class="fas fa-car"></i>
                                                         </a>
-                                                    @endcan
+                                                    @endcan --}}
                                                     @can('delete car')
                                                         <a href="#" class="delete-icon " data-toggle="tooltip"
                                                             data-original-title="{{ __('Delete') }}"
@@ -83,7 +83,7 @@
                                                     @endcan
                                                 @endif
                                             </span>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
