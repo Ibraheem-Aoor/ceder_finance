@@ -461,7 +461,7 @@ Route::group(
         Route::post('system-settings', 'SystemController@saveSystemSettings')->name('system.settings');
         Route::get('company-setting', 'SystemController@companyIndex')->name('company.setting');
         Route::post('business-setting', 'SystemController@saveBusinessSettings')->name('business.setting');
-        Route::post('twilio-settings', 'SystemController@saveTwilioSettings')->name('twilio.settings');
+        // Route::post('twilio-settings', 'SystemController@saveTwilioSettings')->name('twilio.settings');
         Route::post('company-payment-setting', 'SystemController@saveCompanyPaymentSettings')->name('company.payment.settings');
         Route::get('test-mail', 'SystemController@testMail')->name('test.mail');
         Route::post('test-mail', 'SystemController@testSendMail')->name('test.send.mail');
@@ -748,13 +748,13 @@ Route::resource('payment', 'PaymentController')->middleware(
 );
 
 
-Route::resource('plans', 'PlanController')->middleware(
-    [
-        'auth',
-        'XSS',
-        'revalidate',
-    ]
-);
+// Route::resource('plans', 'PlanController')->middleware(
+//     [
+//         'auth',
+//         'XSS',
+//         'revalidate',
+//     ]
+// );
 Route::resource('inbox', 'InboxController')->middleware(
     [
         'auth',

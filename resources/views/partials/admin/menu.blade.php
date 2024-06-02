@@ -539,14 +539,14 @@
                     </a>
                 </li>
             @endif --}}
-            @if (Gate::check('manage plan'))
+            {{-- @if (Gate::check('manage plan'))
                 <li class="nav-item">
                     <a href="{{ route('plans.index') }}"
                         class="nav-link {{ Request::segment(1) == 'plans' ? 'active' : '' }}">
                         <i class="fas fa-trophy"></i>{{ __('Plan') }}
                     </a>
                 </li>
-            @endif
+            @endif --}}
             {{-- @if (Gate::check('manage plan')) --}}
             {{-- <li class="nav-item">
                 <a href="{{ route('inbox.index') }}"
