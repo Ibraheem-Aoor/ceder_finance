@@ -61,9 +61,9 @@
                                 </a>
                             </li>
 
-                            <li class="annual-billing">
+                            {{-- <li class="annual-billing">
                                 <a data-toggle="tab" href="#twilio-setting" class="">{{ __('Twilio Setting') }} </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -1456,7 +1456,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="twilio-setting" class="tab-pane">
+                    {{-- <div id="twilio-setting" class="tab-pane d-none">
                         <div class="col-md-12">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-md-6 col-sm-6 mb-3 mb-md-0">
@@ -1597,7 +1597,7 @@
                                 {{ Form::close() }}
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </section>
         </div>
