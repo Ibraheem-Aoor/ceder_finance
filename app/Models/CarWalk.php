@@ -14,7 +14,7 @@ class CarWalk extends Model
 
     public function car() : BelongsTo
     {
-        return $this->belongsTo(Car::class , 'car_id');
+        return $this->belongsTo(Car::class , 'car_id')->createdBy(getAuthUser('web')->creatorId());
     }
     public function customer() : BelongsTo
     {

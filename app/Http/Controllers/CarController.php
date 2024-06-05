@@ -38,6 +38,7 @@ class CarController extends Controller
             $data['cars'] = Car::query()
                 ->with(['brand:id,name', 'fuel:id,name' ,'walks:id,walked_distance'])
                 ->latest()
+                ->createdBy(getAuthUser('web')->creatorId())
                 ->get();
             $data['auth_user'] = getAuthUser();
             return view("{$this->view}.index", $data);
