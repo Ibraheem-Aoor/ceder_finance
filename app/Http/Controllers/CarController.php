@@ -102,7 +102,7 @@ class CarController extends Controller
                 DB::commit();
                 return redirect()->route($this->route . 'index')->with('success', __('Employee Created Successfully'));
             } catch (Throwable $e) {
-                dd($e);
+                // dd($e);
                 DB::rollBack();
                 info('ERROR IN ' . __METHOD__ . ' || MESSSAGE:' . $e->getMessage());
                 return redirect()->back()->with('error', __('Something is wrong.'));
