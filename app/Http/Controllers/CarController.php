@@ -66,7 +66,7 @@ class CarController extends Controller
                 $validator = \Validator::make(
                     $request->all(),
                     [
-                        'license_plate' => 'required|string|unique:cars',
+                        'license_plate' => 'required|string|unique:cars,license_plate',
                         'walked_distance' => 'required|numeric',
                     ]
                 );
