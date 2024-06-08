@@ -7,7 +7,7 @@
 
 <div class="sidenav custom-sidenav" id="sidenav-main">
     <!-- Sidenav header -->
-    {{-- <div class="sidenav-header d-flex align-items-center">
+    <div class="sidenav-header d-flex align-items-center">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
             <img src="{{ $company_logo }}" class="navbar-brand-img"
                 @if (isAdmin('web')) style="height: 2rem !important;" @endif />
@@ -22,11 +22,11 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <div class="scrollbar-inner">
         <div class="div-mega">
             <ul class="navbar-nav navbar-nav-docs">
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     @if (\Auth::guard('customer')->check())
                         <a href="{{ route('customer.dashboard') }}"
                             class="nav-link {{ Request::route()->getName() == 'customer.dashboard' ? ' active' : '' }}">
@@ -43,7 +43,7 @@
                             <i class="fas fa-fire"></i>{{ __('Dashboard') }}
                         </a>
                     @endif
-                </li> --}}
+                </li>
                 @can('manage customer proposal')
                     <li class="nav-item">
                         <a href="{{ route('customer.proposal') }}"
